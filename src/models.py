@@ -5,6 +5,7 @@ import datetime
 
 # Create your models here.
 
+# This error not yet shown
 alphabets = RegexValidator(r'^[a-zA-Z]*$', 'Only alphabets are allowed.')
 
 class WorkerDetail(models.Model):
@@ -23,7 +24,7 @@ class MonthlyAttendance(models.Model):
 class Advance(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)
 	amount = models.IntegerField()
-	advance_date = models.IntegerField()
+	advance_date = models.DateField(default=datetime.date.today)
 
 class ProvidentFund(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)
