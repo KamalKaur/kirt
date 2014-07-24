@@ -1,12 +1,17 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 from django.db import models
+import datetime
 
 # Create your models here.
 
+alphabets = RegexValidator(r'^[a-zA-Z]*$', 'Only alphabets are allowed.')
+
 class WorkerDetail(models.Model):
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	first_name = models.CharField(max_length=100, validators=[alphabets])
+	last_name = models.CharField(max_length=100, validators=[alphabets])
 	address = models.CharField(max_length=200)
-	joining_date = models.DateField(auto_now_add=True)
+	joining_date = models.DateField(default=datetime.date.today)
 	basic_wage = models.IntegerField()
 
 class MonthlyAttendance(models.Model):
