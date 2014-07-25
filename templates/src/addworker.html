@@ -5,17 +5,10 @@
 	</head>
 
 	<body>
-		<div class="container">
-			<div class="header">
-				<div class="form">
-					<table>
-						<form method="post" action="">
-							{{WorkerDetailForm}}
-							<input type="submit" value="Submit">
-						</form>
-					</table>
-				</div>
-			</div>
-		</div>
-	</body>
+		<form method="POST" action=''>
+			{% csrf_token %}
+						{{WorkerDetailForm.as_p}}
+					     <input type = "submit" value="submit">
+					</form>
+			</body>
 </html>	

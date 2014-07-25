@@ -5,3 +5,7 @@ from src.models import *
 class WorkerDetailForm(ModelForm):
 	class Meta:
 		model = WorkerDetail
+
+class AdvanceForm(ModelForm):
+	class Meta:
+		model = Advance

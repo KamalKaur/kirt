@@ -22,4 +22,12 @@ def addworker(request):
 		form = WorkerDetailForm()
 		return render(request,'src/addworker.html', {'WorkerDetailForm': form})
 			
-	
+def addadvance(request):
+	if request.method == "POST":
+		form = AdvanceForm(request.POST)
+		if form.is_valid:
+			form.save()
+			return HttpResponse("Done!")
+	else:
+		form = AdvanceForm()
+		return render(request,'src/addadvance.html',{'AdvanceForm':form})
