@@ -6,7 +6,7 @@ import datetime
 # Create your models here.
 
 # This error not yet shown
-alphabets = RegexValidator(r'^[a-zA-Z]*$', 'Only alphabets are allowed.')
+alphabets = RegexValidator(r'^[a-zA-Z ]*$', 'Only alphabets are allowed.')
 
 class WorkerDetail(models.Model):
 	first_name = models.CharField(max_length=100, validators=[alphabets])
@@ -14,6 +14,7 @@ class WorkerDetail(models.Model):
 	address = models.CharField(max_length=200)
 	joining_date = models.DateField(default=datetime.date.today)
 	basic_wage = models.IntegerField()
+	provident_fund = models.IntegerField()
 
 class MonthlyAttendance(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)
@@ -26,9 +27,8 @@ class Advance(models.Model):
 	amount = models.IntegerField()
 	advance_date = models.DateField(default=datetime.date.today)
 
-class ProvidentFund(models.Model):
-	worker_id = models.ForeignKey(WorkerDetail)
-	pf = models.IntegerField()
+	#def __unicode__(self):
+	#	return '%s' % (self.id)
 
 class PaidSalary(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)
