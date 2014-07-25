@@ -84,8 +84,24 @@ USE_L10N = True
 
 USE_TZ = True
 
+MEDIA_ROOT = ''
+
+MEDIA_URL = ''
+
+STATIC_ROOT = '/home/kamal/kirt/static/'
+
+STATIC_URL = '/static/'
+
+#STATICFILES_DIRS = (
+#    '/home/kamal/kirt/static',
+#)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
-
-STATIC_URL = '/static/'
