@@ -15,12 +15,14 @@ class WorkerDetail(models.Model):
 	joining_date = models.DateField(default=datetime.date.today)
 	basic_wage = models.IntegerField()
 	provident_fund = models.IntegerField()
+	def __unicode__(self):
+		return self.first_name
 
 class MonthlyAttendance(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)
 	attended_days = models.IntegerField()
 	overtime_hours = models.IntegerField()
-	for_month = models.DateField() # need only month here
+	for_month = models.DateField(default=datetime.date.today)
 
 class Advance(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)

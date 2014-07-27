@@ -19,8 +19,7 @@ def addworker(request):
 			form.save()
 			return HttpResponse("Submitted oye :D ")
 	else:
-		form = WorkerDetailForm()
-		return render(request,'src/addworker.html', {'WorkerDetailForm': form})
+		return render(request,'src/form.html', {'form':WorkerDetailForm()})
 			
 def addadvance(request):
 	if request.method == "POST":
@@ -29,5 +28,13 @@ def addadvance(request):
 			form.save()
 			return HttpResponse("Done!")
 	else:
-		form = AdvanceForm()
-		return render(request,'src/addadvance.html',{'AdvanceForm':form})
+		return render(request,'src/form.html',{'form':AdvanceForm()})
+
+def monthlyattendance(request):
+	if request.method == "POST":
+		form = MonthlyAttendanceForm(request.POST)
+		if form.is_valid:
+			form.save()
+			return HttpResponse("Yay!")
+	else:
+		return render(request,'src/form.html',{'form':MonthlyAttendanceForm()})

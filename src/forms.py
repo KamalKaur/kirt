@@ -9,3 +9,7 @@ class WorkerDetailForm(ModelForm):
 class AdvanceForm(ModelForm):
 	class Meta:
 		model = Advance
+
+class MonthlyAttendanceForm(ModelForm):
+	class Meta:
+		model = MonthlyAttendance
