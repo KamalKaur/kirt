@@ -35,7 +35,7 @@ class Advance(models.Model):
 class PaidSalary(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)
 	amount = models.IntegerField()
-	payment_date = models.DateField()
+	payment_date = models.DateField(default=datetime.date.today)
 
 class WageDescription(models.Model):
 	worker_id = models.ForeignKey(WorkerDetail)

@@ -13,3 +13,7 @@ class AdvanceForm(ModelForm):
 class MonthlyAttendanceForm(ModelForm):
 	class Meta:
 		model = MonthlyAttendance
+
+class PaidSalaryForm(ModelForm):
+	class Meta:
+		model = PaidSalary

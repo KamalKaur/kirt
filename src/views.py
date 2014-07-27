@@ -38,3 +38,12 @@ def monthlyattendance(request):
 			return HttpResponse("Yay!")
 	else:
 		return render(request,'src/form.html',{'form':MonthlyAttendanceForm()})
+
+def paidamount(request):
+	if request.method == "POST":
+		form = PaidSalaryForm(request.POST)
+		if form.is_valid:
+			form.save()
+			return HttpResponse(":-o")
+	else:
+		return render(request,'src/form.html',{'form':PaidSalaryForm()})

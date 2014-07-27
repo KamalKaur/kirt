@@ -11,4 +11,5 @@ urlpatterns = patterns('',
 	url(r'^addworker/','src.views.addworker'),
 	url(r'^addadvance/','src.views.addadvance'),
 	url(r'^monthlyattendance/','src.views.monthlyattendance'),
+	url(r'^paidamount/','src.views.paidamount'),
 )
