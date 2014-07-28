@@ -6,7 +6,11 @@
     <body>
 		<form method="POST" action=''>
 		{% csrf_token %}
-		{{form.as_p}}   <!--as_p?? -->
+		
+	<br> <br> kamal
+		{{AdvanceForm.as_p}}  <!--as_p?? -->
+		{{MonthlyAttendanceForm.as_p}}
+		{{PaidSalaryForm.as_p}}
 			<input type = "submit" value="submit">
 		</form>
 	</body>
