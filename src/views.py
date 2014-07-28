@@ -10,7 +10,26 @@ import forms
 # Create your views here.
 
 def index(request):
-	return render(request,'src/index.html',{})
+	if not WorkerDetail.objects.all():
+		if request.method == "POST":
+			form = WorkerDetailForm(request.POST)
+			if form.is_valid:
+				form.save()
+				return HttpResponse("Done! Done!")
+		else:
+			form = WorkerDetailForm()
+			return render(request,'src/addworker.html',{'WorkerDetailForm':form})
+	else:
+		if request.method == "POST":
+			form = AdvanceForm(request.POST)
+			if form.is_valid:
+				form.save()
+		else:
+			form = AdvanceForm()
+			return render(request,'src/form.html',{'AdvanceForm':form})	
+
+
+	
 
 def addworker(request):
 	if request.method == "POST":
@@ -19,7 +38,8 @@ def addworker(request):
 			form.save()
 			return HttpResponse("Submitted oye :D ")
 	else:
-		return render(request,'src/form.html', {'form':WorkerDetailForm()})
+		form = WorkerDetailForm()
+		return render(request,'src/form.html', {'WorkerDetailForm':form})
 			
 def addadvance(request):
 	if request.method == "POST":
