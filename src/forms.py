@@ -15,9 +15,11 @@ class AdvanceForm(ModelForm):
 class MonthlyAttendanceForm(ModelForm):
 	class Meta:
 		model = MonthlyAttendance
-		fields = '__all__'
+		exclude = ('worker_id',)
+#		fields = '__all__'
 
 class PaidSalaryForm(ModelForm):
 	class Meta:
 		model = PaidSalary
-		fields = '__all__'
+		exclude = ('worker_id',)
+#		fields = '__all__'

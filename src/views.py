@@ -21,62 +21,35 @@ def index(request):
 			return render(request,'src/addworker.html',{'WorkerDetailForm':form})
 	else:
 		if request.method == "POST":
-			form = AdvanceForm(request.POST)
-			if form.is_valid:
-				form.save()			
-		else:
-			form = AdvanceForm()
+			aform = AdvanceForm(request.POST, prefix ='one')
+			mform = MonthlyAttendanceForm(request.POST, prefix ='two')
+			pform = PaidSalaryForm(request.POST, prefix ='three')
 
-		if request.method == "POST":
-			form2 = MonthlyAttendanceForm(request.POST)
-			if form2.is_valid:
-				form2.save()
+			a_valid = aform.is_valid()
+			m_valid = mform.is_valid()
+			p_valid = pform.is_valid()
+			if a_valid and m_valid and p_valid:
+				object_one = aform.save()
+				object_two = mform.save(commit=False)
+				object_two.worker_id = object_one.worker_id
+				object_two.save()
+				object_three = pform.save(commit=False) # What if already saved?
+				object_three.worker_id = object_one.worker_id
+				object_three.save()
+				return HttpResponse("Done! Done!")
 		else:
-			form2 = MonthlyAttendanceForm()
-			
+			aform = AdvanceForm(prefix='one')
+			mform = MonthlyAttendanceForm(prefix='two')
+			pform = PaidSalaryForm(prefix='three')
+			return render(request,'src/form.html', {'AdvanceForm':aform, 'MonthlyAttendanceForm':mform, 'PaidSalaryForm':pform})
 
-		if request.method == "POST":
-			form3 = PaidSalaryForm(request.POST)
-			if form3.is_valid:
-				form3.save()
-		else:
-			form3 = PaidSalaryForm()
-		return render(request,'src/form.html',{'AdvanceForm':form, 'MonthlyAttendanceForm': form2, 'PaidSalaryForm':form3})
-	
-
-"""def addworker(request):
+def addworker(request):
 	if request.method == "POST":
 		form = WorkerDetailForm(request.POST)
 		if form.is_valid:
 			form.save()
-			return HttpResponse("Submitted oye :D ")
+			return HttpResponse("Done! Done!")
 	else:
 		form = WorkerDetailForm()
-		return render(request,'src/form.html', {'WorkerDetailForm':form})"""
-			
-"""def addadvance(request):
-	if request.method == "POST":
-		form = AdvanceForm(request.POST)
-		if form.is_valid:
-			form.save()
-			return HttpResponse("Done!")
-	else:
-		return render(request,'src/form.html',{'form':AdvanceForm()})"""
+		return render(request,'src/addworker.html',{'WorkerDetailForm':form})
 
-"""def monthlyattendance(request):
-	if request.method == "POST":
-		form = MonthlyAttendanceForm(request.POST)
-		if form.is_valid:
-			form.save()
-			return HttpResponse("Yay!")
-	else:
-		return render(request,'src/form.html',{'form':MonthlyAttendanceForm()})"""
-
-def paidamount(request):
-	if request.method == "POST":
-		form = PaidSalaryForm(request.POST)
-		if form.is_valid:
-			form.save()
-			return HttpResponse(":-o")
-	else:
-		return render(request,'src/form.html',{'form':PaidSalaryForm()})
