@@ -11,9 +11,9 @@
 <!--
 pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
 body { font-family: monospace; color: #000000; background-color: #ffffff; }
-.Constant { color: #ff6060; }
 .Identifier { color: #00ffff; }
 .Statement { color: #ffff00; }
+.Constant { color: #ff6060; }
 .Comment { color: #8080ff; }
 .PreProc { color: #ff40ff; }
 -->
@@ -21,36 +21,44 @@ body { font-family: monospace; color: #000000; background-color: #ffffff; }
 </head>
 <body>
 <pre>
+<span class="PreProc">from</span> django.core.exceptions <span class="PreProc">import</span> ValidationError
+<span class="PreProc">from</span> django.core.validators <span class="PreProc">import</span> RegexValidator
 <span class="PreProc">from</span> django.db <span class="PreProc">import</span> models
+<span class="PreProc">import</span> datetime
 
 <span class="Comment"># Create your models here.</span>
 
+<span class="Comment"># This error not yet shown</span>
+alphabets = RegexValidator(<span class="Constant">r'^[a-zA-Z ]*$'</span>, <span class="Constant">'Only alphabets are allowed.'</span>)
+
 <span class="Statement">class</span> <span class="Identifier">WorkerDetail</span>(models.Model):
-    first_name = models.CharField(max_length=<span class="Constant">100</span>)
-    last_name = models.CharField(max_length=<span class="Constant">100</span>)
+    first_name = models.CharField(max_length=<span class="Constant">100</span>, validators=[alphabets])
+    last_name = models.CharField(max_length=<span class="Constant">100</span>, validators=[alphabets])
     address = models.CharField(max_length=<span class="Constant">200</span>)
-    joining_date = models.DateField(auto_now_add=<span class="Identifier">True</span>)
+    joining_date = models.DateField(default=datetime.date.today)
     basic_wage = models.IntegerField()
+    provident_fund = models.IntegerField()
+    <span class="Statement">def</span> <span class="Identifier">__unicode__</span>(self):
+        <span class="Statement">return</span> self.first_name
 
 <span class="Statement">class</span> <span class="Identifier">MonthlyAttendance</span>(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
     attended_days = models.IntegerField()
     overtime_hours = models.IntegerField()
-    for_month = models.DateField() <span class="Comment"># need only month here</span>
+    for_month = models.DateField(default=datetime.date.today)
 
 <span class="Statement">class</span> <span class="Identifier">Advance</span>(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    amount = models.IntegerField()
-    advance_date = models.IntegerField()
+    advance_amount = models.IntegerField()
+    advance_date = models.DateField(default=datetime.date.today)
 
-<span class="Statement">class</span> <span class="Identifier">ProvidentFund</span>(models.Model):
-    worker_id = models.ForeignKey(WorkerDetail)
-    pf = models.IntegerField()
+    <span class="Comment">#def __unicode__(self):</span>
+    <span class="Comment">#   return '%s' % (self.id)</span>
 
 <span class="Statement">class</span> <span class="Identifier">PaidSalary</span>(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    amount = models.IntegerField()
-    payment_date = models.DateField()
+    paid_amount = models.IntegerField()
+    payment_date = models.DateField(default=datetime.date.today)
 
 <span class="Statement">class</span> <span class="Identifier">WageDescription</span>(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
