@@ -27,7 +27,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 TEMPLATE_DIRS = (
-	'/home/kamal/kirt/templates',
+    '/home/hermione/kirt/templates',
 )
 # Application definition
 
@@ -38,7 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'src',
+    #'registration',
+    'src',
+	
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,10 +65,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Kirt',
-		'USER': 'root',
-		'PASSWORD': 'ishwar',
-		'HOST': '',
-		'PORT': '',
+        'USER': 'root',
+        'PASSWORD': 'ishwar',
+        'HOST': '',
+        'PORT': '',
 
     }
 }
@@ -88,12 +90,12 @@ MEDIA_ROOT = ''
 
 MEDIA_URL = ''
 
-STATIC_ROOT = '/home/kamal/kirt/static/'
+STATIC_ROOT = '/home/hermione/kirt/static/'
 
 STATIC_URL = '/static/'
 
 #STATICFILES_DIRS = (
-#    '/home/kamal/kirt/static',
+#    '/home/hermione/kirt/static',
 #)
 
 STATICFILES_FINDERS = (

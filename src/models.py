@@ -9,44 +9,41 @@ import datetime
 alphabets = RegexValidator(r'^[a-zA-Z ]*$', 'Only alphabets are allowed.')
 
 class WorkerDetail(models.Model):
-	first_name = models.CharField(max_length=100, validators=[alphabets])
-	last_name = models.CharField(max_length=100, validators=[alphabets])
-	address = models.CharField(max_length=200)
-	joining_date = models.DateField(default=datetime.date.today)
-	basic_wage = models.IntegerField()
-	provident_fund = models.IntegerField()
-	def __unicode__(self):
-		return self.first_name
+    first_name = models.CharField(max_length=100, validators=[alphabets])
+    last_name = models.CharField(max_length=100, validators=[alphabets])
+    address = models.CharField(max_length=200)
+    joining_date = models.DateField(default=datetime.date.today)
+    basic_wage = models.IntegerField()
+    provident_fund = models.IntegerField()
+    def __unicode__(self):
+        return self.first_name
 
 class MonthlyAttendance(models.Model):
-	worker_id = models.ForeignKey(WorkerDetail)
-	attended_days = models.IntegerField()
-	overtime_hours = models.IntegerField()
-	for_month = models.DateField(default=datetime.date.today)
+    worker_id = models.ForeignKey(WorkerDetail)
+    attended_days = models.IntegerField()
+    overtime_hours = models.IntegerField()
+    for_month = models.DateField(default=datetime.date.today)
 
 class Advance(models.Model):
-	worker_id = models.ForeignKey(WorkerDetail)
-	amount = models.IntegerField()
-	advance_date = models.DateField(default=datetime.date.today)
-
-	#def __unicode__(self):
-	#	return '%s' % (self.id)
+    worker_id = models.ForeignKey(WorkerDetail)
+    advance_amount = models.IntegerField()
+    advance_date = models.DateField(default=datetime.date.today)
 
 class PaidSalary(models.Model):
-	worker_id = models.ForeignKey(WorkerDetail)
-	amount = models.IntegerField()
-	payment_date = models.DateField(default=datetime.date.today)
+    worker_id = models.ForeignKey(WorkerDetail)
+    paid_amount = models.IntegerField()
+    payment_date = models.DateField(default=datetime.date.today)
 
 class WageDescription(models.Model):
-	worker_id = models.ForeignKey(WorkerDetail)
-	daily_wage = models.IntegerField()
-	overtime_wage = models.IntegerField()
-	monthly_wage = models.IntegerField()
-	monthly_payable = models.IntegerField()
-	net_payable = models.IntegerField()
-	for_month = models.DateField()
+    worker_id = models.ForeignKey(WorkerDetail)
+    daily_wage = models.IntegerField()
+    overtime_wage = models.IntegerField()
+    monthly_wage = models.IntegerField()
+    monthly_payable = models.IntegerField()
+    net_payable = models.IntegerField()
+    for_month = models.DateField()
 
 class Balance(models.Model):
-	worker_id = models.ForeignKey(WorkerDetail)
-	balance_amount = models.IntegerField()
-	for_month = models.DateField()
+    worker_id = models.ForeignKey(WorkerDetail)
+    balance_amount = models.IntegerField()
+    for_month = models.DateField()
