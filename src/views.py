@@ -20,6 +20,7 @@ def index(request):
             form = WorkerDetailForm()
             return render(request,'src/addworker.html',{'WorkerDetailForm':form})
     else:
+        allworkers = WorkerDetail.objects.all()
         if request.method == "POST":
             aform = AdvanceForm(request.POST, prefix ='one')
             mform = MonthlyAttendanceForm(request.POST, prefix ='two')
@@ -41,7 +42,8 @@ def index(request):
             aform = AdvanceForm(prefix='one')
             mform = MonthlyAttendanceForm(prefix='two')
             pform = PaidSalaryForm(prefix='three')
-            return render(request,'src/form.html', {'AdvanceForm':aform, 'MonthlyAttendanceForm':mform, 'PaidSalaryForm':pform})
+            return render(request,'src/form.html', {'AdvanceForm':aform, 'MonthlyAttendanceForm':mform, \
+                    'PaidSalaryForm':pform, 'allworkers':allworkers})
 
 def addworker(request):
     if request.method == "POST":

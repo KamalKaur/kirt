@@ -5,11 +5,26 @@
 	</head>
     <body>
 		<form method="POST" action=''>
-		{% csrf_token %}
-		
+			{% csrf_token %}
+			{% for worker in allworkers %}
+			<table>
+				<tr>
+					<th> Sr. No </th>
+					<th> Name </th>
+					<th> Address </th>
+				</tr>
+				<tr>
+					<td>{{worker.id }}</td>
+					<td>{{worker.first_name}} {{worker.last_name}}</td>
+					<td>{{worker.address}}</td>
+				</tr>}
+			</table>
+
+			{% endfor %}
 	<br> <br> <a href="addworker"> Add worker</a>
 		 <!-- Why placing here saves the right value? -->
-		{{AdvanceForm.as_p}}  <!--as_p?? -->
+
+		 {{AdvanceForm.as_p}}  <!--as_p?? -->
 		{{MonthlyAttendanceForm.as_p}}
 		{{PaidSalaryForm.as_p}}
 
