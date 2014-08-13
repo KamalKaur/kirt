@@ -1,0 +1,42 @@
+There are a lot of things to be done on single page so to avoid confusions 
+about what to do first and what after that, here I'm appending the list:
+
+1. Make the look proper with single time column name and respetive fields under 
+it.
+2. Get the foreign key value from DB only. 
+3. Save all the forms but yet only last form is being considered.
+4. Display the values which are already entered in the fields after calculating 
+them. (Seems tough)
+5. 
+
+
+Done till now: 
+------------------------DATABASE---------------------------
+- Created the tables, separate for the employee basic details.
+- Separate table for advance so that if some employee is given advance more than 
+one time in a month, it can be differentiated if needed. At first, we'll display 
+only sum but later details can be shown.
+- Separate table for attendance connected with WorkerDetails so that there is no 
+redundancy for worker details and easy to fetch the values.
+- Separate table for Paid amount so that the respective values can be summed up
+to show full paid amount in a month out of total salary. Its different than that 
+of advance. 
+- Balance amount(something not paid out of the total salary) for a month is to 
+be saved in a different table. It will be saved here after Paid amount is added. 
+The total amount and paid amount subtracted makes balance amount.
+- Rest of the alculated values will be saved in separate table which needed to be 
+shown if required, in WageDescription table. Here are the alues that are used to 
+calculate the salary but are shown to user only in employee profile. 
+
+------------------------FORMS AND VIEWS--------------------
+- Had to submit data into tables directly as the models are defined, ModelForms 
+are used directly. In which From first form, Foreign key value is copied to other
+tables using ommit = false, we can edit the values as we want and then save them.
+Have ignored that field and doesn't appear to the user.
+
+------------------------TEMPLATE---------------------------
+- Firstly the single form was shown, to copy ForeignKey value to other Forms and 
+save but now for loop is user that gives same name to all fields in all forms and
+it considers only the last form. So here is the problem till now. 
+
+
