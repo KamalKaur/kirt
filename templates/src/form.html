@@ -1,33 +1,37 @@
 <html>
-	<head>
-		<meta charset="urf-8">
-			<title>Form</title>
-	</head>
-    <body>
-		<form method="POST" action=''>
-			{% csrf_token %}
-			<table>
-				<tr>
-					<th> Sr. No </th>
-					<th> Name </th>
-					<th> Address </th>
-				</tr>
-				{% for worker in allworkers %}
-
-				<tr>
-					<td>{{worker.id }}</td>
-					<td>{{worker.first_name}} {{worker.last_name}}</td>
-					<td>{{worker.address}}</td>
-					<td>{{AdvanceForm.as_p}}
-						 {{MonthlyAttendanceForm.as_p}}
-						 {{PaidSalaryForm.as_p}} </td>
-				</tr>
-
-				{% endfor %}	
-			</table>
-	<br> <br> <a href="addworker"> Add worker</a>		
-			<input type = "submit" value="submit">
-		</form>
-	</body>
+  <head>
+    <meta charset="urf-8">
+      <title>Form</title>
+  </head>
+  <body>
+    <form method="POST" action=''>
+      {% csrf_token %}
+        <table border=1 style="width:800px">
+        <tr>
+          <th> Sr. No </th>
+          <th> Name </th>
+		  <th> Address </th>
+		  <th> Worker ID </th>
+		  <th> Advance  </th>
+		  <th> Attended days </th>
+		  <th> Over time </th>
+	      <th> Paid amount</th>
+  </tr></table>
+	   {% for worker in allworkers %} 
+	  
+		  {{worker.id}}
+          {{worker.first_name}} {{worker.last_name}}
+		  {{worker.address}} 
+		  
+		  	{{AdvanceForm}}
+		  {{MonthlyAttendanceForm}}
+		  {{PaidSalaryForm}} <br />
+		 {% endfor %} 
+	
+        <br /> <br /> 
+        <a href="addworker"> Add worker</a>		
+        <input type = "submit" value="submit">
+    </form>
+  </body>
 </html>
 

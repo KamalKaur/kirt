@@ -46,11 +46,11 @@ def index(request):
                     'PaidSalaryForm':pform, 'allworkers':allworkers})
 
 def addworker(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = WorkerDetailForm(request.POST)
         if form.is_valid:
             form.save()
             return HttpResponse("Done! Done!")
     else:
         form = WorkerDetailForm()
-        return render(request,'src/addworker.html',{'WorkerDetailForm':form})
+    return render(request,'src/addworker.html',{'WorkerDetailForm':form})

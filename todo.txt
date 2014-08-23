@@ -3,11 +3,18 @@ about what to do first and what after that, here I'm appending the list:
 
 1. Make the look proper with single time column name and respetive fields under 
 it.
+	- Hide field names from every field and display once instead, either manualy 
+	or from DB.
+	- Why Date is repeated? What to do with it? :P Editable as well as today?  
+    - What will happen to the ForeignKey attribute?
 2. Get the foreign key value from DB only. 
 3. Save all the forms but yet only last form is being considered.
 4. Display the values which are already entered in the fields after calculating 
 them. (Seems tough)
-5. 
+5. How to display, edit and save multiple forms.
+-----------------------CONFUSIONS-------------------------
+Use ModelForms or direct forms? Default behaviour is lost? SO what?
+
 
 
 Done till now: 
