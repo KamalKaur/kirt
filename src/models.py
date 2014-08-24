@@ -20,8 +20,8 @@ class WorkerDetail(models.Model):
 
 class MonthlyAttendance(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    attended_days = models.IntegerField()
-    overtime_hours = models.IntegerField()
+    attended_days = models.IntegerField() # Value not more than 31?
+    overtime_hours = models.IntegerField(max_length=3) 
     for_month = models.DateField(default=datetime.date.today)
 
 class Advance(models.Model):
@@ -34,7 +34,7 @@ class PaidSalary(models.Model):
     paid_amount = models.IntegerField()
     payment_date = models.DateField(default=datetime.date.today)
 
-class WageDescription(models.Model):
+class WageDescription(models.Model): # Is this model needed? 
     worker_id = models.ForeignKey(WorkerDetail)
     daily_wage = models.IntegerField()
     overtime_wage = models.IntegerField()
@@ -43,7 +43,7 @@ class WageDescription(models.Model):
     net_payable = models.IntegerField()
     for_month = models.DateField()
 
-class Balance(models.Model):
+class Balance(models.Model): # Why not calculate only when asked?
     worker_id = models.ForeignKey(WorkerDetail)
     balance_amount = models.IntegerField()
     for_month = models.DateField()
