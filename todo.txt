@@ -12,9 +12,10 @@ it.
 4. Display the values which are already entered in the fields after calculating 
 them. (Seems tough)
 5. How to display, edit and save multiple forms.
+
 -----------------------CONFUSIONS-------------------------
 Use ModelForms or direct forms? Default behaviour is lost? SO what?
-
+Use formsets or forms actually? Looking into it!
 
 
 Done till now: 
