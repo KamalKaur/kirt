@@ -16,12 +16,11 @@ class WorkerDetailForm(ModelForm):
      class Meta:
         model = WorkerDetail
         fields = '__all__'
-        labels = {'first_name': (''),}
         error_messages = {'first_name': {'max_length': ("Give proper length"),},}
 
 class AdvanceForm(ModelForm):
     worker_id = forms.ModelChoiceField(WorkerDetail.objects.all(),label ='')
-    advance_amount = forms.IntegerField(label='')
+    advance_amount = forms.IntegerField(label='', widget=forms.TextInput(attrs={'onchange':'save_advance();'}))
     # advance_date = forms.DateField(label='',initial=datetime.date.today)
     # Date field with default date in form can be added like this ^
     
