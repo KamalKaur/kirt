@@ -1,10 +1,9 @@
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
-from django.shortcuts import redirect
-from django.shortcuts import render
 from src.models import *
 from src.forms import *
 import forms
+import datetime
 
 
 # Create your views here.
@@ -50,3 +49,12 @@ def addworker(request):
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.all()
     return render(request, 'src/form.html', {'allworkers':allworkers})
+
+def ajaxrequest(request):
+    worker_id = request.GET['worker_id']
+    days = request.GET['days']
+   # ot = request.GET['ot']
+    #date = datetime.date.today
+   # obj = MonthlyAttendamce(worker_id = worker_id, ttended_days = days, overtime_hours = ot, for_month = date)
+    #obj.save()
+    return HttpResponse(worker_id)

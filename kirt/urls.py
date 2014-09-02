@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     url(r'^addworker/','src.views.addworker'),
     url(r'^adddetails/','src.views.adddetails'),
     url(r'^ajaxdetails/','src.views.ajaxdetails'),
-    # url(r'^paidamount/','src.views.paidamount'),
+    url(r'^ajaxrequest/','src.views.ajaxrequest'),
 )

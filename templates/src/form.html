@@ -5,7 +5,22 @@
     <title>Form</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
 	</script>
-   
+	<script>
+		$(document).ready(function(){
+			$('.days').change(function(){
+			changed_id = this.id.split("_")[1]
+			days = $('#days_' + changed_id).val();
+			request_url = "/ajaxrequest?days=" + days + "&worker_id=" + changed_id;
+        $.ajax({
+          url: request_url,
+          success: function(data){
+			  alert(data);
+          }
+        })
+      })
+    })
+
+    </script>	
   </head>
 
   <body>
@@ -26,16 +41,15 @@
     {% csrf_token %}
     {% for worker in allworkers %} 
 	{{worker.id}} {{worker.address}} 
-	<select> <option value="{{worker.id}}">{{worker.first_name}} {{worker.last_name}}</option> </select>
-      <input type="text" id="days" placeholder="Days" class="num">
-	  <input type="text" id="OT" placeholder="Overtime"class="num"> <br /> 
+    <select id="{{worker.id}}" class="worker"> <option value="{{worker.id}}">{{worker.first_name}} {{worker.last_name}}</option> </select>
+	<input type="text" id="days_{{worker.id}}" placeholder="Days" class="days">
+	<input type="text" id="{{worker.id}}" placeholder="Overtime"class="overtime"> <br /> 
 
     {% endfor %} 
     </form>
  
         <br /> <br /> 
    	
-        <input type = "submit" value="submit">
+      <input type = "submit" value="submit">
   </body>
 </html>
-
