@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from src.models import *
@@ -5,7 +6,7 @@ from src.forms import *
 import forms
 import datetime
 
-
+date = datetime.date.today()
 # Create your views here.
 
 def index(request):
@@ -50,11 +51,40 @@ def ajaxdetails(request):
     allworkers = WorkerDetail.objects.all()
     return render(request, 'src/form.html', {'allworkers':allworkers})
 
+# Ajax calls the following views
+
 def ajaxrequest(request):
+    try:
+       worker_id = request.GET['worker_id']
+       days = request.GET['days']
+       goo = 123
+    except:
+       goo = 345
+    # overtime = request.GET['overtime']
+    # date = datetime.date.today
+    #  obj = MonthlyAttendamce(worker_id = worker_id, ttended_days = days, overtime_hours = ot, for_month = date)
+    # obj.save()
+    return HttpResponse(goo)
+
+def ajaxrequestpaid(request):
     worker_id = request.GET['worker_id']
-    days = request.GET['days']
-   # ot = request.GET['ot']
-    #date = datetime.date.today
-   # obj = MonthlyAttendamce(worker_id = worker_id, ttended_days = days, overtime_hours = ot, for_month = date)
-    #obj.save()
+    paid = request.GET['paid']
+    worker = WorkerDetail.objects.get(pk=worker_id) # Fetches the instance of this id from WorkerDetail
+    if PaidSalary.objects.filter(worker_id_id=worker_id).exists():
+        editable = PaidSalary.objects.get(worker_id_id=worker_id)
+      #  for field in editable instance
+        editable.paid_amount = paid
+        editable.date = date
+        editable.save()
+        return HttpResponse('')
+    else:
+        obj = PaidSalary(worker_id = worker, paid_amount = paid, payment_date = date)
+        obj.save()
+    #allw = PaidSalary.objects.all()
+        return HttpResponse(worker_id)   
+
+def ajaxrequestadvance(request):
+    worker_id = request.GET["worker_id"]
+#   advance = request.GET["advance"]
+#    worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
     return HttpResponse(worker_id)

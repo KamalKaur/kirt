@@ -12,4 +12,6 @@ urlpatterns = patterns('',
     url(r'^adddetails/','src.views.adddetails'),
     url(r'^ajaxdetails/','src.views.ajaxdetails'),
     url(r'^ajaxrequest/','src.views.ajaxrequest'),
+    url(r'^ajaxrequestpaid/','src.views.ajaxrequestpaid'),
+    url(r'^ajaxrequestadvance/','src.views.ajaxrequestadvance'),
 )

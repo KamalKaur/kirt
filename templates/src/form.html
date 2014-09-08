@@ -10,14 +10,58 @@
 			$('.days').change(function(){
 			changed_id = this.id.split("_")[1]
 			days = $('#days_' + changed_id).val();
-			request_url = "/ajaxrequest?days=" + days + "&worker_id=" + changed_id;
+			request_url = "/ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
         $.ajax({
           url: request_url,
           success: function(data){
 			  alert(data);
           }
+        });
+	});
+
+	 $('overtime').change(function(){
+		    changed_id = this.id.split("_")[1]// On changing overtime column
+	$('.overtime').change(function(){
+		changed_id = this.id.split("_")[1]
+        alert(changed_id);
+       overtime = $('#overtime_' + changed_id).val();
+		request_url = "/ajaxrequest/?overtime=" + overtime + "&worker_id=" + changed_id;
+		alert(request_url);
+        $.ajax({
+			url: request_url,
+            success: function(data){
+				alert(data);
+			}
+	})
+})
+})
+
+// On changing Paid Salary column    
+    $('.paid').change(function(){
+    changed_id = this.id.split("_")[1]
+    paid = $('#paid_' + changed_id).val();
+    request_url = "/ajaxrequestpaid/?paid=" + paid + "&worker_id=" + changed_id;
+    $.ajax({
+    url: request_url,
+    success: function(data){
+    alert(data);
+            }
         })
-      })
+	})
+
+// On changing Advance column
+    $('.advance').change(function(){
+    changed_id = this.id.split("_")[1]
+    advance = $('#advance_' + changed_id).val();
+    request_url = "/ajaxrequestadvance/?advance=" + advance + "&worker_id=" + changed_id;
+    $.ajax({
+    url: request_url,
+    success: function(data){
+        alert(data);
+            }
+        })
+	})
+
     })
 
     </script>	
@@ -42,8 +86,10 @@
     {% for worker in allworkers %} 
 	{{worker.id}} {{worker.address}} 
     <select id="{{worker.id}}" class="worker"> <option value="{{worker.id}}">{{worker.first_name}} {{worker.last_name}}</option> </select>
-	<input type="text" id="days_{{worker.id}}" placeholder="Days" class="days">
-	<input type="text" id="{{worker.id}}" placeholder="Overtime"class="overtime"> <br /> 
+<!--	<input type="text" id="days_{{worker.id}}" placeholder="Days" class="days">
+<input type="text" id="overtime_{{worker.id}}" placeholder="Overtime"class="overtime"> -->
+    <input type="text" id="paid_{{worker.id}}" placeholder="Paid Amount" class="paid">
+    <input type="text" id="advance_{{worker_id}}" placeholder="Advance" class="advance"> <br />
 
     {% endfor %} 
     </form>
