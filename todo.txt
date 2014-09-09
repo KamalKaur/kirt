@@ -18,6 +18,8 @@ as done in the spreadsheet, according to need. May be with Angular JS?
 ?? Only this month values will be editable.. according to my condition in def ajaxrequestpaid(request), it checks if
 the current month value and ID exists, then adds new else updates.. means.. iff this month value is not there, its added.
 
+filter according to this month
+
 All the previous values can only be edited by the admin.
 
 Page 3:

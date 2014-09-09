@@ -49,7 +49,7 @@ def addworker(request):
 
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.all()
-    paid_salaries = PaidSalary.objects.all().values('worker_id','paid_amount','worker_id_id__first_name', 'worker_id_id__address','worker_id_id__id')
+    paid_salaries = PaidSalary.objects.filter(payment_date__month=today.month).values('worker_id','paid_amount','worker_id_id__first_name', 'worker_id_id__address','worker_id_id__id')
     return render(request, 'src/form.html', {'allworkers':allworkers, 'paid_salaries':paid_salaries})
 
 # Ajax calls the following views
