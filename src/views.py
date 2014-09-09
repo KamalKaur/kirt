@@ -5,7 +5,7 @@ from src.models import *
 from src.forms import *
 import forms
 import datetime
-
+from django.db.models import Sum
 today = datetime.date.today()
 # Create your views here.
 
@@ -48,9 +48,30 @@ def addworker(request):
     return render(request,'src/addworker.html',{'WorkerDetailForm':form})
 
 def ajaxdetails(request):
-    allworkers = WorkerDetail.objects.all()
-    paid_salaries = PaidSalary.objects.filter(payment_date__month=today.month).values('worker_id','paid_amount','worker_id_id__first_name', 'worker_id_id__address','worker_id_id__id')
-    return render(request, 'src/form.html', {'allworkers':allworkers, 'paid_salaries':paid_salaries})
+    allworkers = WorkerDetail.objects.values('id').all()
+    detail_list = []
+    for value in allworkers:
+        worker_dict = {}
+        details = WorkerDetail.objects.values('first_name', 'last_name', 'address').filter(id = value['id'])
+        attendance = MonthlyAttendance.objects.values('attended_days').filter(worker_id = value['id']).filter(for_month__month=today.month)
+        overtime = MonthlyAttendance.objects.values('overtime_hours').filter(worker_id = value['id']).filter(for_month__month=today.month)
+        paid_salary = PaidSalary.objects.values('paid_amount').filter(worker_id = value['id']).filter(payment_date__month=today.month)
+        advance = Advance.objects.filter(worker_id = value['id']).filter(advance_date__month=today.month).aggregate(Sum('advance_amount'))
+        worker_dict['worker_id'] = value['id']
+        for item in details:
+            worker_dict['first_name'] = item['first_name']
+            worker_dict['last_name'] = item['last_name']
+            worker_dict['address'] = item['address']
+        for item in attendance:
+            worker_dict['attendace'] = item['attended_days']
+        for item in overtime:
+            worker_dict['overtime '] = item['overtime']
+        for item in paid_salary:
+            worker_dict['paid_salary'] = item['paid_amount']
+        worker_dict['advance_amount'] = advance['advance_amount__sum']
+        detail_list.append(worker_dict)
+
+    return render(request, 'src/form.html', {'detail_list':detail_list})
 
 # Ajax calls the following views
 

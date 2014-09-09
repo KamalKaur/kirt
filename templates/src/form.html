@@ -82,18 +82,19 @@
 
     <form action="" method="">
     {% csrf_token %}
-	{% for paid in paid_salaries %}
-	<!--	{% comment %}	{{paid.worker_id}} or  {{paid.worker_id_id__id}} {% endcomment  %} -->
-	{{paid.worker_id}}	{{paid.worker_id_id__first_name}} {{paid.worker_id_id__address}} 
-	<select id="{{paid.worker_id}}" class="worker"> <option value="{{paid.worker_id}}"> {{paid.worker_id_id__first_name}}</option> </select>
-	
-<!--	<input type="text" id="days_{{worker.id}}" placeholder="Days" class="days">
-<input type="text" id="overtime_{{worker.id}}" placeholder="Overtime"class="overtime"> -->
-<input type="text" id="paid_{{paid.worker_id}}" placeholder="Paid Amount" class="paid" value="{{paid.paid_amount}}"> 
 
-<input type="text" id="advance_{{paid.worker_id}}" placeholder="Advance" class="advance"> <br />
+	{% for value in detail_list %}
+	{{value.worker_id}}	{{value.first_name}} {{value.address}} 
+	<select id="{{value.worker_id}}" class="worker"> <option value="{{value.worker_id}}"> {{value.first_name}}</option> </select>
+	
+<!--<input type="text" id="days_{{worker.id}}" placeholder="Days" class="days">
+<input type="text" id="overtime_{{worker.id}}" placeholder="Overtime"class="overtime"> -->
+<input type="text" id="paid_{{value.worker_id}}" placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
+
+<input type="text" id="advance_{{value.worker_id}}" placeholder="Advance" class="advance" value = "{{value.advance_amount}}"> <br />
 
     {% endfor %} 
+
     </form>
  
         <br /> <br /> 
