@@ -6,7 +6,7 @@ from src.forms import *
 import forms
 import datetime
 
-date = datetime.date.today()
+today = datetime.date.today()
 # Create your views here.
 
 def index(request):
@@ -49,7 +49,8 @@ def addworker(request):
 
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.all()
-    return render(request, 'src/form.html', {'allworkers':allworkers})
+    paid_salaries = PaidSalary.objects.all().values('worker_id','worker_id_id__first_name', 'worker_id_id__address','worker_id_id__id')
+    return render(request, 'src/form.html', {'allworkers':allworkers, 'paid_salaries':paid_salaries})
 
 # Ajax calls the following views
 
@@ -71,14 +72,15 @@ def ajaxrequestpaid(request):
     paid = request.GET['paid']
     worker = WorkerDetail.objects.get(pk=worker_id) # Fetches the instance of this id from WorkerDetail
     if PaidSalary.objects.filter(worker_id_id=worker_id).exists():
-        editable = PaidSalary.objects.get(worker_id_id=worker_id)
+        editable = PaidSalary.objects.get(worker_id_id=worker_id, payment_date__month=today.month) # If the edited object's worker id and this month's value exists
+      #  date_filter = PaidSalary.objects.filter(date_year='', date-month='')
       #  for field in editable instance
         editable.paid_amount = paid
-        editable.date = date
+        editable.date = today
         editable.save()
         return HttpResponse('')
     else:
-        obj = PaidSalary(worker_id = worker, paid_amount = paid, payment_date = date)
+        obj = PaidSalary(worker_id = worker, paid_amount = paid, payment_date = today) # date is defined there in the beginning of this file
         obj.save()
     #allw = PaidSalary.objects.all()
         return HttpResponse(worker_id)   

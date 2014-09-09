@@ -83,13 +83,16 @@
 
     <form action="" method="">
     {% csrf_token %}
-    {% for worker in allworkers %} 
-	{{worker.id}} {{worker.address}} 
-    <select id="{{worker.id}}" class="worker"> <option value="{{worker.id}}">{{worker.first_name}} {{worker.last_name}}</option> </select>
+	{% for paid in paid_salaries %}
+	<!--	{% comment %}	{{paid.worker_id}} or  {{paid.worker_id_id__id}} {% endcomment  %} -->
+	{{paid.worker_id}}	{{paid.worker_id_id__first_name}} {{paid.worker_id_id__address}} 
+	<select id="{{paid.worker_id}}" class="worker"> <option value="{{paid.worker_id}}"></option> </select>
+	
 <!--	<input type="text" id="days_{{worker.id}}" placeholder="Days" class="days">
 <input type="text" id="overtime_{{worker.id}}" placeholder="Overtime"class="overtime"> -->
-    <input type="text" id="paid_{{worker.id}}" placeholder="Paid Amount" class="paid">
-    <input type="text" id="advance_{{worker_id}}" placeholder="Advance" class="advance"> <br />
+<input type="text" id="paid_{{paid.worker_id}}}" placeholder="Paid Amount" class="paid" value="{{paid.paid_amount}}"> 
+
+<input type="text" id="advance_{{paid.worker_id}}}" placeholder="Advance" class="advance"> <br />
 
     {% endfor %} 
     </form>
