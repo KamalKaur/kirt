@@ -15,6 +15,11 @@ as done in the spreadsheet, according to need. May be with Angular JS?
 - For others, update the previous, like, Paid salary and Monthly attendance.
 - For UI, basically don't show the fields literally as form fields.
 
+?? Only this month values will be editable.. according to my condition in def ajaxrequestpaid(request), it checks if
+the current month value and ID exists, then adds new else updates.. means.. iff this month value is not there, its added.
+
+All the previous values can only be edited by the admin.
+
 Page 3:
 - It will come 	on clicking the worker page. the link must not be clearly visible but only on hover.
 - All the details of particular worker, for particular month. May be year wise? but not in this version

@@ -49,7 +49,7 @@ def addworker(request):
 
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.all()
-    paid_salaries = PaidSalary.objects.all().values('worker_id','worker_id_id__first_name', 'worker_id_id__address','worker_id_id__id')
+    paid_salaries = PaidSalary.objects.all().values('worker_id','paid_amount','worker_id_id__first_name', 'worker_id_id__address','worker_id_id__id')
     return render(request, 'src/form.html', {'allworkers':allworkers, 'paid_salaries':paid_salaries})
 
 # Ajax calls the following views
@@ -71,7 +71,7 @@ def ajaxrequestpaid(request):
     worker_id = request.GET['worker_id']
     paid = request.GET['paid']
     worker = WorkerDetail.objects.get(pk=worker_id) # Fetches the instance of this id from WorkerDetail
-    if PaidSalary.objects.filter(worker_id_id=worker_id).exists():
+    if PaidSalary.objects.filter(worker_id_id=worker_id, payment_date__month=today.month).exists():
         editable = PaidSalary.objects.get(worker_id_id=worker_id, payment_date__month=today.month) # If the edited object's worker id and this month's value exists
       #  date_filter = PaidSalary.objects.filter(date_year='', date-month='')
       #  for field in editable instance
