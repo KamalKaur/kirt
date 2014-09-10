@@ -1,74 +1,16 @@
+{% load staticfiles %}
 <html>
-	
   <head>
     <meta charset="urf-8">
     <title>Form</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
-	</script>
-	<script>
-		$(document).ready(function(){
-			$('.days').change(function(){
-			changed_id = this.id.split("_")[1]
-			days = $('#days_' + changed_id).val();
-			request_url = "/ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
-        $.ajax({
-          url: request_url,
-          success: function(data){
-			  alert(data);
-          }
-        });
-	});
-
-	 $('overtime').change(function(){
-		    changed_id = this.id.split("_")[1]// On changing overtime column
-        alert(changed_id);
-       overtime = $('#overtime_' + changed_id).val();
-		request_url = "/ajaxrequest/?overtime=" + overtime + "&worker_id=" + changed_id;
-		alert(request_url);
-        $.ajax({
-			url: request_url,
-            success: function(data){
-				alert(data);
-			}
-	})
-})
-
-
-// On changing Paid Salary column    
-    $('.paid').change(function(){
-		changed_id = this.id.split("_")[1]
-		alert(changed_id);
-    paid = $('#paid_' + changed_id).val();
-    request_url = "/ajaxrequestpaid/?paid=" + paid + "&worker_id=" + changed_id;
-    $.ajax({
-    url: request_url,
-    success: function(data){
-    alert(data);
-            }
-        })
-	})
-
-// On changing Advance column
-    $('.advance').change(function(){
-    changed_id = this.id.split("_")[1]
-    advance = $('#advance_' + changed_id).val();
-    request_url = "/ajaxrequestadvance/?advance=" + advance + "&worker_id=" + changed_id;
-    $.ajax({
-    url: request_url,
-    success: function(data){
-        alert(data);
-            }
-        })
-	})
-
-    })
-
-    </script>	
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}autosave.js"></script> 
+<!--<script type="text/javascript" src="{% static '/static/autosave.js' %}""></script>-->
   </head>
 
   <body>
-	  {% comment %} <table border=1 style="width:800px">
-      <tr>
+  <table border=1 style="width:800px">
+    <tr>
         <th> Sr. No </th>
         <th> Name </th>
         <th> Address </th>
@@ -78,27 +20,24 @@
         <th> Over time </th>
         <th> Paid amount</th> 
       </tr>
-  </table> {% endcomment %}
+  </table> 
 
     <form action="" method="">
     {% csrf_token %}
 
-	{% for value in detail_list %}
-	{{value.worker_id}}	{{value.first_name}} {{value.address}} 
-	<select id="{{value.worker_id}}" class="worker"> <option value="{{value.worker_id}}"> {{value.first_name}}</option> </select>
-	
-<!--<input type="text" id="days_{{worker.id}}" placeholder="Days" class="days">
-<input type="text" id="overtime_{{worker.id}}" placeholder="Overtime"class="overtime"> -->
-<input type="text" id="paid_{{value.worker_id}}" placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
-
-<input type="text" id="advance_{{value.worker_id}}" placeholder="Advance" class="advance" value = "{{value.advance_amount}}"> <br />
-
+    {% for value in detail_list %}
+      {{value.worker_id}} {{value.first_name}} {{value.address}} 
+      <select id="{{value.worker_id}}" class="worker"> <option value="{{value.worker_id}}"> {{value.first_name}}</option> </select>
+      <input type="text" id="days_{{value.worker_id}}" placeholder="Days" class="days" value="{{value.attendance}}">
+      <input type="text" id="overtime_{{value.worker_id}}" placeholder="Overtime" class="overtime" value="{{value.overtime_hours}}"> 
+      <input type="text" id="paid_{{value.worker_id}}" placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
+      <input type="text" id="advance_{{value.worker_id}}" placeholder="Advance" class="advance" value = "{{value.advance_amount}}"> <br />
     {% endfor %} 
 
     </form>
  
         <br /> <br /> 
    	
-      <input type = "submit" value="submit">
+      
   </body>
 </html>

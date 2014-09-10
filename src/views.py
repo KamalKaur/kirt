@@ -63,9 +63,9 @@ def ajaxdetails(request):
             worker_dict['last_name'] = item['last_name']
             worker_dict['address'] = item['address']
         for item in attendance:
-            worker_dict['attendace'] = item['attended_days']
+            worker_dict['attendance'] = item['attended_days']
         for item in overtime:
-            worker_dict['overtime '] = item['overtime']
+            worker_dict['overtime '] = item['overtime_hours']
         for item in paid_salary:
             worker_dict['paid_salary'] = item['paid_amount']
         worker_dict['advance_amount'] = advance['advance_amount__sum']
