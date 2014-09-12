@@ -1,37 +1,43 @@
+{% load staticfiles %}
 <html>
   <head>
     <meta charset="urf-8">
-      <title>Form</title>
+    <title>Form</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}autosave.js"></script> 
+<!--<script type="text/javascript" src="{% static '/static/autosave.js' %}""></script>-->
   </head>
+
   <body>
-    <form method="POST" action=''>
-      {% csrf_token %}
-        <table border=1 style="width:800px">
-        <tr>
-          <th> Sr. No </th>
-          <th> Name </th>
-		  <th> Address </th>
-		  <th> Worker ID </th>
-		  <th> Advance  </th>
-		  <th> Attended days </th>
-		  <th> Over time </th>
-		  {#   <th> Paid amount</th> #}
-  </tr></table>
-	   {% for worker in allworkers %} 
-	  
-		  {{worker.id}}
-          {{worker.first_name}} {{worker.last_name}}
-		  {{worker.address}} 
-		  
-		  	{{AdvanceForm}}
-		  {{MonthlyAttendanceForm}}
-		  {{PaidSalaryForm}} <br />
-		 {% endfor %} 
-	
-        <br /> <br /> 
-        <a href="addworker"> Add worker</a>		
-        <input type = "submit" value="submit">
+  <table border=1 style="width:800px">
+    <tr>
+        <th> Sr. No </th>
+        <th> Name </th>
+        <th> Address </th>
+        <th> Worker ID </th>
+        <th> Advance  </th>
+        <th> Attended days </th>
+        <th> Over time </th>
+        <th> Paid amount</th> 
+      </tr>
+  </table> 
+
+    <form action="" method="">
+    {% csrf_token %}
+
+    {% for value in detail_list %}
+      {{value.worker_id}} {{value.first_name}} {{value.address}} 
+      <select id="{{value.worker_id}}" class="worker"> <option value="{{value.worker_id}}"> {{value.first_name}}</option> </select>
+      <input type="text" id="days_{{value.worker_id}}" placeholder="Days" class="days" value="{{value.attendance}}">
+      <input type="text" id="overtime_{{value.worker_id}}" placeholder="Overtime" class="overtime" value="{{value.overtime_hours}}"> 
+      <input type="text" id="paid_{{value.worker_id}}" placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
+      <input type="text" id="advance_{{value.worker_id}}" placeholder="Advance" class="advance" value = "{{value.advance_amount}}"> <br />
+    {% endfor %} 
+
     </form>
+ 
+        <br /> <br /> 
+   	
+      
   </body>
 </html>
-

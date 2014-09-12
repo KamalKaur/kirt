@@ -2,4 +2,6 @@
 *~
 *.[oa]
 *.swp
+*.swo
+*.py~
 settings.py

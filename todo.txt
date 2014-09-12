@@ -1,20 +1,45 @@
 There are a lot of things to be done on single page so to avoid confusions 
 about what to do first and what after that, here I'm appending the list:
 
-1. Make the look proper with single time column name and respetive fields under 
-it.
-	- Hide field names from every field and display once instead, either manualy 
-	or from DB.
-	- Why Date is repeated? What to do with it? :P Editable as well as today?  
-    - What will happen to the ForeignKey attribute?
-2. Get the foreign key value from DB only. 
-3. Save all the forms but yet only last form is being considered.
-4. Display the values which are already entered in the fields after calculating 
-them. (Seems tough)
-5. How to display, edit and save multiple forms.
------------------------CONFUSIONS-------------------------
-Use ModelForms or direct forms? Default behaviour is lost? SO what?
+Page 1:
+- Login using only password
+- Change password functionality
 
+Page 2:
+- Date field should be editable or not? It will be kept default for this version.
+- Display the values which are already entered in the Attendance, Paid and Advance fields 
+- Display the other values after calculating like balance amount, previous month advance etc.
+as done in the spreadsheet, according to need. May be with Angular JS? 	
+- Show the Foreign Key value not as a MultiChoice field but normally.
+- For advance, add new row and update the total for this month and year.
+- For others, update the previous, like, Paid salary and Monthly attendance.
+- For UI, basically don't show the fields literally as form fields.
+
+?? Only this month values will be editable.. according to my condition in def ajaxrequestpaid(request), it checks if
+the current month value and ID exists, then adds new else updates.. means.. iff this month value is not there, its added.
+
+filter according to this month
+
+All the previous values can only be edited by the admin.
+
+Page 3:
+- It will come 	on clicking the worker page. the link must not be clearly visible but only on hover.
+- All the details of particular worker, for particular month. May be year wise? but not in this version
+
+Page 4:
+- The pay slip can be generated from page 2 or 3, as desired. it will give a pdf/html file to be printed
+with payment details. Basically the page 3 things.
+
+
+-----------------------CONFUSIONS-------------------------
+Use ModelForms or direct forms? Default behaviour is lost? SO what? 
+Can keep the model behaviour but ModelForms are not to be used.
+
+Use formsets or forms actually? Looking into it!
+Using forms for all the customization we need.
+
+Doing calculations? Need to save? Or right then? For previous months and years? 
+As on editing... any one.. the saved other value will also be updated? Confusion!
 
 
 Done till now: 
@@ -31,19 +56,34 @@ of advance.
 - Balance amount(something not paid out of the total salary) for a month is to 
 be saved in a different table. It will be saved here after Paid amount is added. 
 The total amount and paid amount subtracted makes balance amount.
-- Rest of the alculated values will be saved in separate table which needed to be 
+- Rest of the calculated values will be saved in separate table which needed to be 
 shown if required, in WageDescription table. Here are the alues that are used to 
 calculate the salary but are shown to user only in employee profile. 
 
 ------------------------FORMS AND VIEWS--------------------
-- Had to submit data into tables directly as the models are defined, ModelForms 
+- Cancelled: Had to submit data into tables directly as the models are defined, ModelForms 
 are used directly. In which From first form, Foreign key value is copied to other
-tables using ommit = false, we can edit the values as we want and then save them.
-Have ignored that field and doesn't appear to the user.
+tables using commit = false, we can edit the values as we want and then save them.
+Have ignored that field and doesn't appear to the user. 
+
+- Custom HTML forms are generated which saves data through AJAX. Yet into the same thing.
+- Views are used to save, update the form data.
 
 ------------------------TEMPLATE---------------------------
-- Firstly the single form was shown, to copy ForeignKey value to other Forms and 
+- Solved: Firstly the single form was shown, to copy ForeignKey value to other Forms and 
 save but now for loop is user that gives same name to all fields in all forms and
 it considers only the last form. So here is the problem till now. 
 
+- Using one form for Page 2 and one for adding new worker.
+
+------------------------OLD---------------------------
+
+1. Make the look proper with single time column name and respetive fields under 
+it.
+- Hide field names from every field and display once instead, either manualy or from DB. 
+- Why Date is repeated? What to do with it? :P Editable as well as today?  
+- What will happen to the ForeignKey attribute?
+2. Get the foreign key value from DB only. 
+3. Save all the forms but yet only last form is being considered.
+4. How to display, edit and save multiple forms.
 
