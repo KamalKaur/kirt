@@ -5,7 +5,14 @@
     <title>Form</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}autosave.js"></script> 
-<!--<script type="text/javascript" src="{% static '/static/autosave.js' %}""></script>-->
+<script language="javascript" type="text/javascript">
+  //On clicking advance, for popup on licking add advance
+  function popitup(url) {
+    newwindow=window.open(url,'{{AddAdvance}}','height=200,width=150');
+    if (window.focus) {newwindow.focus()}
+    return false;
+}
+</script>
   </head>
 
   <body>
@@ -35,7 +42,7 @@
     {% endfor %} 
 
     </form>
- 
+	<a href="/src/addadvance" onclick="return popitup('/src/addadvance')">Advance ++</a> 
         <br /> <br /> 
    	
       
