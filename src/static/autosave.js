@@ -58,6 +58,7 @@ $(document).ready(function(){
     })
   })
   
-
+  // Popup for adding advance
+  
 })
 	
