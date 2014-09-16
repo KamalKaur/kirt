@@ -15,6 +15,7 @@ as done in the spreadsheet, according to need. May be with Angular JS?
 - For others, update the previous, like, Paid salary and Monthly attendance.
 - For UI, basically don't show the fields literally as form fields.
 - How to search through months? No arrows, but only month and year will be there. AJAX? 
+- Calculations of salary, old advance, new advance.. ? How?
 
 ?? Only this month values will be editable.. according to my condition in def ajaxrequestpaid(request), it checks if
 the current month value and ID exists, then adds new else updates.. means.. iff this month value is not there, its added.
@@ -31,10 +32,12 @@ Page 4:
 - The pay slip can be generated from page 2 or 3, as desired. it will give a pdf/html file to be printed
 with payment details. Basically the page 3 things.
 
-UI
+UI 
+Make the proper base file and import in all templates
 Proper Validations
 When and how does a session expire?
 Separating views? 
+
 
 -----------------------CONFUSIONS-------------------------
 Use ModelForms or direct forms? Default behaviour is lost? SO what? 
