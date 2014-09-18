@@ -1,57 +1,56 @@
-There are a lot of things to be done on single page so to avoid confusions 
-about what to do first and what after that, here I'm appending the list:
+###################################################
+#-----------------Kirt Stack ToDo-----------------#
+###################################################
 
 Page 1:
 - Login using only password
-- Change password functionality
+- Forgot password? 
+- Image
+- CSS
 
 Page 2:
-- Date field should be editable or not? It will be kept default for this version.
-- Display the values which are already entered in the Attendance, Paid and Advance fields 
-- Display the other values after calculating like balance amount, previous month advance etc.
-as done in the spreadsheet, according to need. May be with Angular JS? 	
+- Popup instead of window
+- Different popup for all workers.
+- Display the other values after calculating like balance amount, 
+previous month advance etc in separate columns.
 - Show the Foreign Key value not as a MultiChoice field but normally.
-- For advance, add new row and update the total for this month and year.
-- For others, update the previous, like, Paid salary and Monthly attendance.
-- For UI, basically don't show the fields literally as form fields.
-- How to search through months? No arrows, but only month and year will be there. AJAX? 
-- Calculations of salary, old advance, new advance.. ? How?
-
-?? Only this month values will be editable.. according to my condition in def ajaxrequestpaid(request), it checks if
-the current month value and ID exists, then adds new else updates.. means.. iff this month value is not there, its added.
-
-filter according to this month
-
-All the previous values can only be edited by the admin.
+- For advance, add new row and update the total for this month.
+- Show previous advances of current worker while adding more.
+- Search for any month and year's records as "View only".
+- PaySlip with all the details as on Page 3.
+- CSS: Don't show the fields literally as form fields.
+- @login required
 
 Page 3:
-- It will come 	on clicking the worker page. the link must not be clearly visible but only on hover.
-- All the details of particular worker, for particular month. May be year wise? but not in this version
+- Show all the details(after calculating everything) of particular 
+worker, for this month.
+- CSS: Show as detailed list
 
-Page 4:
-- The pay slip can be generated from page 2 or 3, as desired. it will give a pdf/html file to be printed
-with payment details. Basically the page 3 things.
-
-UI 
-Make the proper base file and import in all templates
-Proper Validations
-When and how does a session expire?
-Separating views? 
+Common:
+- Validations 
+- Sessions
+- Should there be two files for views?
+- Run on windows
+- Will it run without internet?
 
 
------------------------CONFUSIONS-------------------------
-Use ModelForms or direct forms? Default behaviour is lost? SO what? 
+###################################################
+#-----------------Kirt Stack Done-----------------#
+###################################################
+
+	
+Page 2 
+- User can update the previous values for Paid salary and Monthly attendance.
+- Only this month values are editable as it checks if current month values 
+doens't exist, then add a new row
+- All the previous month values can only be edited by the admin.
+- Use ModelForms or direct forms? Earlier the default behaviour was lost? So what? 
 Can keep the model behaviour but ModelForms are not to be used.
+- Use formsets or forms actually -> HTML forms for all the customization we need.
+- Doing calculations? Need to save? Or right then? 
+For previous months and years? No editing enabled.
 
-Use formsets or forms actually? Looking into it!
-Using forms for all the customization we need.
-
-Doing calculations? Need to save? Or right then? For previous months and years? 
-As on editing... any one.. the saved other value will also be updated? Confusion!
-
-
-Done till now: 
-------------------------DATABASE---------------------------
+Common:
 - Created the tables, separate for the employee basic details.
 - Separate table for advance so that if some employee is given advance more than 
 one time in a month, it can be differentiated if needed. At first, we'll display 
@@ -94,4 +93,14 @@ it.
 2. Get the foreign key value from DB only. 
 3. Save all the forms but yet only last form is being considered.
 4. How to display, edit and save multiple forms.
+- Display the values which are already entered in the Attendance, Paid and Advance fields 
+
+------------------------CONFUSIONS---------------------------
+
+- Date field should be editable or not? It will be kept default for this version.
+
+
+
+
+
 
