@@ -101,7 +101,7 @@ def ajaxrequest(request):
 def ajaxrequestpaid(request):
     worker_id = request.GET['worker_id']
     paid = request.GET['paid']
-    worker = WorkerDetail.objects.get(pk=worker_id) # Fetches the instance of this id from WorkerDetail
+    worker = WorkerDetail.objects.get(pk=worker_id) # To get the instance but not the id
     if PaidSalary.objects.filter(worker_id_id=worker_id, payment_date__month=today.month).exists():
         editable = PaidSalary.objects.get(worker_id_id=worker_id, payment_date__month=today.month) # If the edited object's worker id and this month's value exists
       #  date_filter = PaidSalary.objects.filter(date_year='', date-month='')
@@ -116,8 +116,20 @@ def ajaxrequestpaid(request):
     #allw = PaidSalary.objects.all()
         return HttpResponse(worker_id)   
 
-def ajaxrequestadvance(request):
+def popupadvance(request):
     worker_id = request.GET["worker_id"]
+    old_advances = Advance.objects.filter(worker_id = worker_id).filter(advance_date__month=today.month)
 #   advance = request.GET["advance"]
-#    worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
-    return HttpResponse(worker_id)
+#   worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
+    return render(request,'src/popup_addadvance.html',{'worker_id':worker_id, 'old_advances':old_advances})
+
+def ajaxpopupadvance(request):
+    worker_id = request.GET["worker_id"]
+    worker = WorkerDetail.objects.get(pk=worker_id) #Advance.worker_id must be a WorkerDetail instance :P
+    popupadvance = request.GET['popupadvance']
+    obj = Advance(worker_id=worker, advance_amount=popupadvance, advance_date=today)
+    obj.save()
+    return HttpResponse("yo! :D ")
+
+# Can only one view be used? No?
+    

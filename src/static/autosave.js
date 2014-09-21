@@ -44,21 +44,31 @@ $(document).ready(function(){
       }
     })
   })
-
-  // On changing Advance column
-  $('.advance').change(function(){
+  
+  // Popup for adding advance
+  $('.addadvance').click(function() {
     changed_id = this.id.split("_")[1]
-    advance = $('#advance_' + changed_id).val();
-    request_url = "/ajaxrequestadvance/?advance=" + advance + "&worker_id=" + changed_id;
+    request_url = "/ajaxrequestadvance/?worker_id=" + changed_id;
+    alert(request_url);
     $.ajax({
       url: request_url,
       success: function(data){
       alert(data);
       }
     })
-  })
-  
-  // Popup for adding advance
-  
+  })  
+       
+  // Click on add advance button
+  $('.dialog').click(function () {
+    changed_id = this.id.split("_")[1]
+    request_url = "/popupadvance/?worker_id=" + changed_id;
+    alert(request_url);
+     $.ajax({
+    url: request_url,
+    success: function(data) {
+    $(".dialog").load(request_url).dialog('open');
+    }
+  });
 })
-	
+
+})	

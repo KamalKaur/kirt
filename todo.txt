@@ -32,6 +32,7 @@ Common:
 - Should there be two files for views?
 - Run on windows
 - Will it run without internet?
+- Don't show django error pages.
 
 
 ###################################################
@@ -42,19 +43,16 @@ Common:
 Page 2 
 - User can update the previous values for Paid salary and Monthly attendance.
 - Only this month values are editable as it checks if current month values 
-doens't exist, then add a new row
+doens't exist, then add a new row (except advance)
 - All the previous month values can only be edited by the admin.
-- Use ModelForms or direct forms? Earlier the default behaviour was lost? So what? 
-Can keep the model behaviour but ModelForms are not to be used.
-- Use formsets or forms actually -> HTML forms for all the customization we need.
-- Doing calculations? Need to save? Or right then? 
-For previous months and years? No editing enabled.
+
+
 
 Common:
 - Created the tables, separate for the employee basic details.
 - Separate table for advance so that if some employee is given advance more than 
-one time in a month, it can be differentiated if needed. At first, we'll display 
-only sum but later details can be shown.
+one time in a month, enteries can be differentiated if needed. At first, we'll display 
+only sum but details can be shown on click.
 - Separate table for attendance connected with WorkerDetails so that there is no 
 redundancy for worker details and easy to fetch the values.
 - Separate table for Paid amount so that the respective values can be summed up
@@ -98,6 +96,10 @@ it.
 ------------------------CONFUSIONS---------------------------
 
 - Date field should be editable or not? It will be kept default for this version.
+- Use ModelForms or direct forms? Earlier the default behaviour was lost? So what? 
+Can keep the model behaviour but ModelForms are not to be used.
+- Use formsets or forms actually -> HTML forms for all the customization we need.
+- Doing calculations? Need to save? Or only calculate right then? 
 
 
 

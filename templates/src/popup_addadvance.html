@@ -1,0 +1,30 @@
+
+<html>
+  <head>
+    <meta charset="urf-8">
+    <title>Add advance</title>
+    <style>
+.popup
+{
+	width: 100%;
+	height:100%;
+	color: rgb(58,58,58);
+        background-color: #eee;
+}
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}popup_addadvance.js"></script> 
+  </head>
+
+  <body class="popup">
+    <form method="POST" action=''>
+      {% csrf_token %}
+      {{worker_id}} <br />
+      {% for a in old_advances %}
+        {{a.advance_amount}} {{a.advance_date}}<br />
+      {% endfor %}
+      <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > 
+    </form>
+  </body>
+
+</html

@@ -4,20 +4,27 @@
     <meta charset="urf-8">
     <title>Form</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+ <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}autosave.js"></script> 
 <script language="javascript" type="text/javascript">
-  //On clicking advance, for popup on licking add advance
+  //On clicking advance, for popup
   function popitup(url) {
-    newwindow=window.open(url,'Add Advance','height=300,width=350');
+    newwindow=window.open(url,'Add Advance','height=400, width=450');
     if (window.focus) {newwindow.focus()}
     return false;
+
 }
+</script>
+ <script>
+$(function() {
+$( "#dialog" ).dialog();
+});
 </script>
   </head>
 
   <body>
   <table border=1 style="width:800px">
-    <tr>
+    <tr> 
         <th> Sr. No </th>
         <th> Name </th>
         <th> Address </th>
@@ -39,10 +46,13 @@
       <input type="text" id="overtime_{{value.worker_id}}" placeholder="Overtime" class="overtime" value="{{value.overtime_hours}}"> 
       <input type="text" id="paid_{{value.worker_id}}" placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
       <input type="text" id="advance_{{value.worker_id}}" placeholder="Advance" class="advance" value = "{{value.advance_amount}}"> <br />
-    {% endfor %} 
 
+<!-- What happens to this column with IDs and classes? ^ Is the below href working? or only onlclick url is working?-->
+     <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">Advance ++</a> 
+<button id="dialogadvance_{{value.worker_id}}" class="dialog" >Open dialog to add advance</button> <br />
+    {% endfor %} 
     </form>
-	<a href="" onclick="return popitup('/src/addadvance')">Advance ++</a> 
+
         <br /> <br /> 
    	
       
