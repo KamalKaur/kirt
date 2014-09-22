@@ -1,60 +1,78 @@
 {% load staticfiles %}
 <html>
   <head>
-    <meta charset="urf-8">
+    <meta charset="utf-8">
     <title>Form</title>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
- <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}autosave.js"></script> 
-<script language="javascript" type="text/javascript">
-  //On clicking advance, for popup
-  function popitup(url) {
-    newwindow=window.open(url,'Add Advance','height=400, width=450');
-    if (window.focus) {newwindow.focus()}
-    return false;
-
-}
-</script>
- <script>
-$(function() {
-$( "#dialog" ).dialog();
-});
-</script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
+    <script language="javascript" type="text/javascript">
+      //On clicking advance, for popup
+      function popitup(url) {
+      newwindow=window.open(url,'Add Advance','height=400, width=450');
+      if (window.focus) {newwindow.focus()}
+      return false;
+      }
+    </script>
   </head>
 
   <body>
-  <table border=1 style="width:800px">
+  <div class="header">
+  <table>
     <tr> 
-        <th> Sr. No </th>
-        <th> Name </th>
-        <th> Address </th>
-        <th> Worker ID </th>
-        <th> Advance  </th>
-        <th> Attended days </th>
-        <th> Over time </th>
-        <th> Paid amount</th> 
+        <th class="setwidth1">&nbsp; Name </th>
+        <th class="setwidth"> Days </th>
+        <th class="setwidth"> OT </th>
+        <th class="setwidth"> Paid </th>
+        <th class="setwidth"> Advance </th> 
+        </div>
       </tr>
   </table> 
-
+  </div>	
+  
     <form action="" method="">
-    {% csrf_token %}
+      {% csrf_token %}
+      {% for value in detail_list %}
+        <div class="left">
+          {{value.worker_id}}  {{value.first_name}}
+          <select id="{{value.worker_id}}" class="worker"> <option 
+            value="{{value.worker_id}}"> {{value.first_name}}</option> </select>
+        
+          <div class="right">
+            <input type="text" id="days_{{value.worker_id}}" 
+              placeholder="Days" class="days" value="{{value.attendance}}">
+            <input type="text" id="overtime_{{value.worker_id}}" 
+              placeholder="Overtime" class="overtime" value="{{value.overtime_hours}}"> 
+            <input type="text" id="paid_{{value.worker_id}}" 
+              placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
+            <input type="text" id="advance_{{value.worker_id}}" 
+              placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
+            <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">+</a> 
+ <br />
+          </div>
+        </div>
+      {% endfor %} 
+    </form> <br /> <br /> 
 
-    {% for value in detail_list %}
-      {{value.worker_id}} {{value.first_name}} {{value.address}} 
-      <select id="{{value.worker_id}}" class="worker"> <option value="{{value.worker_id}}"> {{value.first_name}}</option> </select>
-      <input type="text" id="days_{{value.worker_id}}" placeholder="Days" class="days" value="{{value.attendance}}">
-      <input type="text" id="overtime_{{value.worker_id}}" placeholder="Overtime" class="overtime" value="{{value.overtime_hours}}"> 
-      <input type="text" id="paid_{{value.worker_id}}" placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
-      <input type="text" id="advance_{{value.worker_id}}" placeholder="Advance" class="advance" value = "{{value.advance_amount}}"> <br />
+<div class="search">
+<select> 
+<option>Jan </option> 
+<option>Feb </option> 
+<option>Mar </option> 
+</select>
 
-<!-- What happens to this column with IDs and classes? ^ Is the below href working? or only onlclick url is working?-->
-     <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">Advance ++</a> 
-<button id="dialogadvance_{{value.worker_id}}" class="dialog" >Open dialog to add advance</button> <br />
-    {% endfor %} 
-    </form>
+<select> 
+<option>2011 </option> 
+<option>2012 </option> 
+<option>2013 </option> 
+</select>
+</div>
 
-        <br /> <br /> 
-   	
-      
+{{month}}
+{{year}}
+
+
   </body>
+
 </html>

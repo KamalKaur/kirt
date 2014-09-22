@@ -60,6 +60,14 @@ def addadvance(request):
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.values('id').all()
     detail_list = []
+    """try:
+       month url chn
+    except:
+      ajj da      filter(for_month__month=mont)
+    try:
+       year url chn
+    except:
+       aj da"""
     for value in allworkers:
         worker_dict = {}
         details = WorkerDetail.objects.values('first_name', 'last_name', 'address').filter(id = value['id'])
@@ -80,8 +88,11 @@ def ajaxdetails(request):
             worker_dict['paid_salary'] = item['paid_amount']
         worker_dict['advance_amount'] = advance['advance_amount__sum']
         detail_list.append(worker_dict)
+    month_form = MonthSelect()
+    year_form = YearSelect()
 
-    return render(request, 'src/form.html', {'detail_list':detail_list})
+    return render(request, 'src/form.html', {'detail_list':detail_list,\
+     'month':month_form, 'year':year_form})
 
 # Ajax calls the following views
 

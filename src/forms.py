@@ -3,6 +3,15 @@ from django import forms
 from django.forms import ModelForm
 from src.models import *
 import datetime
+from src.month_choices import MONTH_CHOICES
+
+class YearSelect(forms.Form):
+    year = forms.ChoiceField(choices= [(datetime.date.today().year, datetime.\
+    date.today().year)] + [(x, x) for x in range(2000, 2050)], \
+    required=False)
+
+class MonthSelect(forms.Form):
+    month = forms.ChoiceField(MONTH_CHOICES)
 
 class WorkerDetailForm(ModelForm):
      # first_name = forms.CharField(label='')
@@ -19,8 +28,8 @@ class WorkerDetailForm(ModelForm):
         error_messages = {'first_name': {'max_length': ("Give proper length"),},}
 
 class AdvanceForm(ModelForm):
-    worker_id = forms.ModelChoiceField(WorkerDetail.objects.all(),label ='')
-    advance_amount = forms.IntegerField(label='', widget=forms.TextInput(attrs={'onchange':'save_advance();'}))
+    worker_id = forms.ModelChoiceField(WorkerDetail.objects.all())
+    advance_amount = forms.IntegerField()
     # advance_date = forms.DateField(label='',initial=datetime.date.today)
     # Date field with default date in form can be added like this ^
     
@@ -30,11 +39,10 @@ class AdvanceForm(ModelForm):
 		# Excluding the date field but it automatically saves today's date :)
         # fields = ('worker_id', 'advance_amount')
 		# The above line takes the field behaviour directly from models but how to ignore labels?
-        labels = {'advance_date': (''),}
 
 class MonthlyAttendanceForm(ModelForm):
-    attended_days = forms.IntegerField(label='')
-    overtime_hours = forms.IntegerField(label='')
+    attended_days = forms.IntegerField()
+    overtime_hours = forms.IntegerField()
 
     class Meta:
         model = MonthlyAttendance
@@ -44,5 +52,4 @@ class PaidSalaryForm(ModelForm):
     # paid_amount = forms.IntegerField(label='')
     class Meta:
         model = PaidSalary
-        labels = {'paid_amount': (''),}
         exclude = ('worker_id','payment_date',)

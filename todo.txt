@@ -9,6 +9,7 @@ Page 1:
 - CSS
 
 Page 2:
+- Days and OT fields ain't working.
 - Popup instead of window
 - Different popup for all workers.
 - Display the other values after calculating like balance amount, 
@@ -17,6 +18,7 @@ previous month advance etc in separate columns.
 - For advance, add new row and update the total for this month.
 - Show previous advances of current worker while adding more.
 - Search for any month and year's records as "View only".
+- Search with name as well.
 - PaySlip with all the details as on Page 3.
 - CSS: Don't show the fields literally as form fields.
 - @login required
