@@ -2,9 +2,17 @@
   <head>
     <meta charset="urf-8">
     <title>Add worker</title>
+<style>
+.left{
+width: 80%;
+background-color: #eee;
+color: rgb(58,58,58);
+font-family: Impact, Charcoal, sans-serifs
+}
+	</style>
   </head>
 
-  <body>
+  <body class="left">
     <form method="POST" action=''>
     {% csrf_token %}
     {{AdvanceForm.as_p}}

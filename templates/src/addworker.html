@@ -2,13 +2,26 @@
 	<head>
 		<meta charset="urf-8">
 		<title>Add worker</title>
-	</head>
+<style>
 
-	<body>
-		<form method="POST" action=''>
-			{% csrf_token %}
-						{{WorkerDetailForm.as_p}}
-					     <input type = "submit" value="submit">
-					</form>
-			</body>
+
+.left{
+width: 80%;
+background-color: #eee;
+color: rgb(58,58,58);
+font-family: Impact, Charcoal, sans-serifs
+}
+	
+</style>
+</head>
+
+  <body class="left">
+    <form method="POST" action=''>
+      {% csrf_token %}
+      <div class="left">
+      &nbsp; {{WorkerDetailForm.as_p}} &nbsp;	
+      <input type = "submit" value="submit">
+      </div>
+    </form>
+  </body>
 </html>	
