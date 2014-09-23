@@ -17,6 +17,7 @@
   </head>
 
   <body class="popup">
+   <div id="dialog-form" title="Add advance">
     <form method="POST" action=''>
       {% csrf_token %}
       {{worker_id}} <br />
@@ -25,6 +26,7 @@
       {% endfor %}
       <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > 
     </form>
+ </div>
   </body>
 
 </html

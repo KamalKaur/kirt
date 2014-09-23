@@ -48,12 +48,15 @@ display: none;
 }
 
 .search{
+float: right;
 position: absolute;
+height: 40px;
+width: 30%;
 bottom: 10px;
-right: 10px;	
+right: 10px;
+
 }
 
-.search select{
-width: 100px;
-height: 45px;
+.hiddensubmit{
+
 }

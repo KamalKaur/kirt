@@ -45,7 +45,8 @@ $(document).ready(function(){
     })
   })
   
-  // Popup for adding advance
+  // Popup for adding advance 
+  // Is it used anymore? 
   $('.addadvance').click(function() {
     changed_id = this.id.split("_")[1]
     request_url = "/ajaxrequestadvance/?worker_id=" + changed_id;
@@ -71,4 +72,11 @@ $(document).ready(function(){
   });
 })
 
+  // Click 
+  $('#searchbox').change(function(){
+    year = $('#searchbox').val().split(" ")[1];
+    //check if it's b/w 2000-2050?
+    alert(year);
+    
+  })
 })	

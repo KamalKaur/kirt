@@ -6,7 +6,8 @@ from src.forms import *
 import forms
 import datetime
 from django.db.models import Sum
-today = datetime.date.today()
+this_month = datetime.date.today().month
+this_year = datetime.date.today().year
 # Create your views here.
 
 def index(request):
@@ -60,21 +61,46 @@ def addadvance(request):
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.values('id').all()
     detail_list = []
-    """try:
-       month url chn
-    except:
-      ajj da      filter(for_month__month=mont)
-    try:
-       year url chn
-    except:
-       aj da"""
+    editable = 0
+    # If the search form posts some data, then get the year and month from 
+    # posted data, else take values for today's year and month and pass in for
+    # loop.
+    if request.method == 'POST':
+       search_form = SearchSelect(request.POST)
+       if search_form.is_valid():
+           year = search_form.cleaned_data['year']
+           month = search_form.cleaned_data['month']
+    else:
+        year = this_year
+        month = this_month 
+        search_form = SearchSelect()
+     
+    #
+    if year == this_year:
+        editable = 1
+    
     for value in allworkers:
         worker_dict = {}
-        details = WorkerDetail.objects.values('first_name', 'last_name', 'address').filter(id = value['id'])
-        attendance = MonthlyAttendance.objects.values('attended_days').filter(worker_id = value['id']).filter(for_month__month=today.month)
-        overtime = MonthlyAttendance.objects.values('overtime_hours').filter(worker_id = value['id']).filter(for_month__month=today.month)
-        paid_salary = PaidSalary.objects.values('paid_amount').filter(worker_id = value['id']).filter(payment_date__month=today.month)
-        advance = Advance.objects.filter(worker_id = value['id']).filter(advance_date__month=today.month).aggregate(Sum('advance_amount'))
+
+        details = WorkerDetail.objects.values('first_name', 'last_name',
+        'address').filter(id = value['id'])
+	
+        attendance = MonthlyAttendance.objects.values('attended_days').\
+        filter(worker_id = value['id']).filter(for_month__year=
+        year).filter(for_month__month=month)
+
+        overtime = MonthlyAttendance.objects.values('overtime_hours').\
+        filter(worker_id = value['id']).filter(for_month__year=
+        year).filter(for_month__month=month)
+
+        paid_salary = PaidSalary.objects.values('paid_amount').\
+        filter(worker_id = value['id']).filter(payment_date__year=
+        year).filter(payment_date__month=month)
+        
+        advance = Advance.objects.filter(worker_id = value['id']).\
+        filter(advance_date__year=year).filter(advance_date__month= 
+        month).aggregate(Sum('advance_amount'))
+
         worker_dict['worker_id'] = value['id']
         for item in details:
             worker_dict['first_name'] = item['first_name']
@@ -88,11 +114,9 @@ def ajaxdetails(request):
             worker_dict['paid_salary'] = item['paid_amount']
         worker_dict['advance_amount'] = advance['advance_amount__sum']
         detail_list.append(worker_dict)
-    month_form = MonthSelect()
-    year_form = YearSelect()
 
     return render(request, 'src/form.html', {'detail_list':detail_list,\
-     'month':month_form, 'year':year_form})
+    'search':search_form, 'editable':editable})
 
 # Ajax calls the following views
 
@@ -113,23 +137,23 @@ def ajaxrequestpaid(request):
     worker_id = request.GET['worker_id']
     paid = request.GET['paid']
     worker = WorkerDetail.objects.get(pk=worker_id) # To get the instance but not the id
-    if PaidSalary.objects.filter(worker_id_id=worker_id, payment_date__month=today.month).exists():
-        editable = PaidSalary.objects.get(worker_id_id=worker_id, payment_date__month=today.month) # If the edited object's worker id and this month's value exists
+    if PaidSalary.objects.filter(worker_id_id=worker_id, payment_date__month=this_month).exists():
+        editable = PaidSalary.objects.get(worker_id_id=worker_id, payment_date__month=this_month) # If the edited object's worker id and this month's value exists
       #  date_filter = PaidSalary.objects.filter(date_year='', date-month='')
       #  for field in editable instance
         editable.paid_amount = paid
-        editable.date = today
+        editable.date = datetime.date.today()
         editable.save()
         return HttpResponse('')
     else:
-        obj = PaidSalary(worker_id = worker, paid_amount = paid, payment_date = today) # date is defined there in the beginning of this file
+        obj = PaidSalary(worker_id = worker, paid_amount = paid, payment_date = datetime.date.today()) # date is defined there in the beginning of this file
         obj.save()
     #allw = PaidSalary.objects.all()
         return HttpResponse(worker_id)   
 
 def popupadvance(request):
     worker_id = request.GET["worker_id"]
-    old_advances = Advance.objects.filter(worker_id = worker_id).filter(advance_date__month=today.month)
+    old_advances = Advance.objects.filter(worker_id = worker_id).filter(advance_date__month=this_month).filter(advance_date__year=this_year)
 #   advance = request.GET["advance"]
 #   worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
     return render(request,'src/popup_addadvance.html',{'worker_id':worker_id, 'old_advances':old_advances})

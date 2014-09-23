@@ -11,17 +11,15 @@ Page 1:
 Page 2:
 - Days and OT fields ain't working.
 - Popup instead of window
-- Different popup for all workers.
 - Display the other values after calculating like balance amount, 
 previous month advance etc in separate columns.
-- Show the Foreign Key value not as a MultiChoice field but normally.
-- For advance, add new row and update the total for this month.
-- Show previous advances of current worker while adding more.
 - Search for any month and year's records as "View only".
 - Search with name as well.
 - PaySlip with all the details as on Page 3.
 - CSS: Don't show the fields literally as form fields.
 - @login required
+- In history, only show the clients that existed that time. 
+- Refresh the fields after adding new advance.
 
 Page 3:
 - Show all the details(after calculating everything) of particular 
@@ -35,6 +33,7 @@ Common:
 - Run on windows
 - Will it run without internet?
 - Don't show django error pages.
+- Look for extra code and remove it.
 
 
 ###################################################
@@ -47,8 +46,10 @@ Page 2
 - Only this month values are editable as it checks if current month values 
 doens't exist, then add a new row (except advance)
 - All the previous month values can only be edited by the admin.
-
-
+- Different popup for all workers.
+- Show the Foreign Key value not as a MultiChoice field but normally.
+- Show previous advances of current worker while adding more.
+- For advance, add new row and update the total for this month.
 
 Common:
 - Created the tables, separate for the employee basic details.
@@ -102,6 +103,9 @@ it.
 Can keep the model behaviour but ModelForms are not to be used.
 - Use formsets or forms actually -> HTML forms for all the customization we need.
 - Doing calculations? Need to save? Or only calculate right then? 
+
+- Using id or class for CSS or JS? 
+- Which JS, jQuery files to be included and in what order?
 
 
 

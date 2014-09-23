@@ -3,18 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>Form</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
+
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
     <script language="javascript" type="text/javascript">
+      
       //On clicking advance, for popup
+
       function popitup(url) {
       newwindow=window.open(url,'Add Advance','height=400, width=450');
       if (window.focus) {newwindow.focus()}
       return false;
       }
     </script>
+<script>
+$(document).ready(function(){
+if ({{editable}} == '0')
+$(".details :input").attr('readonly', true);
+})
+</script>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
   </head>
 
   <body>
@@ -31,7 +42,7 @@
   </table> 
   </div>	
   
-    <form action="" method="">
+    <form class="details" action="" method="">
       {% csrf_token %}
       {% for value in detail_list %}
         <div class="left">
@@ -49,28 +60,21 @@
             <input type="text" id="advance_{{value.worker_id}}" 
               placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
             <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">+</a> 
- <br />
           </div>
         </div>
       {% endfor %} 
-    </form> <br /> <br /> 
+    </form> 
 
 <div class="search">
-<select> 
-<option>Jan </option> 
-<option>Feb </option> 
-<option>Mar </option> 
-</select>
+<form method="POST" action="">
+{% csrf_token %}
+{{search}}
+{{editable}}
+<input class="hiddensubmit" type="submit" value="submit" action="">
+</form>
 
-<select> 
-<option>2011 </option> 
-<option>2012 </option> 
-<option>2013 </option> 
-</select>
+
 </div>
-
-{{month}}
-{{year}}
 
 
   </body>

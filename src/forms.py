@@ -5,12 +5,9 @@ from src.models import *
 import datetime
 from src.month_choices import MONTH_CHOICES
 
-class YearSelect(forms.Form):
+class SearchSelect(forms.Form):
     year = forms.ChoiceField(choices= [(datetime.date.today().year, datetime.\
-    date.today().year)] + [(x, x) for x in range(2000, 2050)], \
-    required=False)
-
-class MonthSelect(forms.Form):
+    date.today().year)] + [(x, x) for x in range(2000, 2050)])
     month = forms.ChoiceField(MONTH_CHOICES)
 
 class WorkerDetailForm(ModelForm):
