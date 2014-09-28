@@ -6,9 +6,9 @@
 
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 
     <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
@@ -16,21 +16,25 @@
       
       //On clicking advance, for popup
 
-$(function(){
-  $('.js-popup-link').click(function(e){
-    e.preventDefault();
-    $("#popup").dialog({modal: true}).dialog('open').load(this.href);
-  })
-})
+//$(function(){
+  //$('.js-popup-link').click(function(e){
+   // e.preventDefault();
+  //  $("#popup").dialog({modal: true}).dialog('open').load(this.href);
+ // })
+//})
 // The function below is not chainable
-//function popitup(url) {
- // $.ajax({
- //   url: url,
- //   success: function(data) {
-   //   $("#dialog-form").html(data).dialog({modal:true}).dialog('open');
-   // }
-  //})
-  
+$(document).ready(function(){
+function popitup(url) {
+  $.ajax({
+    url: url,
+    success: function(data) {
+   alert(data);
+      $("#dialog-form").html(data).dialog({modal:true}).dialog('open');
+    }
+  })
+return false;
+  }
+})
   //return false;
   
 //}
@@ -82,8 +86,9 @@ $(".details :input").attr('readonly', true);
             <input type="text" id="advance_{{value.worker_id}}" 
               placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
             {% if editable == 1 %}
-            <a href="/popupadvance/?worker_id={{value.worker_id}}" class=”js-popup-link” >+</a> 
-            <br /><br /><br /><br /><br /><br /><div href="/popupadvance/?worker_id={{value.worker_id}}" id=”popup”> </div>
+            <a href="/popupadvance/?worker_id={{value.worker_id}}" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">Advance </a>
+<div id="dialog-form"></div>	
+            <br /><br /><br /><br /><br /><br />
             {% endif %}
           </div>
         </div>
