@@ -10,16 +10,17 @@ Page 1:
 
 Page 2:
 - Days and OT fields ain't working.
-- Popup instead of window
+- Popup instead of window.
 - Display the other values after calculating like balance amount, 
-previous month advance etc in separate columns.
-- Search for any month and year's records as "View only".
-- Search with name as well.
+previous month advance etc in separate columns. -> Can be tough, how to 
+>>>>>subtract, what's paid, what's total amount? What' advance? Or so?
+For previous monhts?
 - PaySlip with all the details as on Page 3.
 - CSS: Don't show the fields literally as form fields.
 - @login required
-- In history, only show the clients that existed that time. 
 - Refresh the fields after adding new advance.
+- Values can't be negative. Which values can be?
+- Rounding off. 
 
 Page 3:
 - Show all the details(after calculating everything) of particular 
@@ -106,8 +107,9 @@ Can keep the model behaviour but ModelForms are not to be used.
 
 - Using id or class for CSS or JS? 
 - Which JS, jQuery files to be included and in what order?
-
-
+- Search for any month and year's records as "View only".
+- In history, only show the clients that existed that time. 
+- Search with name as well.
 
 
 

@@ -46,4 +46,4 @@ class WageDescription(models.Model): # Is this model needed?
 class Balance(models.Model): # Why not calculate only when asked?
     worker_id = models.ForeignKey(WorkerDetail)
     balance_amount = models.IntegerField()
-    for_month = models.DateField()
+    for_month = models.DateField(default=datetime.date.today)

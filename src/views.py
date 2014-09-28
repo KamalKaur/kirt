@@ -1,3 +1,4 @@
+from __future__ import division
 from django.core.exceptions import ValidationError
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
@@ -6,6 +7,10 @@ from src.forms import *
 import forms
 import datetime
 from django.db.models import Sum
+from calendar import monthrange
+
+
+
 this_month = datetime.date.today().month
 this_year = datetime.date.today().year
 # Create your views here.
@@ -72,7 +77,7 @@ def ajaxdetails(request):
            month = search_form.cleaned_data['month']
     else:
         year = this_year
-        month = this_month 
+        month = this_month
         search_form = SearchSelect()
      
     #
@@ -109,7 +114,8 @@ def ajaxdetails(request):
         for item in attendance:
             worker_dict['attendance'] = item['attended_days']
         for item in overtime:
-            worker_dict['overtime '] = item['overtime_hours']
+            worker_dict['overtime'] = item['overtime_hours']
+
         for item in paid_salary:
             worker_dict['paid_salary'] = item['paid_amount']
         worker_dict['advance_amount'] = advance['advance_amount__sum']
@@ -129,7 +135,7 @@ def ajaxrequest(request):
        goo = 345
     # overtime = request.GET['overtime']
     # date = datetime.date.today
-    #  obj = MonthlyAttendamce(worker_id = worker_id, ttended_days = days, overtime_hours = ot, for_month = date)
+    #  obj = MonthlyAttendamce(worker_id = worker_id, attended_days = days, overtime_hours = ot, for_month = date)
     # obj.save()
     return HttpResponse(goo)
 
@@ -138,33 +144,95 @@ def ajaxrequestpaid(request):
     paid = request.GET['paid']
     worker = WorkerDetail.objects.get(pk=worker_id) # To get the instance but not the id
     if PaidSalary.objects.filter(worker_id_id=worker_id, payment_date__month=this_month).exists():
-        editable = PaidSalary.objects.get(worker_id_id=worker_id, payment_date__month=this_month) # If the edited object's worker id and this month's value exists
-      #  date_filter = PaidSalary.objects.filter(date_year='', date-month='')
-      #  for field in editable instance
+        editable = PaidSalary.objects.get(worker_id_id=worker_id,\
+        payment_date__month=this_month) # If the edited object's worker id and this month's value exists
+        # date_filter = PaidSalary.objects.filter(date_year='', date-month='')
+        # for field in editable instance
         editable.paid_amount = paid
-        editable.date = datetime.date.today()
+        editable.payment_date = datetime.date.today()
         editable.save()
-        return HttpResponse('')
+        return HttpResponse('') # Field is not refreshed
     else:
-        obj = PaidSalary(worker_id = worker, paid_amount = paid, payment_date = datetime.date.today()) # date is defined there in the beginning of this file
+        obj = PaidSalary(worker_id = worker, paid_amount = paid,\
+        payment_date = datetime.date.today()) 
         obj.save()
-    #allw = PaidSalary.objects.all()
+        #allw = PaidSalary.obj1ects.all()
         return HttpResponse(worker_id)   
 
 def popupadvance(request):
     worker_id = request.GET["worker_id"]
-    old_advances = Advance.objects.filter(worker_id = worker_id).filter(advance_date__month=this_month).filter(advance_date__year=this_year)
-#   advance = request.GET["advance"]
-#   worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
-    return render(request,'src/popup_addadvance.html',{'worker_id':worker_id, 'old_advances':old_advances})
+    old_advances = Advance.objects.filter(worker_id = worker_id).\
+    filter(advance_date__month=this_month).filter(advance_date__year=this_year)
+    # advance = request.GET["advance"]
+    # worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
+    return render(request,'src/popup_addadvance.html',\
+    {'worker_id':worker_id, 'old_advances':old_advances})
 
 def ajaxpopupadvance(request):
     worker_id = request.GET["worker_id"]
-    worker = WorkerDetail.objects.get(pk=worker_id) #Advance.worker_id must be a WorkerDetail instance :P
+    # Advance.worker_id must be a WorkerDetail instance :P
+    worker = WorkerDetail.objects.get(pk=worker_id) 
     popupadvance = request.GET['popupadvance']
-    obj = Advance(worker_id=worker, advance_amount=popupadvance, advance_date=today)
+    obj = Advance(worker_id=worker, advance_amount=popupadvance,\
+    advance_date=datetime.date.today())
     obj.save()
     return HttpResponse("yo! :D ")
 
-# Can only one view be used? No?
+def particulars(request):
     
+    # Yet only for this month
+    # "worker_id =" or "worker-id_id"?
+    worker_id = request.GET['worker_id']
+    
+    basic_wage = WorkerDetail.objects.values('basic_wage').\
+    filter(id=worker_id)[0]['basic_wage']
+    attended_days = MonthlyAttendance.objects.values('attended_days').\
+    filter(worker_id=worker_id).filter(for_month__month=this_month).\
+    filter(for_month__year=this_year)[0]['attended_days']
+    #return HttpResponse(basic_wage)
+    days_in_month = monthrange(this_year, this_month)[1]		
+    monthly_basic_wage = ((basic_wage / days_in_month) * attended_days)	
+    # return HttpResponse(monthly_basic_wage)
+    overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
+    filter(worker_id=worker_id).filter(for_month__month=this_month).\
+    filter(for_month__year=this_year)[0]['overtime_hours']
+    #return HttpResponse(overtime_hours)
+    overtime_wage = (basic_wage / days_in_month) / 6 * overtime_hours
+    total = monthly_basic_wage + overtime_wage
+    # return HttpResponse(total)
+    last_month_advance = Balance.objects.values('balance_amount').\
+    filter(worker_id = worker_id).filter(for_month__month=this_month-1).\
+    filter(for_month__year=this_year)[0]['balance_amount']
+    # return HttpResponse(last_month_advance)
+    this_month_advance = Advance.objects.filter(worker_id = worker_id ).\
+    filter(advance_date__year=this_year).filter(advance_date__month=\
+    this_month).aggregate(Sum('advance_amount'))['advance_amount__sum']
+    # return HttpResponse(this_month_advance)
+    monthly_wage = total - this_month_advance 
+    # return HttpResponse(monthly_wage)
+    grand_total = monthly_wage - last_month_advance
+    # return HttpResponse(grand_total)
+    provident_fund = WorkerDetail.objects.values('provident_fund').\
+    filter(id=worker_id)[0]['provident_fund']
+    amount_to_be_paid = grand_total - provident_fund
+    # return HttpResponse(amount_to_be_paid)
+    paid_amount = PaidSalary.objects.values('paid_amount'). \
+    filter(worker_id=worker_id)[0]['paid_amount']
+    # return HttpResponse(paid_amount)
+    further_advance = amount_to_be_paid - paid_amount
+    worker = WorkerDetail.objects.get(pk=worker_id)
+    if Balance.objects.filter(worker_id=worker_id, for_month__month=this_month, for_month__year=this_year).exists():
+        editable = Balance.objects.get(worker_id=worker_id, for_month__month=this_month, for_month__year=this_year)
+        editable.balance_amount = further_advance
+        editable.for_month = datetime.date.today()
+    else:
+        obj = Balance(worker_id=worker, balance_amount = further_advance)
+        obj.save()
+    return render(request, 'src/particulars.html', {'basic_wage': basic_wage, \
+    'attended_days': attended_days, 'days_in_month': days_in_month, \
+    'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours, \
+    'overtime_wage': overtime_wage, 'last_month_advance': last_month_advance, \
+    'this_month_advance': this_month_advance, 'monthly_wage': monthly_wage, \
+    'provident_fund': provident_fund, 'amount_to_be_paid':amount_to_be_paid , \
+    'paid_amount': paid_amount, 'grand_total': grand_total, 'worker_id':worker_id,\
+    'further_advance':further_advance})

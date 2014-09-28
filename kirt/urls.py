@@ -20,6 +20,8 @@ urlpatterns = patterns('',
     url(r'^ajaxrequestpaid/','src.views.ajaxrequestpaid'),
     url(r'^popupadvance/','src.views.popupadvance'),
     url(r'^ajaxpopupadvance/','src.views.ajaxpopupadvance'),
+    url(r'^particulars/','src.views.particulars'),
+    
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Are these things needed after + ?

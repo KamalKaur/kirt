@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+    <title>Dialog demo</title>
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        var $dialog; 
+        $(document).ready(function () {
+            $dialog = $('<div></div>')
+            .dialog({
+                autoOpen: false,
+                open: function ()
+            {
+                $(this).load('test2.html');
+            },         
+            height: 400,
+            width: 400,
+            title: 'Test2'
+            });
+
+        
+        });
+
+        function showDialog() {
+            $dialog.dialog('open');
+            return false;}
+ </script>
+<script type="text/javascript">
+function showUrlInDialog(url){
+  $.ajax({
+    url: 'dialog.html',
+    success: function(data) {
+      $("#dialog-form").load(data).dialog({modal:true}).dialog('open');
+    }
+  });
+} 
+        
+
+    </script>
+</head>
+<body>
+<!-- Manual -->
+<button id="Button2" onclick="showDialog();">Open</button>
+<a href="" id="Butt" onclick="showUrlInDialog();">Open</button>
+</body>
+</html>
