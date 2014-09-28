@@ -1,5 +1,6 @@
 from __future__ import division
 from django.core.exceptions import ValidationError
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from src.models import *
@@ -15,9 +16,11 @@ this_month = datetime.date.today().month
 this_year = datetime.date.today().year
 # Create your views here.
 
+@login_required
 def index(request):
     return render(request, 'src/index.html', {})
 
+@login_required
 def adddetails(request):
     allworkers = WorkerDetail.objects.all()
     if request.method == "POST":
@@ -43,6 +46,7 @@ def adddetails(request):
         return render(request,'src/details.html', {'AdvanceForm':aform, 'MonthlyAttendanceForm':mform, \
                 'PaidSalaryForm':pform, 'allworkers':allworkers})
 
+@login_required
 def addworker(request):
     if request.method == 'POST':
         form = WorkerDetailForm(request.POST)
@@ -53,6 +57,7 @@ def addworker(request):
         form = WorkerDetailForm()
     return render(request,'src/addworker.html',{'WorkerDetailForm':form})
 
+@login_required
 def addadvance(request):
     if request.method == 'POST':
         form = AdvanceForm(request.POST)
@@ -63,6 +68,7 @@ def addadvance(request):
         form = AdvanceForm()
     return render(request,'src/addadvance.html',{'AdvanceForm':form})
 
+@login_required
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.values('id').all()
     detail_list = []
@@ -126,6 +132,7 @@ def ajaxdetails(request):
 
 # Ajax calls the following views
 
+@login_required
 def ajaxrequest(request):
     try:
        worker_id = request.GET['worker_id']
@@ -139,6 +146,7 @@ def ajaxrequest(request):
     # obj.save()
     return HttpResponse(goo)
 
+@login_required
 def ajaxrequestpaid(request):
     worker_id = request.GET['worker_id']
     paid = request.GET['paid']
@@ -159,6 +167,7 @@ def ajaxrequestpaid(request):
         #allw = PaidSalary.obj1ects.all()
         return HttpResponse(worker_id)   
 
+@login_required
 def popupadvance(request):
     worker_id = request.GET["worker_id"]
     old_advances = Advance.objects.filter(worker_id = worker_id).\
@@ -168,6 +177,7 @@ def popupadvance(request):
     return render(request,'src/popup_addadvance.html',\
     {'worker_id':worker_id, 'old_advances':old_advances})
 
+@login_required
 def ajaxpopupadvance(request):
     worker_id = request.GET["worker_id"]
     # Advance.worker_id must be a WorkerDetail instance :P
@@ -178,6 +188,7 @@ def ajaxpopupadvance(request):
     obj.save()
     return HttpResponse("yo! :D ")
 
+@login_required
 def particulars(request):
     
     # Yet only for this month

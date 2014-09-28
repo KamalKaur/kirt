@@ -15,9 +15,7 @@ Page 2:
 previous month advance etc in separate columns. -> Can be tough, how to 
 >>>>>subtract, what's paid, what's total amount? What' advance? Or so?
 For previous monhts?
-- PaySlip with all the details as on Page 3.
 - CSS: Don't show the fields literally as form fields.
-- @login required
 - Refresh the fields after adding new advance.
 - Values can't be negative. Which values can be?
 - Rounding off. 
@@ -51,6 +49,7 @@ doens't exist, then add a new row (except advance)
 - Show the Foreign Key value not as a MultiChoice field but normally.
 - Show previous advances of current worker while adding more.
 - For advance, add new row and update the total for this month.
+- @login required
 
 Common:
 - Created the tables, separate for the employee basic details.
@@ -110,6 +109,7 @@ Can keep the model behaviour but ModelForms are not to be used.
 - Search for any month and year's records as "View only".
 - In history, only show the clients that existed that time. 
 - Search with name as well.
+- PaySlip with all the details as on Page 3. Already there? Particulars, right?
 
 
 
