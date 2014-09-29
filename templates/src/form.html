@@ -5,14 +5,14 @@
     <title>Form</title>
 
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-
-    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
-    <script language="javascript" type="text/javascript">
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
+<script language="javascript" type="text/javascript">
       
       //On clicking advance, for popup
 
@@ -23,18 +23,22 @@
  // })
 //})
 // The function below is not chainable
-$(document).ready(function(){
+
 function popitup(url) {
+
   $.ajax({
     url: url,
     success: function(data) {
-   alert(data);
-      $("#dialog-form").html(data).dialog({modal:true}).dialog('open');
+    $("#dialog-form").html(data).dialog({modal:true}).dialog('open');
+      
     }
+
   })
+
 return false;
+
   }
-})
+
   //return false;
   
 //}
@@ -86,7 +90,7 @@ $(".details :input").attr('readonly', true);
             <input type="text" id="advance_{{value.worker_id}}" 
               placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
             {% if editable == 1 %}
-            <a href="/popupadvance/?worker_id={{value.worker_id}}" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">Advance </a>
+            <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">Advance </a>
 <div id="dialog-form"></div>	
             <br /><br /><br /><br /><br /><br />
             {% endif %}

@@ -174,8 +174,7 @@ def popupadvance(request):
     filter(advance_date__month=this_month).filter(advance_date__year=this_year)
     # advance = request.GET["advance"]
     # worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
-    return render(request,'src/popup_addadvance.html',\
-    {'worker_id':worker_id, 'old_advances':old_advances})
+    return render(request,'src/popup_addadvance.html', {'worker_id':worker_id, 'old_advances':old_advances})
 
 @login_required
 def ajaxpopupadvance(request):

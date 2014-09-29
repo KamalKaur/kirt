@@ -13,7 +13,7 @@ Page 2:
 - Popup instead of window.
 - Display the other values after calculating like balance amount, 
 previous month advance etc in separate columns. -> Can be tough, how to 
->>>>>subtract, what's paid, what's total amount? What' advance? Or so?
+subtract, what's paid, what's total amount? What' advance? Or so?
 For previous monhts?
 - CSS: Don't show the fields literally as form fields.
 - Refresh the fields after adding new advance.
@@ -21,8 +21,7 @@ For previous monhts?
 - Rounding off. 
 
 Page 3:
-- Show all the details(after calculating everything) of particular 
-worker, for this month.
+
 - CSS: Show as detailed list
 
 Common:
@@ -50,6 +49,10 @@ doens't exist, then add a new row (except advance)
 - Show previous advances of current worker while adding more.
 - For advance, add new row and update the total for this month.
 - @login required
+
+Page 3
+- Show all the details(after calculating everything) of particular 
+worker, for this month.
 
 Common:
 - Created the tables, separate for the employee basic details.

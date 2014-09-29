@@ -1,16 +1,21 @@
-{% load i18n %} 
-{% load staticfiles %}
-<!doctype html>
-<html>
+ {% load i18n %} {% load staticfiles %}
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    {% block js %}
+    {% endblock js %}
+    {% block extrajs %}{% endblock %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+        
 </head>
 
 <body>
-{% block content %}
-{% endblock %}
+{% block content %}{% endblock %}
 </body>
+
 
 </html>
 
