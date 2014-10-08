@@ -17,12 +17,10 @@ $(document).ready(function(){
   });
 
   // On changing overtime column
-  $('overtime').change(function(){
+  $('.overtime').change(function(){
     changed_id = this.id.split("_")[1]
-    alert(changed_id);
     overtime = $('#overtime_' + changed_id).val();
     request_url = "/ajaxrequest/?overtime=" + overtime + "&worker_id=" + changed_id;
-    alert(request_url);
     $.ajax({
       url: request_url,
       success: function(data){

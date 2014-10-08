@@ -53,6 +53,9 @@ return false;
 $(document).ready(function(){
 if ({{editable}} == '0')
 $(".details :input").attr('readonly', true);
+
+else
+$(".details :input").attr('readonly', false);
 })
 </script>
 <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">

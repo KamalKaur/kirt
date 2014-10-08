@@ -72,7 +72,7 @@ def addadvance(request):
 def ajaxdetails(request):
     allworkers = WorkerDetail.objects.values('id').all()
     detail_list = []
-    editable = 0
+    
     # If the search form posts some data, then get the year and month from 
     # posted data, else take values for today's year and month and pass in for
     # loop.
@@ -81,14 +81,19 @@ def ajaxdetails(request):
        if search_form.is_valid():
            year = search_form.cleaned_data['year']
            month = search_form.cleaned_data['month']
+           if (year == this_year) and (month == this_month):
+                editable = 1
+           else:
+                editable = 0
+           	
     else:
         year = this_year
         month = this_month
         search_form = SearchSelect()
+        editable = 1	
      
     #
-    if year == this_year:
-        editable = 1
+
     
     for value in allworkers:
         worker_dict = {}
@@ -134,27 +139,51 @@ def ajaxdetails(request):
 
 @login_required
 def ajaxrequest(request):
-    try:
-       worker_id = request.GET['worker_id']
-       days = request.GET['days']
-       goo = 123
-    except:
-       goo = 345
+    worker_id = request.GET['worker_id']
+    if MonthlyAttendance.objects.filter(worker_id_id=worker_id,\
+        for_month__month=this_month, for_month__year=this_year).exists():
+        editable_obj = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
+        for_month__month=this_month, for_month__year=this_year)
+        try:
+            days = request.GET['days']
+            editable_obj.attended_days = days
+            editable_obj.for_month = datetime.date.today()
+            editable_obj.save()
+            return HttpResponse(days)
+        except:
+            overtime = request.GET['overtime']
+            editable_obj.overtime_hours = overtime
+            editable_obj.for_month = datetime.date.today()
+            editable_obj.save()
+            return HttpResponse(overtime)
+    else:
+        worker = WorkerDetail.objects.get(pk=worker_id)
+        try:
+            days = request.GET['days']
+            new_obj = MonthlyAttendance(worker_id = worker, attended_days = days, overtime_hours = 0, for_month = datetime.date.today())
+            new_obj.save()
+            return HttpResponse("Days saved. Refresh the page!")
+        except:
+            overtime = request.GET['overtime'] 
+            new_obj = MonthlyAttendance(worker_id = worker, attended_days = 0, overtime_hours = overtime, for_month = datetime.date.today())
+            new_obj.save()
+            return HttpResponse("Overtime saved. Refresh the page!")
     # overtime = request.GET['overtime']
     # date = datetime.date.today
     #  obj = MonthlyAttendamce(worker_id = worker_id, attended_days = days, overtime_hours = ot, for_month = date)
     # obj.save()
-    return HttpResponse(goo)
+    
 
 @login_required
 def ajaxrequestpaid(request):
     worker_id = request.GET['worker_id']
     paid = request.GET['paid']
     worker = WorkerDetail.objects.get(pk=worker_id) # To get the instance but not the id
-    if PaidSalary.objects.filter(worker_id_id=worker_id, payment_date__month=this_month).exists():
+    if PaidSalary.objects.filter(worker_id_id=worker_id,\
+        payment_date__month=this_month, payment_date__year=this_year).exists():
+        # If the edited object's worker id and this month's and year's value exists
         editable = PaidSalary.objects.get(worker_id_id=worker_id,\
-        payment_date__month=this_month) # If the edited object's worker id and this month's value exists
-        # date_filter = PaidSalary.objects.filter(date_year='', date-month='')
+        payment_date__month=this_month, payment_date__year=this_year) 
         # for field in editable instance
         editable.paid_amount = paid
         editable.payment_date = datetime.date.today()
@@ -185,7 +214,7 @@ def ajaxpopupadvance(request):
     obj = Advance(worker_id=worker, advance_amount=popupadvance,\
     advance_date=datetime.date.today())
     obj.save()
-    return HttpResponse("yo! :D ")
+    return HttpResponse("Advance added, Refresh page! :D ")
 
 @login_required
 def particulars(request):

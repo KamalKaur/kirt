@@ -9,7 +9,7 @@ Page 1:
 - CSS
 
 Page 2:
-- Days and OT fields ain't working.
+
 - Popup instead of window.
 - Display the other values after calculating like balance amount, 
 previous month advance etc in separate columns. -> Can be tough, how to 
@@ -40,12 +40,13 @@ Common:
 
 	
 Page 2 
+- Days and OT fields are working.
 - User can update the previous values for Paid salary and Monthly attendance.
 - Only this month values are editable as it checks if current month values 
 doens't exist, then add a new row (except advance)
 - All the previous month values can only be edited by the admin.
 - Different popup for all workers.
-- Show the Foreign Key value not as a MultiChoice field but normally.
+- Show the Foreign Key value not as a MultiChoice field.
 - Show previous advances of current worker while adding more.
 - For advance, add new row and update the total for this month.
 - @login required
