@@ -1,4 +1,4 @@
-{% load staticfiles %}
+ {% load staticfiles %}
 <html>
   <head>
     <meta charset="utf-8">
@@ -33,8 +33,34 @@ function popitup(url) {
       
     }
 
-  })
+  });
+$('#dialog-form').bind('dialogclose', function() {
+    var split = url.split("="); //URL has a pattern, splitted it from =.
+    //alert(url);
+    var idyear = split[1]; //After splitting from =, there is a pattern which is splitted from &
+    //alert(idyear);
+    var yearmonth = split[2]; 
+    //alert(yearmonth);
+    var month = split[3];
+    //alert(month);
+    var worker_id = idyear.split("&")[0];
+    //alert(worker_id);
+    var year = yearmonth.split("&")[0];
+    //alert(year);
 
+    
+    //alert(worker);
+    //alert(year);
+   // alert(link.match(regex));
+     $.ajax({
+    url: '/return_advance/',
+    success: function(data) { 
+    $('#advance_'+ worker).attr("value", data);   
+    }
+
+  });
+
+ });
 return false;
 
   }
@@ -79,7 +105,7 @@ $(".details :input").attr('readonly', false);
       {% for value in detail_list %}
 
         <div class="left">
-          {{value.worker_id}} <a href="/particulars/?worker_id={{value.worker_id}}"> {{value.first_name}}</a>
+          {{value.worker_id}} <a href="/particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"> {{value.first_name}}</a>
           <select id="{{value.worker_id}}" class="worker"> <option 
             value="{{value.worker_id}}"> {{value.first_name}}</option> </select>
         
@@ -93,7 +119,7 @@ $(".details :input").attr('readonly', false);
             <input type="text" id="advance_{{value.worker_id}}" 
               placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
             {% if editable == 1 %}
-            <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}')">Advance </a>
+            <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')">Advance </a>
 <div id="dialog-form"></div>	
             <br /><br /><br /><br /><br /><br />
             {% endif %}

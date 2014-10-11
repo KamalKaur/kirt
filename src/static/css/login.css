@@ -1,9 +1,11 @@
 .pb-dark{
-	color: #0f84b0;
+color: #f2ca27;
+font-size:5em;
 }
 
 .pb-light{
-	color: #06b9fb;
+color: #ecf0f1;
+font-size:5em;
 }
 
 body {
@@ -18,15 +20,16 @@ background: url(/static/images/kirt.JPG) no-repeat center center fixed;
 -moz-background-size: cover;
 -o-background-size: cover;
 background-size: cover;
+overflow:hidden;
 }
 
 .center-block {
-  width: 200px;
+  width: 180px;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 	300px;
-  margin-bottom: 200px;
+  margin-top: 13%;
+  margin-bottom: 13%; 	
 
 }
 

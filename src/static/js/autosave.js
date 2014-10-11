@@ -32,7 +32,6 @@ $(document).ready(function(){
   // On changing Paid Salary column    
   $('.paid').change(function(){
     changed_id = this.id.split("_")[1]
-    alert(changed_id);
     paid = $('#paid_' + changed_id).val();
     request_url = "/ajaxrequestpaid/?paid=" + paid + "&worker_id=" + changed_id;
     $.ajax({

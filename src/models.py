@@ -6,7 +6,7 @@ import datetime
 # Create your models here.
 
 # This error not yet shown
-alphabets = RegexValidator(r'^[a-zA-Z ]*$', 'Only alphabets are allowed.')
+alphabets = RegexValidator(r'^[a-zA-Z ]*$', 'Only alphabets and spaces are allowed.')
 
 class WorkerDetail(models.Model):
     first_name = models.CharField(max_length=100, validators=[alphabets])

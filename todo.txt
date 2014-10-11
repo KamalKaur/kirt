@@ -17,8 +17,8 @@ subtract, what's paid, what's total amount? What' advance? Or so?
 For previous monhts?
 - CSS: Don't show the fields literally as form fields.
 - Refresh the fields after adding new advance.
-- Values can't be negative. Which values can be?
-- Rounding off. 
+- Which values can be negative?
+- Rounding off!
 
 Page 3:
 

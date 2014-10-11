@@ -13,6 +13,9 @@
 </head>
 
 <body>
+<a href="{% url 'admin:index' %}">Admin panel</a>
+<a href="{% url 'admin:password_change' %}">Change Password</a>
+<a href="{% url 'admin:logout' %}">Log out</a>
 {% block content %}{% endblock %}
 </body>
 
