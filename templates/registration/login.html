@@ -1,22 +1,21 @@
 {% extends "base.html" %} {% load i18n %} 
 {% block content %}
 <html class="full" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
+{% block extrastyle %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
-</head>
+{% endblock %}
 <body>
 
     <div class="center-block">
     <a style="text-decoration:none" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
     
     
-    <form class= method="post" action="">
+    <form class="" method="post" action="">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
         <table>
         <tr>
+       
         <!--<th>{{ form.username.label_tag }}</th>-->
         <td>{{form.username}}</td>
         </tr>

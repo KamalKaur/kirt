@@ -26,11 +26,16 @@
 
 function popitup(url) {
 
+// Dialog box opened only once before the following 4 lines
+// Now refreshes the page sometimes? 
+ 
+$("#dialog-form").dialog({ modal: true, resizable: false, autoOpen: false,closeOnEscape: true,
+ width: 515, height: 245 });
   $.ajax({
     url: url,
     success: function(data) {
-    $("#dialog-form").html(data).dialog({modal:true}).dialog('open');
-      
+    $("#dialog-form").html(data).dialog('open');
+  
     }
 
   });
@@ -47,15 +52,11 @@ $('#dialog-form').bind('dialogclose', function() {
     //alert(worker_id);
     var year = yearmonth.split("&")[0];
     //alert(year);
-
-    
-    //alert(worker);
-    //alert(year);
-   // alert(link.match(regex));
+    request_url = "/return_advance/?worker_id=" + worker_id + "&month=" + month + "&year=" + year;
      $.ajax({
-    url: '/return_advance/',
+    url: request_url,
     success: function(data) { 
-    $('#advance_'+ worker).attr("value", data);   
+    $('#advance_'+ worker_id).attr("value", data);   
     }
 
   });

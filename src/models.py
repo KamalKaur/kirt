@@ -13,37 +13,37 @@ class WorkerDetail(models.Model):
     last_name = models.CharField(max_length=100, validators=[alphabets])
     address = models.CharField(max_length=200)
     joining_date = models.DateField(default=datetime.date.today)
-    basic_wage = models.IntegerField()
-    provident_fund = models.IntegerField()
+    basic_wage = models.FloatField()
+    provident_fund = models.FloatField()
     def __unicode__(self):
         return self.first_name
 
 class MonthlyAttendance(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    attended_days = models.IntegerField() # Value not more than 31?
-    overtime_hours = models.IntegerField(max_length=3) 
+    attended_days = models.FloatField() # Value not more than 31?
+    overtime_hours = models.FloatField()
     for_month = models.DateField(default=datetime.date.today)
 
 class Advance(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    advance_amount = models.IntegerField()
+    advance_amount = models.FloatField()
     advance_date = models.DateField(default=datetime.date.today)
 
 class PaidSalary(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    paid_amount = models.IntegerField()
+    paid_amount = models.FloatField()
     payment_date = models.DateField(default=datetime.date.today)
 
 class WageDescription(models.Model): # Is this model needed? 
     worker_id = models.ForeignKey(WorkerDetail)
-    daily_wage = models.IntegerField()
-    overtime_wage = models.IntegerField()
-    monthly_wage = models.IntegerField()
-    monthly_payable = models.IntegerField()
-    net_payable = models.IntegerField()
+    daily_wage = models.FloatField()
+    overtime_wage = models.FloatField()
+    monthly_wage = models.FloatField()
+    monthly_payable = models.FloatField()
+    net_payable = models.FloatField()
     for_month = models.DateField()
 
 class Balance(models.Model): # Why not calculate only when asked?
     worker_id = models.ForeignKey(WorkerDetail)
-    balance_amount = models.IntegerField()
+    balance_amount = models.FloatField()
     for_month = models.DateField(default=datetime.date.today)

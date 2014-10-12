@@ -24,7 +24,7 @@ $(document).ready(function(){
     $.ajax({
       url: request_url,
       success: function(data){
-      alert(data);
+      document.write(data);
       }
     })
   })
