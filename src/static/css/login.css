@@ -1,3 +1,12 @@
+.full {
+background: url(/static/images/kirt2.JPG) no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+overflow:hidden;
+}
+
 .pb-dark{
 color: #f2ca27;
 font-size:5em;
@@ -14,23 +23,27 @@ margin-bottom: 50px;
 background: none;
 }
 
-.full {
-background: url(/static/images/kirt2.JPG) no-repeat center center fixed;
--webkit-background-size: cover;
--moz-background-size: cover;
--o-background-size: cover;
-background-size: cover;
-overflow:hidden;
+.circle{
+height: 300px;
+width: 300px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+margin-top: 8%;
+margin-bottom: 12%;
+border-radius: 50%; 
+background-color: black;
+opacity: 0.7;
+
 }
 
-.center-block {
-  width: 180px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 13%;
-  margin-bottom: 13%; 	
-
+.center-block-square {
+  display: table-cell;
+  border-radius: 100px; 
+  margin-left: 60px;
+text-align: center;
+position: absolute;
+margin-top: 35px;	
 }
 
 
