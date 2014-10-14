@@ -2,6 +2,7 @@ from __future__ import division
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from src.models import *
 from src.forms import *
@@ -10,44 +11,30 @@ import datetime
 from django.db.models import Sum
 from calendar import monthrange
 
-
-
+# These two variables are used >7 times in this file, so are declared 
+# here only and refers to the current month and year.
 this_month = datetime.date.today().month
 this_year = datetime.date.today().year
-# Create your views here.
 
 @login_required
 def index(request):
-    return render(request, 'src/index.html', {})
+    """
+    This view is used just for now and is only meant to redirect the
+    user to first add a worker, before going anywhere when using for
+    the first time.
 
-@login_required # No more required!
-def adddetails(request):
-    allworkers = WorkerDetail.objects.all()
-    if request.method == "POST":
-        aform = AdvanceForm(request.POST, prefix ='one')
-        mform = MonthlyAttendanceForm(request.POST, prefix ='two')
-        pform = PaidSalaryForm(request.POST, prefix ='three')
-        a_valid = aform.is_valid()
-        m_valid = mform.is_valid()
-        p_valid = pform.is_valid()
-        if a_valid and m_valid and p_valid:
-            object_one = aform.save()
-            object_two = mform.save(commit=False)
-            object_two.worker_id = object_one.worker_id
-            object_two.save()
-            object_three = pform.save(commit=False) # What if already saved?
-            object_three.worker_id = object_one.worker_id
-            object_three.save()
-            return HttpResponse("Done! Done!")
+    """
+    if not WorkerDetail.objects.all():
+        return HttpResponseRedirect('/addworker/')
     else:
-        aform = AdvanceForm(prefix='one')
-        mform = MonthlyAttendanceForm(prefix='two')
-        pform = PaidSalaryForm(prefix='three')
-        return render(request,'src/details.html', {'AdvanceForm':aform, 'MonthlyAttendanceForm':mform, \
-                'PaidSalaryForm':pform, 'allworkers':allworkers})
+        return HttpResponseRedirect('/ajaxdetails/')
 
 @login_required
 def addworker(request):
+    """
+    If a new worker is to be added, this view is parsed and a form is 
+    generated to add Wdescription about a worker.
+    """
     if request.method == 'POST':
         form = WorkerDetailForm(request.POST)
         if form.is_valid:
@@ -57,34 +44,37 @@ def addworker(request):
         form = WorkerDetailForm()
     return render(request,'src/addworker.html',{'WorkerDetailForm':form})
 
-@login_required # No more required!
-def addadvance(request):
-    if request.method == 'POST':
-        form = AdvanceForm(request.POST)
-        if form.is_valid:
-            form.save()
-            return HttpResponse("Done! Done!")
-    else:
-        form = AdvanceForm()
-    return render(request,'src/addadvance.html',{'AdvanceForm':form})
-
 @login_required
 def ajaxdetails(request):
+    """
+    No, the name is not illogical!
+    I've used AJAX the first time here, so the name behind this view.
+    In actual this is the main view in app, which gives details of worker 
+    particualarly about a combination of a month and year after filtering.
+    There are lot more things happening here, look for other comments also.
+    """
+    # First, fetch only the ids of all workers.
     allworkers = WorkerDetail.objects.values('id').all()
+    # This list will contain a lot of values...
     detail_list = []
-    
-    # If the search form posts some data, then get the year and month from 
-    # posted data, else take values for today's year and month and pass in for
-    # loop.
+    # Initially, the idea of implementation started from search and the first
+    # thing, here, is search, only then control proceeds forward.
+
     if request.method == 'POST':
        search_form = SearchSelect(request.POST)
        if search_form.is_valid():
+           # If the search form posts some data, then get the year and 
+           # month from posted data 
            year = search_form.cleaned_data['year']
            month = search_form.cleaned_data['month']
+           # The year is converted to string to match the format, 
+           # in case you were wondering.
            if (str(this_year) == str(year)) and (str(this_month) == str(month)):
                 editable = 1
            else:
                 editable = 0
+    # Else take values for today's year and month and pass the values of
+    # month and year to the for loop for feeding that list ;)
            	
     else:
         year = this_year
@@ -94,6 +84,7 @@ def ajaxdetails(request):
 
     for value in allworkers:
         worker_dict = {}
+        # Just collect everything needed!
 
         details = WorkerDetail.objects.values('first_name', 'last_name',
         'address').filter(id = value['id'])
@@ -113,7 +104,7 @@ def ajaxdetails(request):
         advance = Advance.objects.filter(worker_id = value['id']).\
         filter(advance_date__year=year).filter(advance_date__month= 
         month).aggregate(Sum('advance_amount'))
-
+        
         worker_dict['worker_id'] = value['id']
         for item in details:
             worker_dict['first_name'] = item['first_name']
@@ -136,6 +127,13 @@ def ajaxdetails(request):
 
 @login_required
 def ajaxrequest(request):
+    """
+    This name needed to be changed!
+    In actual this view is for the working of Days and OT fields, which 
+    are updated, if already exist but are added, if doesn't exist for 
+    current month and year. Both conditions work if partiular column is
+    edited, uses Try except. I was so happy to make this logic! :D
+    """
     worker_id = request.GET['worker_id']
     if MonthlyAttendance.objects.filter(worker_id_id=worker_id,\
         for_month__month=this_month, for_month__year=this_year).exists():
@@ -157,25 +155,28 @@ def ajaxrequest(request):
         worker = WorkerDetail.objects.get(pk=worker_id)
         try:
             days = request.GET['days']
-            new_obj = MonthlyAttendance(worker_id = worker, attended_days = days, overtime_hours = 0, for_month = datetime.date.today())
+            new_obj = MonthlyAttendance(worker_id = worker, attended_days 
+            = days, overtime_hours = 0, for_month = datetime.date.today())
             new_obj.save()
             return HttpResponse("Days saved. Refresh the page!")
         except:
             overtime = request.GET['overtime'] 
-            new_obj = MonthlyAttendance(worker_id = worker, attended_days = 0, overtime_hours = overtime, for_month = datetime.date.today())
+            new_obj = MonthlyAttendance(worker_id = worker, attended_days 
+            = 0, overtime_hours = overtime, for_month = datetime.date.today())
             new_obj.save()
             return HttpResponse("Overtime saved. Refresh the page!")
-    # overtime = request.GET['overtime']
-    # date = datetime.date.today
-    #  obj = MonthlyAttendamce(worker_id = worker_id, attended_days = days, overtime_hours = ot, for_month = date)
-    # obj.save()
-    
 
 @login_required
 def ajaxrequestpaid(request):
+    """
+    As the name says... here comes the AJAX request for editing Paid
+    column and you know what happens to it... If exists, value is updated,
+    else, a new row is inserted.
+    """
     worker_id = request.GET['worker_id']
     paid = request.GET['paid']
-    worker = WorkerDetail.objects.get(pk=worker_id) # To get the instance but not the id
+    # To get the instance but not the id
+    worker = WorkerDetail.objects.get(pk=worker_id) 
     if PaidSalary.objects.filter(worker_id_id=worker_id,\
         payment_date__month=this_month, payment_date__year=this_year).exists():
         # If the edited object's worker id and this month's and year's value exists
@@ -185,25 +186,29 @@ def ajaxrequestpaid(request):
         editable.paid_amount = paid
         editable.payment_date = datetime.date.today()
         editable.save()
-        return HttpResponse("What you edited, is saved :)") # Field is not refreshed
+        return HttpResponse("What you edited, is saved :)") 
     else:
         obj = PaidSalary(worker_id = worker, paid_amount = paid,\
         payment_date = datetime.date.today()) 
         obj.save()
-        #allw = PaidSalary.obj1ects.all()
         return HttpResponse("New value for paid added!")   
 
 @login_required
 def popupadvance(request):
+    """
+    This view takes all the values of advances to the popup!
+    """
     worker_id = request.GET["worker_id"]
     old_advances = Advance.objects.filter(worker_id = worker_id).\
     filter(advance_date__month=this_month).filter(advance_date__year=this_year)
-    # advance = request.GET["advance"]
-    # worker = WorkerDetail.objects.get(pk=worker_id) # It can be used throughout the file
-    return render(request,'src/popup_addadvance.html', {'worker_id':worker_id, 'old_advances':old_advances})
+    return render(request,'src/popup_addadvance.html', {'worker_id':\
+    worker_id, 'old_advances':old_advances})
 
-@login_required # No more required!
+@login_required 
 def ajaxpopupadvance(request):
+    """
+    This view is saving the new values for advances in popup, right?
+    """
     worker_id = request.GET["worker_id"]
     # Advance.worker_id must be a WorkerDetail instance :P
     worker = WorkerDetail.objects.get(pk=worker_id) 
@@ -215,8 +220,12 @@ def ajaxpopupadvance(request):
 
 @login_required
 def particulars(request):
-    
-    # Yet only for this month
+    """
+    Ah! These comments are very useful which were left there only, while
+    testing. All the very very important calculations are handled here. 
+    You can uncomment any return response to break the processing and
+    see what value is there :)
+    """
     # "worker_id =" or "worker-id_id"?
     worker_id = request.GET['worker_id']
     month = int(request.GET['month'])
@@ -261,8 +270,10 @@ def particulars(request):
         # return HttpResponse(paid_amount)
     further_advance = amount_to_be_paid - paid_amount
     worker = WorkerDetail.objects.get(pk=worker_id)
-    if Balance.objects.filter(worker_id=worker_id, for_month__month=month, for_month__year=year).exists():
-        editable = Balance.objects.get(worker_id=worker_id, for_month__month=month, for_month__year=year)
+    if Balance.objects.filter(worker_id=worker_id, for_month__month
+        =month, for_month__year=year).exists():
+        editable = Balance.objects.get(worker_id=worker_id,\
+        for_month__month=month, for_month__year=year)
         editable.balance_amount = further_advance
         editable.for_month = datetime.date.today()
         editable.save()
@@ -278,9 +289,15 @@ def particulars(request):
     'paid_amount': paid_amount, 'grand_total': grand_total, 'worker_id':worker_id,\
     'further_advance':further_advance})
     #except:
+        # Is there is some prolem in the above, throw an error.
         #return HttpResponse("Error!")
 
 def return_advance(request):
+    """
+    Here comes another interesting thing :D When the popup is closed, the
+    control comes here and takes the new value to form field, which is 
+    caled refreshing through AJAX ;)
+    """
     worker_id = request.GET['worker_id']
     month = request.GET['month']
     year = request.GET['year']
