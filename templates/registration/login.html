@@ -3,18 +3,34 @@
 <html class="full" lang="en">
 {% block extrastyle %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+$(document).ready(function(){ 
+  $('form').find("input[type=textarea], input[type=password], textarea").each(function(ev)
+  {
+      if(!$(this).val()) { 
+     $(this).attr("placeholder", "Password");
+  }
+  });
+  $('form').find("input[type=textarea], input[type=text], textarea").each(function(ev)
+  {
+      if(!$(this).val()) { 
+     $(this).attr("placeholder", "Username");
+  }
+  });
+});
+    </script>
 {% endblock %}
 <body>
 <div class="circle " >
     <div class="center-block-square">
     <a style="text-decoration:none" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
     
-    
     <form class="" method="post" action="">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
         <table>
-        <tr>
+        <tr>   
        
         <!--<th>{{ form.username.label_tag }}</th>-->
         <td>{{form.username}}</td>
@@ -36,4 +52,5 @@
 </body>
 </html>
 {% endblock %}
+
 
