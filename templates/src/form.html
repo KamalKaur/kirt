@@ -4,14 +4,8 @@
   <head>
     <meta charset="utf-8">
     <title>Form</title>
-
-
-    
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.9.1/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
 <script language="javascript" type="text/javascript">
       
@@ -24,18 +18,21 @@
  // })
 //})
 // The function below is not chainable
-
+var opt = {
+resizable: false, 
+autoOpen: false,
+closeOnEscape: true,
+width: 515, 
+height: 245
+}
 function popitup(url) {
 
 // Dialog box opened only once before the following 4 lines
 // Now refreshes the page sometimes? 
- 
-$("#dialog-form").dialog({ modal: true, resizable: false, autoOpen: false,closeOnEscape: true,
- width: 515, height: 245 });
   $.ajax({
     url: url,
     success: function(data) {
-    $("#dialog-form").html(data).dialog('open');
+    $("#dialog-form").dialog(opt).html(data).dialog('open');
   
     }
 
@@ -90,7 +87,7 @@ $(".details :input").attr('readonly', false);
   </head>
 
   <body>
-    Add worker <img src="/static/images/addworker.png">
+    <a href="/addworker/"> <img src="/static/images/addworker.png"></a>
   <div class="header">
   <table>
     <tr> 
