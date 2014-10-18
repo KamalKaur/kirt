@@ -39,7 +39,9 @@ def addworker(request):
         form = WorkerDetailForm(request.POST)
         if form.is_valid:
             form.save()
-            return HttpResponse("Done! Done!")
+            request.session['success'] = 'success'
+            # Return to form page
+            return HttpResponseRedirect('/ajaxdetails/')
     else:
         form = WorkerDetailForm()
     return render(request,'src/addworker.html',{'WorkerDetailForm':form})
@@ -53,6 +55,10 @@ def ajaxdetails(request):
     particualarly about a combination of a month and year after filtering.
     There are lot more things happening here, look for other comments also.
     """
+    # When worker is added, get session variable and get ready to display message "Success!"
+    success = request.session.get('success')
+    message = 'Success!'
+    request.session['success'] = ''
     # First, fetch only the ids of all workers.
     allworkers = WorkerDetail.objects.values('id').all()
     # This list will contain a lot of values...
@@ -121,7 +127,8 @@ def ajaxdetails(request):
         detail_list.append(worker_dict)
 
     return render(request, 'src/form.html', {'detail_list':detail_list,\
-    'search':search_form, 'editable':editable, 'year':year, 'month':month})
+    'search':search_form, 'editable':editable, 'year':year, 'month':month,
+    'success':success, 'message':message})
 
 # Ajax calls the following views
 

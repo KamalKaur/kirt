@@ -10,15 +10,14 @@ Page 1:
 
 Page 2:
 
-- Popup instead of window.
+- Improve Popup 
 - Display the other values after calculating like balance amount, 
 previous month advance etc in separate columns. -> Can be tough, how to 
 subtract, what's paid, what's total amount? What' advance? Or so?
 For previous monhts?
 - CSS: Don't show the fields literally as form fields.
-- Refresh the fields after adding new advance.
 - Which values can be negative?
-- Rounding off!
+
 
 Page 3:
 
@@ -31,7 +30,10 @@ Common:
 - Run on windows
 - Will it run without internet?
 - Don't show django error pages.
-- Look for extra code and remove it.
+- Unit tests: https://docs.djangoproject.com/en/dev/topics/testing/
+- http://nvie.com/posts/a-successful-git-branching-model/
+- rename my branch: http://nvie.com/posts/a-successful-git-branching-model/
+- Improve templates https://code.djangoproject.com/ticket/4565
 
 
 ###################################################
@@ -50,6 +52,8 @@ doens't exist, then add a new row (except advance)
 - Show previous advances of current worker while adding more.
 - For advance, add new row and update the total for this month.
 - @login required
+- Refresh the fields after adding new advance.
+- Rounding off!
 
 Page 3
 - Show all the details(after calculating everything) of particular 
@@ -71,6 +75,7 @@ The total amount and paid amount subtracted makes balance amount.
 - Rest of the calculated values will be saved in separate table which needed to be 
 shown if required, in WageDescription table. Here are the alues that are used to 
 calculate the salary but are shown to user only in employee profile. 
+- Look for extra code and remove it.
 
 ------------------------FORMS AND VIEWS--------------------
 - Cancelled: Had to submit data into tables directly as the models are defined, ModelForms 
@@ -85,20 +90,19 @@ Have ignored that field and doesn't appear to the user.
 - Solved: Firstly the single form was shown, to copy ForeignKey value to other Forms and 
 save but now for loop is user that gives same name to all fields in all forms and
 it considers only the last form. So here is the problem till now. 
-
 - Using one form for Page 2 and one for adding new worker.
 
 ------------------------OLD---------------------------
 
-1. Make the look proper with single time column name and respetive fields under 
+- Make the look proper with single time column name and respetive fields under 
 it.
 - Hide field names from every field and display once instead, either manualy or from DB. 
 - Why Date is repeated? What to do with it? :P Editable as well as today?  
 - What will happen to the ForeignKey attribute?
-2. Get the foreign key value from DB only. 
-3. Save all the forms but yet only last form is being considered.
-4. How to display, edit and save multiple forms.
-- Display the values which are already entered in the Attendance, Paid and Advance fields 
+- Get the foreign key value from DB only. 
+- Save all the forms but yet only last form is being considered.
+- How to display, edit and save multiple forms.
+- Display the values which are already entered in the Attendance, Paid and Advance fields.
 
 ------------------------CONFUSIONS---------------------------
 
@@ -107,7 +111,6 @@ it.
 Can keep the model behaviour but ModelForms are not to be used.
 - Use formsets or forms actually -> HTML forms for all the customization we need.
 - Doing calculations? Need to save? Or only calculate right then? 
-
 - Using id or class for CSS or JS? 
 - Which JS, jQuery files to be included and in what order?
 - Search for any month and year's records as "View only".

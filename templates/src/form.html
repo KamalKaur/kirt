@@ -1,13 +1,15 @@
-{% load staticfiles %}
+ {% load staticfiles %}
  {% block content %}
 <html>
   <head>
     <meta charset="utf-8">
     <title>Form</title>
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.9.1/jquery-ui.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
-<script language="javascript" type="text/javascript">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
+    <script language="javascript" type="text/javascript">
       
       //On clicking advance, for popup
 
@@ -17,7 +19,6 @@
   //  $("#popup").dialog({modal: true}).dialog('open').load(this.href);
  // })
 //})
-// The function below is not chainable
 var opt = {
 resizable: false, 
 autoOpen: false,
@@ -26,18 +27,13 @@ width: 515,
 height: 245
 }
 function popitup(url) {
-
-// Dialog box opened only once before the following 4 lines
-// Now refreshes the page sometimes? 
   $.ajax({
     url: url,
     success: function(data) {
     $("#dialog-form").dialog(opt).html(data).dialog('open');
-  
     }
-
   });
-$('#dialog-form').bind('dialogclose', function() {
+  $('#dialog-form').bind('dialogclose', function() {
     var split = url.split("="); //URL has a pattern, splitted it from =.
     //alert(url);
     var idyear = split[1]; //After splitting from =, there is a pattern which is splitted from &
@@ -51,52 +47,48 @@ $('#dialog-form').bind('dialogclose', function() {
     var year = yearmonth.split("&")[0];
     //alert(year);
     request_url = "/return_advance/?worker_id=" + worker_id + "&month=" + month + "&year=" + year;
-     $.ajax({
-    url: request_url,
-    success: function(data) { 
-    $('#advance_'+ worker_id).attr("value", data);   
-    }
-
+    $.ajax({
+      url: request_url,
+      success: function(data) { 
+      $('#advance_'+ worker_id).attr("value", data);   
+      }
+    });
   });
-
- });
-return false;
-
-  }
-
-  //return false;
-  
-//}
-
-      //function popitup(url) {
-      //newwindow=window.open(url,'Add Advance','height=400, width=450');
-     // if (window.focus) {newwindow.focus()}
-     // return false;
-     // }
+  return false;
+}
+  //function popitup(url) {
+  //newwindow=window.open(url,'Add Advance','height=400, width=450');
+  // if (window.focus) {newwindow.focus()}
+  // return false;
+  // }
     </script>
 <script>
 $(document).ready(function(){
-if ({{editable}} == '0')
-$(".details :input").attr('readonly', true);
+  if ({{editable}} == '0')
+    $(".details :input").attr('readonly', true);
+  else
+    $(".details :input").attr('readonly', false);
+})</script>
+</head>
 
-else
-$(".details :input").attr('readonly', false);
-})
-</script>
-<link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
-  </head>
-
+  
   <body>
+        {% if success %}
+    <div id="delete"> 
+      
+      {{message}}
+    </div>
+    {% endif %}
     <a href="/addworker/"> <img src="/static/images/addworker.png"></a>
   <div class="header">
   <table>
     <tr> 
-        <th class="setwidth1">&nbsp; Name </th>
-        <th class="setwidth"> Days </th>
-        <th class="setwidth"> OT </th>
-        <th class="setwidth"> Paid </th>
-        <th class="setwidth"> Advance </th> 
-        </div>
+        <th> Name </th>
+        <th> Days </th>
+        <th> OT </th>
+        <th> Paid </th>
+        <th> Advance </th> 
+        </div> 
       </tr>
   </table> 
   </div>	
@@ -121,10 +113,13 @@ $(".details :input").attr('readonly', false);
             {% if editable == 1 %}
             <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')">Advance </a>
 <div id="dialog-form"></div>	
-            <br /><br /><br /><br /><br /><br />
+            <br />
             {% endif %}
           </div>
         </div>
+        {% empty %}
+         <p> You have not added any workers yet! Click the add worker icon above and add.
+          
       {% endfor %} 
     </form> 
 

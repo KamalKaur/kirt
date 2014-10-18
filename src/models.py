@@ -3,8 +3,6 @@ from django.core.validators import RegexValidator
 from django.db import models
 import datetime
 
-# Create your models here.
-
 # This error not yet shown
 alphabets = RegexValidator(r'^[a-zA-Z ]*$', 'Only alphabets and spaces are allowed.')
 
