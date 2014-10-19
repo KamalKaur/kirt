@@ -6,12 +6,6 @@ font-size: 20px;
 font-family: Impact, Charcoal, sans-serif;	
 }
 
-
-
-.worker{
-display: none;
-}
-
 .search{
 float: right;
 position: fixed;
