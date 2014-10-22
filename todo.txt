@@ -24,6 +24,7 @@ Page 3:
 - CSS: Show as detailed list
 
 Common:
+- Don't include base.html in login.html
 - Validations 
 - Sessions
 - Should there be two files for views?
@@ -34,7 +35,7 @@ Common:
 - http://nvie.com/posts/a-successful-git-branching-model/
 - rename my branch: http://nvie.com/posts/a-successful-git-branching-model/
 - Improve templates https://code.djangoproject.com/ticket/4565
-
+- CDN: http://bootstrapcdn.com/
 
 ###################################################
 #-----------------Kirt Stack Done-----------------#

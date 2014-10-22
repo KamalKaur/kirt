@@ -5,22 +5,36 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
 {% endblock %}
 {% block header %}
-    <a href="{% url 'admin:index' %}">Admin panel</a>
-    <a href="{% url 'admin:password_change' %}">Change Password</a>
-    <a href="{% url 'admin:logout' %}">Logout</a>
+  <nav class="header">
+    <div class='font'>
+        <a style="text-decoration:none" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
+        <div class="pull-right">
+        <a href="/addworker/">Add worker</a>
+        <a href="{% url 'admin:index' %}">Admin panel</a>
+        <a href="{% url 'admin:password_change' %}">Change Password</a>
+        <a href="{% url 'admin:logout' %}">Logout</a>
+
+      </div>
+    </div>
+    </nav>
 {% endblock header %}
 {% block content %}
     <a href="/addworker/"> <img src="/static/images/addworker.png"></a>
-    <table class="table">
+    <div class='font'>
+    <div class="table-responsive">
+    <table class="table table-hover table-condensed center-table">
         <thead>
+          <div class="row">
             <tr> 
-                <th> Sr. </th>
-                <th> Name </th>
+                <th>  </th>
+                <div class="col-xs-8">
+                <th> Name </th></div>
                 <th> Days </th>
                 <th> OT </th>
                 <th> Paid </th>
                 <th> Advance </th> 
             </tr>
+          </div>
         </thead>
         </tbody>
             <form action="" method="">
@@ -31,7 +45,7 @@
                 <tr>
                     <td>{{value.worker_id}}</td>
                     <td>
-                        <a href="/particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"> {{value.first_name}} {{value.last_name}}</a>
+                        <a href="/particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}" class="nounderline"> {{value.first_name}} {{value.last_name}}</a>
                     </td> 
                     <td>
                         <input type="text" id="days_{{value.worker_id}}" 
@@ -42,23 +56,28 @@
                         placeholder="Overtime" class="overtime" value="{{value.overtime}}"> 
                     </td>
                     <td>
+                      <div class="row"> {# Add only row class to make column names in centre #}
+  <div class="col-md-1">
+  
                         <input type="text" id="paid_{{value.worker_id}}" 
-                        placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
+                        placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> </div>    </div>  
                     </td>
                     <td>
                         <input type="text" id="advance_{{value.worker_id}}" 
                         placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
-                    </td>
+                    
                         {% if editable == 1 %}
-                        <td>
-                            <a href="" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')">Advance</a>
-                        </td>
+                        
+                            <a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')">Advance</a>
+                    </td>   
                         {% endif %}
                     </tr>
                 {% endfor %}
             </form>  
         </tbody> 
-    </table>                   
+    </table>  
+    </div>   
+    </div>              
     <div id="dialog-form"></div>
     <div class="search">
         <form method="POST" action="">
@@ -74,5 +93,4 @@
     <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
     <script type="text/javascript" src="{{ STATIC_URL }}js/form.js"></script> 
-
 {% endblock %}
