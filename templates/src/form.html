@@ -7,19 +7,19 @@
 {% block header %}
   <nav class="header">
     <div class='font'>
-        <a style="text-decoration:none" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
+        <a class="nounderline" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
         <div class="pull-right">
-        <a href="/addworker/">Add worker</a>
-        <a href="{% url 'admin:index' %}">Admin panel</a>
-        <a href="{% url 'admin:password_change' %}">Change Password</a>
-        <a href="{% url 'admin:logout' %}">Logout</a>
+        <a href="/addworker/"> <small>Add worker</h3></small>
+        <a href="{% url 'admin:index' %}"><small>Admin panel</small></a>
+        <a href="{% url 'admin:password_change' %}"><small>Change Password</small></a>
+        <a href="{% url 'admin:logout' %}"><small>Logout</small></a>
 
       </div>
     </div>
     </nav>
 {% endblock header %}
 {% block content %}
-    <a href="/addworker/"> <img src="/static/images/addworker.png"></a>
+   {# <a href="/addworker/"> <img src="/static/images/addworker.png"></a> #}
     <div class='font'>
     <div class="table-responsive">
     <table class="table table-hover table-condensed center-table">
@@ -29,10 +29,10 @@
                 <th>  </th>
                 <div class="col-xs-8">
                 <th> Name </th></div>
-                <th> Days </th>
-                <th> OT </th>
-                <th> Paid </th>
-                <th> Advance </th> 
+                <th class="text-center"> Days </th>
+                <th class="text-center"> OT </th>
+                <th class="text-center"> Paid </th>
+                <th class="text-center"> Advance </th> 
             </tr>
           </div>
         </thead>
@@ -56,11 +56,10 @@
                         placeholder="Overtime" class="overtime" value="{{value.overtime}}"> 
                     </td>
                     <td>
-                      <div class="row"> {# Add only row class to make column names in centre #}
-  <div class="col-md-1">
+                      
   
                         <input type="text" id="paid_{{value.worker_id}}" 
-                        placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> </div>    </div>  
+                        placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
                     </td>
                     <td>
                         <input type="text" id="advance_{{value.worker_id}}" 

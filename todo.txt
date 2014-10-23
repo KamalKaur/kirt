@@ -24,6 +24,7 @@ Page 3:
 - CSS: Show as detailed list
 
 Common:
+- Text in the center of input fields
 - Don't include base.html in login.html
 - Validations 
 - Sessions
