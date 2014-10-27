@@ -69,11 +69,5 @@ $(document).ready(function(){
   });
 })
 
-  // Click 
-  $('#searchbox').change(function(){
-    year = $('#searchbox').val().split(" ")[1];
-    //check if it's b/w 2000-2050?
-    alert(year);
-    
-  })
+
 })	
