@@ -36,6 +36,14 @@ input{
 .nounderline{
 	text-decoration: none !important;
 }
+
+.navbar-custom {
+    background-color:white; /* #4A4949 */
+}
+
+body{
+  padding-top: 150px;
+}
 /***********************************
 
 

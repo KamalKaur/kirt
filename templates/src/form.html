@@ -4,26 +4,53 @@
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
 {% endblock %}
-{% block header %}
-  <nav class="header">
-    <div class='font'>
-        <a class="nounderline" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
-        <div class="pull-right">
-        <a href="/addworker/"> <small>Add worker</h3></small>
-        <a href="{% url 'admin:index' %}"><small>Admin panel</small></a>
-        <a href="{% url 'admin:password_change' %}"><small>Change Password</small></a>
-        <a href="{% url 'admin:logout' %}"><small>Logout</small></a>
 
-      </div>
+{% block header %}
+    <div class="container">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="navbar navbar-custom navbar-inverse navbar-fixed-top">    
+                    <h1><a class="nounderline" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a></h1>
+                    <div class="pull-right">
+                        <div class="nav navbar-nav">
+                            <a href="/addworker/"> Add worker</a>
+                            <a href="{% url 'admin:index' %}">Admin panel</a>
+                            <a href="{% url 'admin:password_change' %}">Change Password</a>
+                            <a href="{% url 'admin:logout' %}">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    </nav>
+ {% comment %}<nav class="navbar navbar-custom navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <div>
+<div class="pull-right">
+      <ul class="nav navbar-nav">
+
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Page 1</a></li>
+        <li><a href="#">Page 2</a></li>
+        <li><a href="#">Page 3</a></li> 
+      </ul>
+</div>
+    </div>
+  </div>
+</nav>  {% endcomment %}
 {% endblock header %}
+
 {% block content %}
+<div class="container">
    {# <a href="/addworker/"> <img src="/static/images/addworker.png"></a> #}
     <div class='font'>
     <div class="table-responsive">
-    <table class="table table-hover table-condensed center-table">
-        <thead>
+    <table class="table table-hover table-condensed center-table"> {# http://stackoverflow.com/questions/11346112/can-i-lock-the-first-column-in-a-twitter-bootstrap-table #}
+        <thead class="header">
           <div class="row">
             <tr> 
                 <th>  </th>
@@ -36,7 +63,7 @@
             </tr>
           </div>
         </thead>
-        </tbody>
+        <tbody >
             <form action="" method="">
                 {% csrf_token %}
                 {% for value in detail_list %}
@@ -86,10 +113,73 @@
             <input class="hiddensubmit" type="submit" value="submit" action="">
         </form>
     </div>
+</div>
 {% endblock %}
 {% block extrajs %}
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+   
     <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/form.js"></script> 
+    <script language="javascript" type="text/javascript">
+//On clicking advance, for popup
+//$(function(){
+//$('.js-popup-link').click(function(e){
+// e.preventDefault();
+//  $("#popup").dialog({modal: true}).dialog('open').load(this.href);
+// })
+//})
+var opt = {
+resizable: false, 
+autoOpen: false,
+closeOnEscape: true,
+width: 515, 
+height: 245
+}
+
+function popitup(url) {
+$.ajax({
+  url: url,
+  success: function(data) {
+$("#dialog-form").dialog(opt).html(data).dialog('open');
+    }
+  });
+$('#dialog-form').bind('dialogclose', function() {
+    var split = url.split("="); //URL has a pattern, splitted it from =.
+    //alert(url);
+    var idyear = split[1]; //After splitting from =, there is a pattern which is splitted from &
+    //alert(idyear);
+    var yearmonth = split[2]; 
+    //alert(yearmonth);
+    var month = split[3];
+    //alert(month);
+    var worker_id = idyear.split("&")[0];
+    //alert(worker_id);
+    var year = yearmonth.split("&")[0];
+    //alert(year);
+    request_url = "/return_advance/?worker_id=" + worker_id + "&month=" + month + "&year=" + year;
+    $.ajax({
+      url: request_url,
+      success: function(data) { 
+      $('#advance_'+ worker_id).attr("value", data);   
+      }
+    });
+  });
+  return false;
+}
+//function popitup(url) {
+//newwindow=window.open(url,'Add Advance','height=400, width=450');
+// if (window.focus) {newwindow.focus()}
+// return false;
+// }
+</script>
+<script>
+$(document).ready(function(){
+if ({{editable}} == '0')
+$(".details :input").attr('readonly', true);
+
+else
+$(".details :input").attr('readonly', false);
+})
+</script>
 {% endblock %}
