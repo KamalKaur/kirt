@@ -15,20 +15,25 @@ Page 2:
 previous month advance etc in separate columns. -> Can be tough, how to 
 subtract, what's paid, what's total amount? What' advance? Or so?
 For previous monhts?
-- CSS: Don't show the fields literally as form fields.
 - Which values can be negative?
 
+Thead ?
+- http://bl.ocks.org/crstn/3819758
+- http://jsbin.com/zurado/1/edit?html,output
+- https://gist.github.com/i-scorpion/2948136
+
+Modal:
+- http://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=activate-modals-via-data-attribute
 
 Page 3:
 
 - CSS: Show as detailed list
 
 Common:
-- Text in the center of input fields
+
 - Don't include base.html in login.html
 - Validations 
 - Sessions
-- Should there be two files for views?
 - Run on windows
 - Will it run without internet?
 - Don't show django error pages.
@@ -44,6 +49,7 @@ Common:
 
 	
 Page 2 
+- CSS: Don't show the fields literally as form fields.
 - Days and OT fields are working.
 - User can update the previous values for Paid salary and Monthly attendance.
 - Only this month values are editable as it checks if current month values 
@@ -62,6 +68,7 @@ Page 3
 worker, for this month.
 
 Common:
+- Text in the center of input fields
 - Created the tables, separate for the employee basic details.
 - Separate table for advance so that if some employee is given advance more than 
 one time in a month, enteries can be differentiated if needed. At first, we'll display 
