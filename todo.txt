@@ -16,6 +16,7 @@ previous month advance etc in separate columns. -> Can be tough, how to
 subtract, what's paid, what's total amount? What' advance? Or so?
 For previous monhts?
 - Which values can be negative?
+- Success message, repetition for all columns.
 
 Thead ?
 - http://bl.ocks.org/crstn/3819758

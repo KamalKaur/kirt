@@ -5,15 +5,24 @@ $(document).ready(function(){
   
   //On changing the Days column
   $('.days').change(function(){
-  changed_id = this.id.split("_")[1]
-  days = $('#days_' + changed_id).val();
-  request_url = "/ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
-  $.ajax({
-    url: request_url,
-    success: function(data){
-    alert(data);
-    }
-    });
+      changed_id = this.id.split("_")[1]
+      days = $('#days_' + changed_id).val();
+      request_url = "/ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
+      $.ajax({
+        url: request_url,
+        success: function(){
+            // Highlight input box border:
+            // $('#days_' + changed_id).css("border","1px solid green");
+
+            // Change text color green:
+            $('#days_' + changed_id).css("color","#2ecc71");
+
+            // Undo CSS but basically apply yet another CSS after some 1000 mili seconds :p
+            // setTimeout( function(){
+            // $('#days_' + changed_id).css("color","black");
+            // },1000);
+        }
+      });
   });
 
   // On changing overtime column
@@ -24,7 +33,9 @@ $(document).ready(function(){
     $.ajax({
       url: request_url,
       success: function(data){
-      document.write(data);
+      // For writing on next page..
+      //document.write(data); 
+
       }
     })
   })
