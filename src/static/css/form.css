@@ -41,8 +41,18 @@ input{
     background-color:white; /* #4A4949 */
 }
 
+/* Because navigation bar covered some portion of body when page opened */
+
 body{
-  padding-top: 150px;
+  padding-top: 80px;
+}
+
+/* Hover color should not merg in white 
+Help: http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3
+*/
+.navbar-invers .navbar-brand:hover,
+.navbar-default .navbar-brand:focus{
+ color: green !important;
 }
 /***********************************
 
