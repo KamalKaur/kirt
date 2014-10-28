@@ -10,7 +10,28 @@
     {% block extrastyle %}{% endblock %}
 </head>
 <body>
-    <header>{% block header %}{% endblock header %}</header>
+    <header>
+        
+    <div class="container">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <div class="navbar navbar-custom navbar-default navbar-fixed-top">    
+                <a class=" navbar-brand nounderline" href='/'>Kirt</a> 
+                    <div class="navbar-right"> 
+                        {# Keeps the following div to right at small screen as well. Can use xs, sm styles etc here. #}
+                        <div class="nav navbar-nav">
+                            <a href="/addworker/" class="nounderline"> Add worker</a>
+                            <a href="{% url 'admin:index' %}" class="nounderline">Admin panel</a>
+                            {#<a href="{% url 'admin:password_change' %}" class="nounderline">Change Password</a>#}
+                            <a href="{% url 'admin:logout' %}" class="nounderline">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       {% block header %} {% endblock header %}
+    </header>
     {% block content %}{% endblock %}
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>  

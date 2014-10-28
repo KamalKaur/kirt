@@ -1,27 +1,17 @@
-<html>
-	<head>
-		<meta charset="urf-8">
-		<title>Add worker</title>
-<style>
+{% extends "base.html" %}{% load staticfiles %}
+{% block title %} Add worker {% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
+{% endblock %}
 
-
-.left{
-width: 80%;
-background-color: #eee;
-color: rgb(58,58,58);
-font-family: Impact, Charcoal, sans-serifs
-}
-	
-</style>
-</head>
-
-  <body class="left">
+{% block content %}
+<div class="container">
     <form method="POST" action=''>
-      {% csrf_token %}
-      <div class="left">
-      &nbsp; {{WorkerDetailForm.as_p}} &nbsp;	
-      <input type = "submit" value="submit">
-      </div>
+        {% csrf_token %}
+        <div class="left">
+            {{WorkerDetailForm.as_p}} &nbsp;	
+            <input type = "submit" value="submit">
+        </div>
     </form>
-  </body>
-</html>	
+</div>
+{% endblock %}

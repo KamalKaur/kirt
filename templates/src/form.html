@@ -3,27 +3,11 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
 {% endblock %}
 
 {% block header %}
-    <div class="container">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <div class="navbar navbar-custom navbar-default navbar-fixed-top">    
-                    <a class=" navbar-brand nounderline" href='/'>Kirt</a>
-                    <div class="pull-right">
-                        <div class="nav navbar-nav">
-                            <a href="/addworker/"> Add worker</a>
-                            <a href="{% url 'admin:index' %}">Admin panel</a>
-                            <a href="{% url 'admin:password_change' %}">Change Password</a>
-                            <a href="{% url 'admin:logout' %}">Logout</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
  {% comment %}<nav class="navbar navbar-custom navbar-inverse navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -41,7 +25,8 @@
 </div>
     </div>
   </div>
-</nav>  {% endcomment %}
+</nav>  
+{% endcomment %}
 {% endblock header %}
 
 {% block content %}
@@ -94,7 +79,7 @@
                     
                         {% if editable == 1 %}
                         
-                            <a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')">Advance</a>
+                        <a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')">+</a>
                     </td>   
                         {% endif %}
                     </tr>
@@ -103,7 +88,9 @@
         </tbody> 
     </table>  
     </div>   
-    </div>              
+    </div> 
+<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <div class="container">             
     <div id="dialog-form"></div>
     <div class="search">
         <form method="POST" action="">
@@ -114,6 +101,9 @@
         </form>
     </div>
 </div>
+</div>
+</div>
+
 {% endblock %}
 {% block extrajs %}
    

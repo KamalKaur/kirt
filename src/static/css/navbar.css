@@ -1,0 +1,18 @@
+/* Hover color should not merg in white 
+Help: http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3
+*/
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus{
+ color: #303030 !important;
+}
+
+/* The links on right were not in vertical center */
+
+.navbar-right{
+padding-top: 1%;
+padding-right: 2%;
+}
+
+body{
+  padding-top: 80px;
+}
