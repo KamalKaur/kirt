@@ -3,20 +3,26 @@
 ###################################################
 
 Page 1:
-- Login using only password
-- Forgot password? 
+- ** CSS 
+- * Forgot password? 
 - Image
-- CSS
+- Login using only password
 
 Page 2:
 
-- Improve Popup 
-- Display the other values after calculating like balance amount, 
+- *** Search form modify
+- *** Success message, repetition for all columns.
+- ** Check calculations once again
+- * Display the other values after calculating like balance amount, 
 previous month advance etc in separate columns. -> Can be tough, how to 
 subtract, what's paid, what's total amount? What' advance? Or so?
-For previous monhts?
+For previous months?
+- How to start working on it the first time without previous month values?
+- Shift JS to separate file
+- Delete a worker
 - Which values can be negative?
-- Success message, repetition for all columns.
+- Generate pay slip.
+- If on change, delete the record?
 
 Thead ?
 - http://bl.ocks.org/crstn/3819758
@@ -28,12 +34,12 @@ Modal:
 
 Page 3:
 
-- CSS: Show as detailed list
+- CSS: *** Show as detailed list
 
 Common:
 
-- Don't include base.html in login.html
-- Validations 
+
+- *** Validations 
 - Sessions
 - Run on windows
 - Will it run without internet?
@@ -50,6 +56,7 @@ Common:
 
 	
 Page 2 
+- Improve Popup
 - CSS: Don't show the fields literally as form fields.
 - Days and OT fields are working.
 - User can update the previous values for Paid salary and Monthly attendance.
@@ -86,6 +93,7 @@ The total amount and paid amount subtracted makes balance amount.
 shown if required, in WageDescription table. Here are the alues that are used to 
 calculate the salary but are shown to user only in employee profile. 
 - Look for extra code and remove it.
+- Don't include base.html in login.html
 
 ------------------------FORMS AND VIEWS--------------------
 - Cancelled: Had to submit data into tables directly as the models are defined, ModelForms 
