@@ -12,7 +12,7 @@ $(document).ready(function(){
         url: request_url,
         success: function(){
             // Highlight input box border:
-            // $('#days_' + changed_id).css("border","1px solid green");
+            //$('#days_' + changed_id).css("border","1px solid green");
 
             // Change text color green:
             $('#days_' + changed_id).css("color","#2ecc71");
@@ -80,5 +80,18 @@ $(document).ready(function(){
   });
 })
 
+//$("#dialog-form").hide();
+//$("#click").click(function(){
+//$("#dialog-form").slideToggle();
+//  });
 
+  $(".contact").click(function(ev) { // for each edit contact url
+        ev.preventDefault(); // prevent navigation
+        var url = $(this).data("form"); // get the contact form url
+        alert(url);
+        $("#contactModal").load(url, function() { // load the url into the modal
+            $(this).modal('show'); // display the modal on url load
+        });
+        return false; // prevent the click propagation
+    })
 })	

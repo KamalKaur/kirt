@@ -1,23 +1,7 @@
-
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Add advance</title>
-    <style>
-.popup
-{
-	width: 100%;
-	height:100%;
-	color: rgb(58,58,58);
-        background-color: #eee;
-}
-    </style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/popup_addadvance.js"></script> 
-  </head>
-
-  <body class="popup">
-   <div id="dialog-form" title="Add advance">
+{% load staticfiles %}
+{% block title %} Add advance {% endblock %}
+ {% block content %}
+<div id="dialog-form" title="Add advance">
     <form id="form" method="POST" action=''>
       {% csrf_token %}
       {{worker_id}} <br />
@@ -27,6 +11,9 @@
       <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > 
     </form>
  </div>
-  </body>
+{% endblock %}
+{% block extrajs %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/popup_addadvance.js"></script> 
+{% endblock %}
 
-</html
+
