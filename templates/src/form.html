@@ -79,7 +79,7 @@
                     
                         {% if editable == 1 %} 
 <a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
-<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a>   
+<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> 
 <div class="modal hide" id="contactModal">
 </div>
 
@@ -94,18 +94,17 @@
     </table> 
     </div>   
     </div>
-    <div id="dialog-form"></div>  
-<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-  <div class="container">             
-    
-    <div class="search">
-        <form method="POST" action="">
+<div id="dialog-form"></div>  
+ <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+              
+    <span class="custom-dropdown">
+    <div class="searchform" >
+        <form method="POST" action="" class="font">
             {% csrf_token %}
             {{search}}
-            {{editable}}
-            <input class="hiddensubmit" type="submit" value="submit" action="">
+           <input type="submit" value="Search" action="">
         </form>
-    </div>
+   </div> </span>
 </div>
 </div>
 </div>

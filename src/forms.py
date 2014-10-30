@@ -7,11 +7,14 @@ from src.month_choices import MONTH_CHOICES
 
 class SearchSelect(forms.Form):
     """
-    This is the search form.
+    The form is created not from any model but manualy and helps to searche
+    for worker records in the past. The values in two fields are coming 
+    from another file i.e month_choices.py and are displayed as drop downs
+    because the fields defined are Choice fields :)
     """
-    year = forms.ChoiceField(choices= [(datetime.date.today().year, datetime.\
-    date.today().year)] + [(x, x) for x in range(2000, 2050)])
-    month = forms.ChoiceField(MONTH_CHOICES)
+    year = forms.ChoiceField(label='', choices= [(datetime.date.today().year, datetime.\
+    date.today().year)] + [(year, year) for year in range(2014, 2020)])
+    month = forms.ChoiceField(MONTH_CHOICES, label='')
 
 class WorkerDetailForm(ModelForm):
     """

@@ -23,6 +23,7 @@ For previous months?
 - Which values can be negative?
 - Generate pay slip.
 - If on change, delete the record?
+- On changing multiple columns, CSS fro monly the last value is removed
 
 Thead ?
 - http://bl.ocks.org/crstn/3819758

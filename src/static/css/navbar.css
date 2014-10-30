@@ -6,7 +6,7 @@ Help: http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter
  color: #303030 !important;
 }
 
-/* The links on right were not in vertical center */
+/* The links on right of top navbar were not in vertical center */
 
 .navbar-right{
 padding-top: 1%;
@@ -17,3 +17,29 @@ body{
   padding-top: 80px;
   padding-bottom: 80px;
 }
+
+.navbar-fixed-bottom{
+margin-bottom: -20px;
+}
+
+/* Center align the search form */
+
+.searchform{
+margin-left: auto;
+margin-right: auto;
+width: 350px; /* Just to remove the extra space remained in the SearchForm div other than buttons */
+}
+
+.searchform select{
+border:none;
+-webkit-appearance: none;
+-moz-appearance: none;
+text-indent: 1px;
+text-overflow: '';
+appearance: none;
+padding: 3px 3px 2px 2px;
+}
+
+.searchform option{
+}
+

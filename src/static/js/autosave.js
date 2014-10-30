@@ -18,9 +18,9 @@ $(document).ready(function(){
             $('#days_' + changed_id).css("color","#2ecc71");
 
             // Undo CSS but basically apply yet another CSS after some 1000 mili seconds :p
-            // setTimeout( function(){
-            // $('#days_' + changed_id).css("color","black");
-            // },1000);
+             setTimeout( function(){
+             $('#days_' + changed_id).css("color","black");
+             },1000);
         }
       });
   });
