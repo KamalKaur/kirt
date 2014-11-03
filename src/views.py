@@ -50,7 +50,7 @@ def addworker(request):
 def ajaxdetails(request):
     """
     No, the name is not illogical!
-    I've used AJAX the first time here, so the name behind this view.
+    I've used AJAX the first time here, so is the name behind this view.
     In actual this is the main view in app, which gives details of worker 
     particualarly about a combination of a month and year after filtering.
     There are lot more things happening here, look for other comments also.
@@ -210,7 +210,7 @@ def popupadvance(request):
     filter(advance_date__month=this_month).filter(advance_date__year=this_year)
     return render(request,'src/popup_addadvance.html', {'worker_id':\
     worker_id, 'old_advances':old_advances})
-
+	
 @login_required 
 def ajaxpopupadvance(request):
     """
@@ -296,8 +296,23 @@ def particulars(request):
         'paid_amount': paid_amount, 'grand_total': grand_total, 'worker_id':worker_id,\
         'further_advance':further_advance})
     except:
-        # Is there is some prolem in the above, throw an error.
-        return HttpResponse("Error!")
+        # Is there is some prolem in the above, data insufficient, don't throw an error.
+        # Instead, show what is already there.
+        basic_wage = WorkerDetail.objects.values('basic_wage').\
+        filter(id=worker_id)[0]['basic_wage']
+        attended_days = MonthlyAttendance.objects.values('attended_days').\
+        filter(worker_id=worker_id).filter(for_month__month=month).\
+        filter(for_month__year=year)[0]['attended_days']
+        #return HttpResponse(basic_wage)
+        days_in_month = monthrange(year, month)[1]		
+        monthly_basic_wage = ((basic_wage / days_in_month) * attended_days)	
+        #return HttpResponse(monthly_basic_wage)
+        overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
+        filter(worker_id=worker_id).filter(for_month__month=month).\
+        filter(for_month__year=year)[0]['overtime_hours']
+        return render(request, 'src/particulars1.html', {'basic_wage': basic_wage, \
+        'attended_days': attended_days, 'days_in_month': days_in_month, \
+        'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours})
 
 def return_advance(request):
     """
