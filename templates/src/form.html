@@ -32,9 +32,17 @@
 {% block content %}
 <div class="container">
    {# <a href="/addworker/"> <img src="/static/images/addworker.png"></a> #}
+<div class="notifications">
+  <div class="toggle"></div>
+  <div class="messages">
+    <p class="message">Incorrect value!</p>
+   </div>
+</div>
+ 
+
     <div class='font'>
     <div class="table-responsive">
-    <table class="table table-hover table-condensed center-table"> {# http://stackoverflow.com/questions/11346112/can-i-lock-the-first-column-in-a-twitter-bootstrap-table #}
+    <table class="table table-hover table-condensed center-table"> {# http://stackoverflow.com/questions/11346112/can-i-lock-the-first-column-in-a-twitter-bootstrap-table #} 
         <thead class="header">
           <div class="row">
             <tr> 
@@ -60,26 +68,29 @@
                         <a href="/particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}" class="nounderline"> {{value.first_name}} {{value.last_name}}</a>
                     </td> 
                     <td>
-                        <input type="text" id="days_{{value.worker_id}}" 
+                        <input type="number" id="days_{{value.worker_id}}" 
                         placeholder="Days" class="days" value="{{value.attendance}}">
                     </td>
                     <td>
-                        <input type="text" id="overtime_{{value.worker_id}}" 
+                        <input type="number" id="overtime_{{value.worker_id}}" 
                         placeholder="Overtime" class="overtime" value="{{value.overtime}}"> 
                     </td>
                     <td>
                       
   
-                        <input type="text" id="paid_{{value.worker_id}}" 
+                        <input type="number" id="paid_{{value.worker_id}}" 
                         placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
                     </td>
                     <td>
-                        <input type="text" id="advance_{{value.worker_id}}" 
+                        <input type="number" id="advance_{{value.worker_id}}" 
                         placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
                     
                         {% if editable == 1 %} 
 <a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
 <a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> 
+
+
+{# <div class="hidden" id="errors">ama</div> #}
 <div class="modal hide" id="contactModal">
 </div>
 
@@ -116,6 +127,7 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/autosave.js"></script> 
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/form.js"></script> 
+    
     <script language="javascript" type="text/javascript">
 //On clicking advance, for popup
 //$(function(){

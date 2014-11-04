@@ -4,18 +4,32 @@
 
 $(document).ready(function(){  
 
-// On changing Paid Salary column    
-  $('.popupadvance').change(function(){
-    changed_id = this.id.split("_")[1]
-    popupadvance = $('#popupadvance_' + changed_id).val();
-    request_url = "/ajaxpopupadvance/?popupadvance=" + popupadvance + "&worker_id=" + changed_id;
-    $.ajax({
-      url: request_url,
-      success: function(data){
-      alert(data);
-      }
-    })
-  })
+//  On changing Paid Salary column    
+    $('.popupadvance').on('input', function(){
+        changed_id = this.id.split("_")[1]
+        popupadvance = $('#popupadvance_' + changed_id).val();
+        
+        request_url = "/ajaxpopupadvance/?popupadvance=" + popupadvance + "&worker_id=" + changed_id; 
+        if (popupadvance == ""){
+            $('#popupadvance_' + changed_id).css("color","red");
+        }
+        else if (popupadvance.match(/^[0-9]+$/)){
+            $.ajax({
+                url: request_url,
+                success: function(data){
+                    if (data) {
+                        $('#popupadvance_' + changed_id).css("color","#2ecc71");
+                    }
+                }
+            });
+        }
+        else {
+            $('#popupadvance_' + changed_id).css("color","red");
+        }
+    });
 })
 
+
+
+ 
 

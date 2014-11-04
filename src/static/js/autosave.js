@@ -2,60 +2,104 @@
 // Changed_id is introduced for separating the ids for different rows.
 
 $(document).ready(function(){
-    //On changing the Days column
-    //$('.days').change(function(){ //Which function to use for better experience? :D
+
+    $(function() {
+        $(".notifications .messages").hide();
+//      $(".notifications").click(function() {
+//          if ($(this).children(".messages").children().length > 0) {
+//              $(this).children(".messages").fadeToggle(300);
+//          }
+//      });
+    });
+
+    function notification(){
+        $(".notifications").children(".messages").fadeIn(300);
+        setTimeout( function(){
+            $(".notifications").children(".messages").fadeOut(400);
+        },2000);
+    }
+
+//  On changing the Days column:   
     $('.days').on('input', function(){     
         changed_id = this.id.split("_")[1]
         days = $('#days_' + changed_id).val();
         request_url = "/ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
-        $.ajax({
-            url: request_url,
-            success: function(data){
-            // Highlight input box border:
-            // $('#days_' + changed_id).css("border","1px solid green");
-            // Change text color green:
-            if (data) $('#days_' + changed_id).css("color","#2ecc71");
-            // Undo CSS but basically apply yet another CSS after some 1000 mili seconds :p
-            // setTimeout( function(){
-            // $('#days_' + changed_id).css("color","black");
-            // },1000);
-            }
-        });
+
+        if ( days < 1 ){
+            $('#days_' + changed_id).css("color","red");
+            notification();
+        } 
+        else if ( days > 31 ){  // Days in month? :D
+            $('#days_' + changed_id).css("color","red");
+            notification();
+        }
+        else {
+            $.ajax({
+                url: request_url,
+                success: function(data){
+//                  $('#days_' + changed_id).css("border","1px solid green");
+//                  Change text color green:
+                    if (data){
+                        $('#days_' + changed_id).css("color","#2ecc71");
+                    }
+//                  Undo CSS but basically apply yet another CSS after some 1000 mili seconds :p
+//                  setTimeout( function(){
+//                      $('#days_' + changed_id).css("color","black");
+//                  },1000);
+                }
+            });
+        }
     });
 
-    $('.days').change(function(){
-        if (days==""){ 
-            alert("I didn't get a value to save, previous value is there");
-        }
-    })
-
-    // On changing overtime column
+//  On changing overtime column:
     $('.overtime').on('input', function(){
         changed_id = this.id.split("_")[1]
         overtime = $('#overtime_' + changed_id).val();
         request_url = "/ajaxrequest/?overtime=" + overtime + "&worker_id=" + changed_id;
-        $.ajax({
-            url: request_url,
-            success: function(data){
-            if (data) $('#overtime_' + changed_id).css("color","#2ecc71");
-           // For writing data on next page..
-           //document.write(data); 
-            }
-        })
-    })
 
-    // On changing Paid Salary column    
+        if ( overtime < 1 ){
+            $('#overtime_' + changed_id).css("color","red");
+            notification();
+        } 
+        else if ( overtime > 50 ){  
+            $('#overtime_' + changed_id).css("color","red");
+            notification();
+        }
+        else {
+            $.ajax({
+                url: request_url,
+                success: function(data){
+                    if (data) $('#overtime_' + changed_id).css("color","#2ecc71");
+//                  For writing data on next page..
+//                  document.write(data); 
+                }
+            });
+        }
+    });
+
+//  On changing Paid Salary column:   
     $('.paid').on('input', function(){
         changed_id = this.id.split("_")[1]
         paid = $('#paid_' + changed_id).val();
         request_url = "/ajaxrequestpaid/?paid=" + paid + "&worker_id=" + changed_id;
-        $.ajax({
-            url: request_url,
-            success: function(data){
-            if (data) $('#paid_' + changed_id).css("color","#2ecc71");
-            }
-        })
-    })
+
+        if (paid == ""){
+            $('#paid_' + changed_id).css("color","red");
+            notification();
+        }
+        else if (paid < 1){
+            $('#paid_' + changed_id).css("color","red");
+            notification();
+        }
+        else {               
+            $.ajax({
+                url: request_url,
+                success: function(data){
+                    if (data){ $('#paid_' + changed_id).css("color","#2ecc71");}
+                }
+            });
+        }
+    });
   
     // Popup for adding advance 
     // Is it used anymore? 
