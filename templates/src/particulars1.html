@@ -1,29 +1,36 @@
-<html></head>
-  
-  <body> 
-  <head>
-    <meta charset="utf-8">
-    <title>Particulars</title>
-  </head>
-  
-  <body> 
-<table> <tr><th>{{worker_id}}</th></tr>
-<tr><td>Worker Id</td>  <td>{{worker_id}}</td></tr>
-<tr><td>basic_wage</td>  <td>{{basic_wage}}</td></tr>
-<tr><td>days_in_month</td>  <td>{{days_in_month}}</td></tr>
-<tr><td>attended_days</td>  <td>{{attended_days}}</td></tr>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} Particulars {% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/particulars.css">
+{% endblock %}
+{% block content %}
 
-<tr><td>monthly_basic_wage</td>  <td>{{monthly_basic_wage}}</td></tr>
-<tr><td>overtime_hours</td>  <td>{{overtime_hours}}</td></tr>
-<tr><td>overtime_wage</td>  <td>{{overtime_wage}}</td></tr>
-<tr><td>last_month_advance</td>  <td>{{last_month_advance}}</td></tr>
-<tr><td>this_month_advance</td>  <td>{{month_advance}}</td></tr>
-<tr><td>monthly_wage</td>  <td>{{monthly_wage}}</td></tr>
-<tr><td>provident_fund</td>  <td>{{provident_fund}}</td></tr>
-<tr><td>amount_to_be_paid</td>  <td>{{amount_to_be_paid}}</td></tr>
-<tr><td>paid_amount</td>  <td>{{paid_amount}}</td></tr>
-<tr><td>further_advance</td>  <td>{{further_advance}}</td></tr>
-</table>
-  </body>
-</html>
+<div class="container">
+    <div class="font">
+        <div class="center"> <h3> {{worker_id}} Name</h3> </div>
+        <div class="table-responsive">
+            <table class="table"> 
+               <tbody> 
+                   <tr><td>Basic wage</td>  <td>{{basic_wage}}</td>
+                       <td>Days in month</td>  <td>{{days_in_month}}</td></tr>
+                   <tr><td>Attended days</td>  <td>{{attended_days}}</td>
+                       <td>Monthly basic wage</td>  <td>{{monthly_basic_wage}}</td></tr>
+                   <tr><td>Overtime hours</td>  <td>{{overtime_hours}}</td> 
+                       <td>Overtime wage</td>  <td>{{overtime_wage}}</td></tr>
+                   <tr><td>Last month advance</td>  <td>{{last_month_advance}}</td>
+                       <td>This month advance</td>  <td>{{month_advance}}</td></tr>
+                   <tr><td>Monthly wage</td>  <td>{{monthly_wage}}</td>
+                       <td>Provident fund</td>  <td>{{provident_fund}}</td></tr>
+                   <tr><td>Amount to be paid</td>  <td>{{amount_to_be_paid}}</td>
+                       <td>Paid amount</td>  <td>{{paid_amount}}</td></tr>
+                   <tr><td>Further advance</td>  <td>{{further_advance}}</td></tr>
+               </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
 

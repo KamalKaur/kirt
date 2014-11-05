@@ -1,0 +1,30 @@
+.table{
+	width: 70%;
+        margin: auto;
+}
+
+.table th, .table td { 
+     border-top: none; 
+ }
+
+.table > thead > tr > th, 
+.table > tbody > tr > th, 
+.table > tfoot > tr > th, 
+.table > thead > tr > td, 
+.table > tbody > tr > td, 
+.table > tfoot > tr > td {
+/*border-top: none;*/s
+padding:6px;}
+
+/* Centered worker name header */
+.center {
+    text-align: center;
+    
+    text-size: 2.2em;
+}
+
+@media all and (min-width: 300px) {
+    .font {
+        font-size: 1.3em;
+    }
+}
