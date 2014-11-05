@@ -85,12 +85,13 @@ html {
 }
 
 .notifications {
-  display:block;
+  display:inline-flex;
   position:relative;
   margin:-29px auto;
   width:325px;
   height:32px;
   background-color:white;
+  margin-left: 35%;
  
 }
 

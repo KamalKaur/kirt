@@ -18,6 +18,13 @@ body{
   padding-bottom: 80px;
 }
 
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+ body{
+  padding-top: 80px;
+  padding-bottom: 80px;
+} 
+}        
+
 .navbar-fixed-bottom{
 margin-bottom: -20px;
 }
