@@ -13,6 +13,7 @@ $(document).ready(function(){
     });
 
     function notification(){
+        $(".notifications .messages .message").css("color","red");
         $(".notifications").children(".messages").fadeIn(300);
         setTimeout( function(){
             $(".notifications").children(".messages").fadeOut(400);
