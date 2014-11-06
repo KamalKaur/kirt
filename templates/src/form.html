@@ -110,11 +110,12 @@
               
     <span class="custom-dropdown">
     <div class="searchform" >
+       {# <div class="select"> #}
         <form method="POST" action="" class="font">
             {% csrf_token %}
             {{search}}
            <input type="submit" value="Search" action="">
-        </form>
+        </form>  {# </div> #}
    </div> </span>
 </div>
 </div>

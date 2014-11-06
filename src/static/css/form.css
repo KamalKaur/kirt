@@ -52,7 +52,20 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
+/* Jeck to hide arrows in firefox:
+.select {
+    width: 100px;
+    overflow: hidden;
+}
+.select select {
+    text-indent: 10px;
+    text-overflow:'';
+    width: 120px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
 
+} */
 
 /* Because navigation bar covered some portion of body when page opened */
 
