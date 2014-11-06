@@ -83,7 +83,7 @@
                     </td>
                     <td>
                         <input type="number" id="advance_{{value.worker_id}}" 
-                        placeholder="Advance" class="advance" value = "{{value.advance_amount}}">
+                        placeholder="Advance" class="advance" value = "{{value.advance_amount}}" disabled>
                     
                         {% if editable == 1 %} 
 <a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>

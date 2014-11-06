@@ -84,6 +84,10 @@ html {
   /*background-image:linear-gradient(45deg,#3498db,#2ecc71);*/
 }
 
+/************************
+Apply notifications Div
+************************/
+
 .notifications {
   display:inline-flex;
   position:relative;
@@ -129,6 +133,11 @@ html {
 
 .notifications .messages .message + .message {
   border-top:1px solid #e0e0e0;
+}
+
+/* Change color of disabled field */
+input[type="number"]:disabled{
+background-color:white;
 }
 
 
