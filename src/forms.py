@@ -1,5 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
+from django.forms import TextInput, NumberInput
 from django.forms import ModelForm
 from src.models import *
 import datetime
@@ -23,6 +24,21 @@ class WorkerDetailForm(ModelForm):
     class Meta:
         model = WorkerDetail
         fields = '__all__'
+        labels = {'first_name': (''),
+            'last_name': (''),
+            'address': (''),
+            'joining_date': (''),
+            'basic_wage': (''),
+            'provident_fund': (''),
+            }
+        widgets = {
+            'first_name': TextInput(attrs={'placeholder': 'First name'}),
+            'last_name': TextInput(attrs={'placeholder': 'Last name'}),
+            'address': TextInput(attrs={'placeholder': 'Address'}),
+            'joining_date': TextInput(attrs={'placeholder': 'yyyy-mm-dd'}),
+            'basic_wage': NumberInput(attrs={'placeholder': 'Basic wage'}),
+            'provident_fund': NumberInput(attrs={'placeholder': 'Provident fund'}),
+        }
         error_messages = {'first_name': {'max_length': ("Give proper length"),},}
 
 class AdvanceForm(ModelForm):

@@ -1,17 +1,23 @@
-{% extends "base.html" %}{% load staticfiles %}
+{% extends "base.html" %}
+{% load staticfiles %}
 {% block title %} Add worker {% endblock %}
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
+    
 {% endblock %}
 
 {% block content %}
-<div class="container">
+
+    
+    <div class="center">
     <form method="POST" action=''>
         {% csrf_token %}
-        <div class="left">
-            {{WorkerDetailForm.as_p}} &nbsp;	
+        <div class="row"><div class="col-lg-2">
+            {{WorkerDetailForm.as_p}} 
             <input type = "submit" value="submit">
-        </div>
+        </div> </div>
     </form>
+   
+   
 </div>
 {% endblock %}
