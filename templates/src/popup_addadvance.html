@@ -1,6 +1,8 @@
 {% load staticfiles %}
-{% block title %} Add advance {% endblock %}
+{% block title %}  {% endblock %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
  {% block content %}
+<div class="center">
 <div id="dialog-form" title="Add advance">
     <form id="form" method="POST" action=''>
       {% csrf_token %}
@@ -11,6 +13,7 @@
       <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > 
     </form>
  </div>
+</div>
 {% endblock %}
 {% block extrajs %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/popup_addadvance.js"></script> 

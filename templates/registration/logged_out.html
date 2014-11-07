@@ -1,1 +1,15 @@
-Logged out :D
+{% load i18n %} 
+{% block extrastyle %}
+   
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
+    
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="center">
+        <h4> You're logged out! <a href="/"> Login again?</a> </h4>
+    </div>
+</div>
+{% endblock %}
+
+
