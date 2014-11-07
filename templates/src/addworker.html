@@ -3,7 +3,7 @@
 {% block title %} Add worker {% endblock %}
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
-    
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
 {% endblock %}
 
 {% block content %}
@@ -12,10 +12,10 @@
     <div class="center">
     <form method="POST" action=''>
         {% csrf_token %}
-        <div class="row"><div class="col-lg-2">
+        
             {{WorkerDetailForm.as_p}} 
             <input type = "submit" value="submit">
-        </div> </div>
+        
     </form>
    
    
