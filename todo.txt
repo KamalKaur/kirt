@@ -4,14 +4,10 @@
 
 Page 1:
 - ** CSS 
-- * Forgot password? 
-- Image
 - Login using only password
 
 Page 2:
 
-- *** Search form modify
-- *** Success message, repetition for all columns.
 - ** Check calculations once again
 - * Display the other values after calculating like balance amount, 
 previous month advance etc in separate columns. -> Can be tough, how to 
@@ -20,10 +16,8 @@ For previous months?
 - How to start working on it the first time without previous month values?
 - Shift JS to separate file
 - Delete a worker
-- Which values can be negative?
 - Generate pay slip.
-- If on change, delete the record?
-- On changing multiple columns, CSS fro monly the last value is removed
+- Update views to validate data :)
 
 Thead ?
 - http://bl.ocks.org/crstn/3819758
@@ -35,12 +29,8 @@ Modal:
 
 Page 3:
 
-- CSS: *** Show as detailed list
-
 Common:
-
-
-- *** Validations 
+ 
 - Sessions
 - Run on windows
 - Will it run without internet?
@@ -71,12 +61,17 @@ doens't exist, then add a new row (except advance)
 - @login required
 - Refresh the fields after adding new advance.
 - Rounding off!
+- Success message, repetition for all columns.
+- Search form modify
+
 
 Page 3
 - Show all the details(after calculating everything) of particular 
 worker, for this month.
+- CSS: Show as detailed list
 
 Common:
+- Validations
 - Text in the center of input fields
 - Created the tables, separate for the employee basic details.
 - Separate table for advance so that if some employee is given advance more than 

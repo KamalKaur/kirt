@@ -6,9 +6,11 @@
 <div id="dialog-form" title="Add advance">
     <form id="form" method="POST" action=''>
       {% csrf_token %}
-      {{worker_id}} <br />
+      {{full_name}} 
+      <br /> <br />
       {% for a in old_advances %}
-        {{a.advance_amount}} {{a.advance_date}}<br />
+        {{a.advance_amount}} 
+        {# {{a.advance_date}}#}<br />
       {% endfor %}
       <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > 
     </form>

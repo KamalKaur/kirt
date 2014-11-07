@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from src.models import *
 from src.forms import *
-import forms
+#import forms
 import datetime
 from django.db.models import Sum
 from calendar import monthrange
@@ -20,9 +20,8 @@ this_year = datetime.date.today().year
 def index(request):
     """
     This view is used just for now and is only meant to redirect the
-    user to first add a worker, before going anywhere when using for
-    the first time.
-
+    user to first add a worker, before going anywhere when using Kirt 
+    for the first time.
     """
     if not WorkerDetail.objects.all():
         return HttpResponseRedirect('/addworker/')
@@ -33,15 +32,21 @@ def index(request):
 def addworker(request):
     """
     If a new worker is to be added, this view is parsed and a form is 
-    generated to add Wdescription about a worker.
+    generated to add description about a new worker.
     """
     if request.method == 'POST':
         form = WorkerDetailForm(request.POST)
         if form.is_valid:
-            form.save()
-            request.session['success'] = 'success'
-            # Return to form page
-            return HttpResponseRedirect('/ajaxdetails/')
+            try:
+                form.save()
+                request.session['success'] = 'success'
+                # Return to form page
+                return HttpResponseRedirect('/ajaxdetails/')
+            except:
+                message = "Sorry, there were invalid values in the form! "
+                url = "/addworker/"
+                return render(request, 'src/error.html', {'message':message,\
+                    'url':url})
     else:
         form = WorkerDetailForm()
     return render(request,'src/addworker.html',{'WorkerDetailForm':form})
@@ -67,18 +72,25 @@ def ajaxdetails(request):
     # thing, here, is search, only then control proceeds forward.
 
     if request.method == 'POST':
-       search_form = SearchSelect(request.POST)
-       if search_form.is_valid():
-           # If the search form posts some data, then get the year and 
-           # month from posted data 
-           year = search_form.cleaned_data['year']
-           month = search_form.cleaned_data['month']
-           # The year is converted to string to match the format, 
-           # in case you were wondering.
-           if (str(this_year) == str(year)) and (str(this_month) == str(month)):
-                editable = 1
-           else:
-                editable = 0
+         search_form = SearchSelect(request.POST)
+         if search_form.is_valid():
+             # If the search form posts some data, then get the year and 
+             # month from posted data 
+             year = search_form.cleaned_data['year']
+             month = search_form.cleaned_data['month']
+             # The year is converted to string to match the format, 
+             # in case you were wondering.
+             if (str(year) > str(this_year)):
+                 #if (str(month) > str(this_month)):
+                     message = "Hey! There are no future values yet!"
+                     url = "/"
+                     return render(request, 'src/error.html', {'message':message,\
+                        'url':url})
+             else:
+                 if (str(this_year) == str(year)) and (str(this_month) == str(month)):
+                     editable = 1
+                 else:
+                     editable = 0
     # Else take values for today's year and month and pass the values of
     # month and year to the for loop for feeding that list ;)
            	
@@ -206,10 +218,12 @@ def popupadvance(request):
     This view takes all the values of advances to the popup!
     """
     worker_id = request.GET["worker_id"]
+    worker_name = WorkerDetail.objects.values('first_name','last_name').get(id= worker_id)
+    full_name = worker_name['first_name'] + " " +  worker_name['last_name']
     old_advances = Advance.objects.filter(worker_id = worker_id).\
     filter(advance_date__month=this_month).filter(advance_date__year=this_year)
     return render(request,'src/popup_addadvance.html', {'worker_id':\
-    worker_id, 'old_advances':old_advances})
+    worker_id, 'old_advances':old_advances, 'full_name': full_name})
 	
 @login_required 
 def ajaxpopupadvance(request):

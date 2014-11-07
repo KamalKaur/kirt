@@ -13,7 +13,7 @@ right: 10px;
 
 @media all and (min-width: 300px) {
     .font {
-        font-size: 1.3em;
+        font-size: 1.5em;
     }
 }
 
@@ -115,10 +115,10 @@ Apply notifications Div
 .notifications .messages {
   display:block;
   position:absolute;
-  top:-2px;
-  left:80px;
-  width:180px;
-  max-height:240px;
+  top:-12px;
+  left:120px;
+  width:130px;
+  max-height:40px;
 }
 
 .notifications .messages:before {

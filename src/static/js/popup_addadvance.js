@@ -5,7 +5,7 @@
 $(document).ready(function(){  
 
 //  On changing Paid Salary column    
-    $('.popupadvance').on('input', function(){
+    $('.popupadvance').on('change', function(){
         changed_id = this.id.split("_")[1]
         popupadvance = $('#popupadvance_' + changed_id).val();
         

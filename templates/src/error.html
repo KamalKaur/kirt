@@ -1,23 +1,17 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block title %} Add worker {% endblock %}
+{% block title %} Error {% endblock %}
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
 {% endblock %}
 
 {% block content %}
-
-    
+<div class="container">
     <div class="center">
-    <form method="POST" action=''>
-        {% csrf_token %}
-        
-            {{WorkerDetailForm.as_p}} 
-            <input type = "submit" value="Submit">
-        
-    </form>
-   
-   
+        <h4> {{message}} </h4> 
+        <h4> <a href="{{url}}"> You can try again.</a> </h4>
+    </div>
 </div>
 {% endblock %}

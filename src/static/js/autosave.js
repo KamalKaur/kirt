@@ -41,7 +41,7 @@ $(document).ready(function(){
 //                  $('#days_' + changed_id).css("border","1px solid green");
 //                  Change text color green:
                     if (data){
-                        $('#days_' + changed_id).css("color","#2ecc71");
+                        $('#days_' + changed_id).css("color","#1abc9c");
                     }
 //                  Undo CSS but basically apply yet another CSS after some 1000 mili seconds :p
 //                  setTimeout( function(){
@@ -70,7 +70,7 @@ $(document).ready(function(){
             $.ajax({
                 url: request_url,
                 success: function(data){
-                    if (data) $('#overtime_' + changed_id).css("color","#2ecc71");
+                    if (data) $('#overtime_' + changed_id).css("color","#1abc9c");
 //                  For writing data on next page..
 //                  document.write(data); 
                 }
@@ -96,7 +96,7 @@ $(document).ready(function(){
             $.ajax({
                 url: request_url,
                 success: function(data){
-                    if (data){ $('#paid_' + changed_id).css("color","#2ecc71");}
+                    if (data){ $('#paid_' + changed_id).css("color","#1abc9c");}
                 }
             });
         }

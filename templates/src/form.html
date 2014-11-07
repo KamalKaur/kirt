@@ -50,7 +50,7 @@
                 <div class="col-xs-8">
                 <th> Name </th></div>
                 <th class="text-center"> Days </th>
-                <th class="text-center"> OT </th>
+                <th class="text-center"> Overtime </th>
                 <th class="text-center"> Paid </th>
                 <th class="text-center"> Advance </th> 
             </tr>
@@ -83,11 +83,11 @@
                     </td>
                     <td>
                         <input type="number" id="advance_{{value.worker_id}}" 
-                        placeholder="Advance" class="advance" value = "{{value.advance_amount}}" disabled>
+                        placeholder="Advance" class="advance" value = "{{value.advance_amount}}"  readonly="true" disabled>
                     
                         {% if editable == 1 %} 
 <a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
-<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> 
+{#<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> #}
 
 
 {# <div class="hidden" id="errors">ama</div> #}
@@ -141,8 +141,9 @@ var opt = {
 resizable: false, 
 autoOpen: false,
 closeOnEscape: true,
-width: 515, 
-height: 245
+width: 500, 
+height: 300,
+modal: true
 }
 
 function popitup(url) {
@@ -184,10 +185,10 @@ $('#dialog-form').bind('dialogclose', function() {
 <script>
 $(document).ready(function(){
 if ({{editable}} == '0')
-$(".table :input").attr('readonly', true);
+$(".table :input").attr('disabled', true);
 
 else
-$(".table :input").attr('readonly', false);
+$(".table :input").attr('disabled', false);
 })
 </script>
 {% endblock %}
