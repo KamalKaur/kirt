@@ -37,6 +37,11 @@ input{
 	text-decoration: none !important;
 }
 
+/*td a:hover, a:focus{
+color: red;
+}*/
+
+
 /* Hide the arrows in HTML5 input field type 
 number and show it as only text fields 
 Ref: http://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box */

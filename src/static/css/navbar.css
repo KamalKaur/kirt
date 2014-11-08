@@ -18,8 +18,6 @@ font-size: 2.8em;
 color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.navbar-right a:hover, a:focus {
-    color: rgba(224, 237, 248, 0.88);}
 
 body{
   padding-top: 80px;

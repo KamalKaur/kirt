@@ -28,9 +28,11 @@ Modal:
 - http://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=activate-modals-via-data-attribute
 
 Page 3:
+- Date picker
+- Prints, PDFs (PaySlips, Employee list, Employee info, Salary Sheet etc.)
 
 Common:
- 
+- Text decoration none? :P
 - Sessions
 - Run on windows
 - Will it run without internet?
