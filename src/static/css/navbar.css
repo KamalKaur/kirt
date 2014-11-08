@@ -3,7 +3,7 @@ Help: http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter
 */
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus{
- color: #303030 !important;
+ color: #FFF !important;
 }
 
 /* The links on right of top navbar were not in vertical center */
@@ -14,8 +14,12 @@ padding-right: 2%;
 }
 
 .navbar-brand { 
-font-size: 40px;
+font-size: 2.8em;
+color: rgba(255, 255, 255, 0.75) !important;
 }
+
+.navbar-right a:hover, a:focus {
+    color: rgba(224, 237, 248, 0.88);}
 
 body{
   padding-top: 80px;
@@ -29,10 +33,13 @@ body{
     }
 }
 
-      
+.navbar-fixed-top{
+background-color: rgba(0, 0, 0, 1) !important;
+}
 
 .navbar-fixed-bottom{
 margin-bottom: -20px;
+background-color: #FFF!important;
 }
 
 /* Center align the search form */

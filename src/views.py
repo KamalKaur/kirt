@@ -80,8 +80,9 @@ def ajaxdetails(request):
              month = search_form.cleaned_data['month']
              # The year is converted to string to match the format, 
              # in case you were wondering.
-             if (str(year) > str(this_year)):
-                 #if (str(month) > str(this_month)):
+             if (str(year) > str(this_year)) or (str(month) > str(this_month)):
+                 #return HttpResponse(month)
+                 #if (int(month) > int(this_month)):
                      message = "Hey! There are no future values yet!"
                      url = "/"
                      return render(request, 'src/error.html', {'message':message,\
