@@ -38,8 +38,16 @@ def addworker(request):
         form = WorkerDetailForm(request.POST)
         if form.is_valid:
             try:
-                form.save()
+                workerdetail = form.save()
                 request.session['success'] = 'success'
+                wd = WorkerDetail.objects.get(id = workerdetail.id)
+                monthlyattendance = MonthlyAttendance(worker_id = wd,\
+                attended_days = 0, overtime_hours = 0,\
+                for_month = workerdetail.joining_date)
+                monthlyattendance.save()
+                paidsalary = PaidSalary(worker_id = wd, paid_amount = 0,\
+                payment_date = workerdetail.joining_date)
+                paidsalary.save()
                 # Return to form page
                 return HttpResponseRedirect('/ajaxdetails/')
             except:
