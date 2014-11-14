@@ -27,7 +27,18 @@ $(document).ready(function(){
             $('#popupadvance_' + changed_id).css("color","red");
         }
     });
-
+ 
+    $('.popupadvance').on('input', function(){
+        changed_id = this.id.split("_")[1]
+        popupadvance = $('#popupadvance_' + changed_id).val();
+        if (popupadvance.match(/^[0-9]+$/)){
+            $('#popupadvance_' + changed_id).css("color","#2ecc71");
+        }
+        else {
+            $('#popupadvance_' + changed_id).css("color","red");
+        }
+    })
+        
     
 })
 

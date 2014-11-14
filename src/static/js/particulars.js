@@ -5,9 +5,12 @@
 function notification(){
     $(".notifications .messages .message").css("color","green");
     $(".notifications").children(".messages").fadeIn(300);
+
     setTimeout( function(){
         $(".notifications").children(".messages").fadeOut(500);
+        
     },2000);
+    
     setTimeout( function(){
         document.location.href = '/';
     },2000);
