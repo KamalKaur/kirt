@@ -9,6 +9,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript">
 $(document).ready(function(){ 
+  document.getElementById('id_username').focus()
   $('form').find("input[type=textarea], input[type=password], textarea").each(function(ev)
   {
       if(!$(this).val()) { 
@@ -25,26 +26,21 @@ $(document).ready(function(){
     </script>
 {% endblock %}
 <body>
-<div class="circle " >
+<div class="circle " ></div>
+<div class="transparent" >
     <div class="center-block-square">
     <a style="text-decoration:none" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
     
     <form class="" method="post" action="">
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}">
-        <table>
-        <tr>   
+        <input type="hidden" name="next" value="{{ next }}"> 
        
         <!--<th>{{ form.username.label_tag }}</th>-->
-        <td>{{form.username}}</td>
-        </tr>
-        <tr>
+        {{form.username}}
+       
         <!--<th>{{ form.password.label_tag }}</th>-->
-        <td>{{form.password}}
-        <div><a href=""></a></div>
-        </td>
-        </tr>
-        </table>
+        {{form.password}}
+        <div><a href=""></a></div>      
         <div style="controls">
         <input type="submit" value="Login">
         </div>
