@@ -1,6 +1,6 @@
 .table{
 	width: 70%;
-        margin: auto;
+        margin: auto;	
 }
 
 .table th, .table td { 
@@ -28,3 +28,62 @@ padding:6px;}
         font-size: 1.3em;
     }
 }
+
+/* Notification Division */
+
+.notifications {
+  display:inline-flex;
+  position:relative;
+  margin:-29px auto;
+  width:325px;
+  height:32px;
+  background-color:white;
+  margin-left: 35%;
+ 
+}
+
+.notifications .messages {
+  display:block;
+  position:absolute;
+  top:-12px;
+  left:120px;
+  width:130px;
+  max-height:40px;
+}
+
+.notifications .messages:before {
+  content:'.';
+  display:block;
+  position:absolute;
+  margin-left:-10px;
+  left:50%;
+  top:-18px;
+  width:0;
+  height:0;
+  color:transparent;
+  border:10px solid black;
+  border-color:transparent transparent white;
+}
+
+.notifications .messages .message {
+  display:block;
+  position:relative;
+  padding:10px;
+  background-color:white;
+  color:transparent;
+  text-decoration:none;
+}
+
+.notifications .messages .message + .message {
+  border-top:1px solid #e0e0e0;
+}
+
+/* Delete button */
+
+@media all and (min-width: 1000px) {
+
+.pull-right  .btn{
+        margin-right:170px;
+    }
+}
+

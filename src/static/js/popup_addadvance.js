@@ -27,6 +27,8 @@ $(document).ready(function(){
             $('#popupadvance_' + changed_id).css("color","red");
         }
     });
+
+    
 })
 
 

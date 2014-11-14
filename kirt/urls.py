@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^ajaxpopupadvance/','src.views.ajaxpopupadvance'),
     url(r'^particulars/','src.views.particulars'),
     url(r'^return_advance/','src.views.return_advance'),
+    url(r'^deleteworker/','src.views.deleteworker'),
     
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -4,8 +4,8 @@
  {% block content %}
 <div class="center">
 <div id="dialog-form" title="Add advance">
-    <form id="form" method="POST" action=''>
-      {% csrf_token %}
+   
+      
       {{full_name}} 
       <br /> <br />
       {% for a in old_advances %}
@@ -13,7 +13,7 @@
         {# {{a.advance_date}}#}<br />
       {% endfor %}
       <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > 
-    </form>
+    
  </div>
 </div>
 {% endblock %}

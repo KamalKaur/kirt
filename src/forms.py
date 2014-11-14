@@ -23,6 +23,7 @@ class WorkerDetailForm(ModelForm):
     """
     class Meta:
         model = WorkerDetail
+        exclude = ('status','resigning_date',)
         fields = '__all__'
         labels = {'first_name': (''),
             'last_name': (''),

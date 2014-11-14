@@ -15,9 +15,10 @@ subtract, what's paid, what's total amount? What' advance? Or so?
 For previous months?
 - How to start working on it the first time without previous month values?
 - Shift JS to separate file
-- Delete a worker
+- Show the workers only which are working at that time
 - Generate pay slip.
 - Update views to validate data :)
+- Initial value should not be 0 but null
 
 Thead ?
 - http://bl.ocks.org/crstn/3819758
@@ -49,6 +50,7 @@ Common:
 
 	
 Page 2 
+- Delete a worker
 - Improve Popup
 - CSS: Don't show the fields literally as form fields.
 - Days and OT fields are working.

@@ -23,7 +23,7 @@ def index(request):
     user to first add a worker, before going anywhere when using Kirt 
     for the first time.
     """
-    if not WorkerDetail.objects.all():
+    if not WorkerDetail.objects.all() or not WorkerDetail.objects.filter(status=1):
         return HttpResponseRedirect('/addworker/')
     else:
         return HttpResponseRedirect('/ajaxdetails/')
@@ -42,10 +42,10 @@ def addworker(request):
                 request.session['success'] = 'success'
                 wd = WorkerDetail.objects.get(id = workerdetail.id)
                 monthlyattendance = MonthlyAttendance(worker_id = wd,\
-                attended_days = 0, overtime_hours = 0,\
+                attended_days = 0, overtime_hours = None,\
                 for_month = workerdetail.joining_date)
                 monthlyattendance.save()
-                paidsalary = PaidSalary(worker_id = wd, paid_amount = 0,\
+                paidsalary = PaidSalary(worker_id = wd, paid_amount = None,\
                 payment_date = workerdetail.joining_date)
                 paidsalary.save()
                 # Return to form page
@@ -73,7 +73,7 @@ def ajaxdetails(request):
     message = 'Success!'
     request.session['success'] = ''
     # First, fetch only the ids of all workers.
-    allworkers = WorkerDetail.objects.values('id').all()
+    allworkers = WorkerDetail.objects.values('id').filter(status = 1)
     # This list will contain a lot of values...
     detail_list = []
     # Initially, the idea of implementation started from search and the first
@@ -88,7 +88,7 @@ def ajaxdetails(request):
              month = search_form.cleaned_data['month']
              # The year is converted to string to match the format, 
              # in case you were wondering.
-             if (str(year) > str(this_year)):
+             if (str(year) > str(this_year)) or (str(month) > str(this_month)):
                  #if (str(month) > str(this_month)):
                      message = "Hey! There are no future values yet!"
                      url = "/"
@@ -113,19 +113,19 @@ def ajaxdetails(request):
         # Just collect everything needed!
 
         details = WorkerDetail.objects.values('first_name', 'last_name',
-        'address').filter(id = value['id'])
+        'address').filter(status = 1).filter(id = value['id'])
 	
         attendance = MonthlyAttendance.objects.values('attended_days').\
         filter(worker_id = value['id']).filter(for_month__year=
-        year).filter(for_month__month=month)
+        year).filter(for_month__month=month).filter(worker_id__status = 1)
 
         overtime = MonthlyAttendance.objects.values('overtime_hours').\
         filter(worker_id = value['id']).filter(for_month__year=
-        year).filter(for_month__month=month)
+        year).filter(for_month__month=month).filter(worker_id__status = 1)
 
         paid_salary = PaidSalary.objects.values('paid_amount').\
         filter(worker_id = value['id']).filter(payment_date__year=
-        year).filter(payment_date__month=month)
+        year).filter(payment_date__month=month).filter(worker_id__status = 1)
         
         advance = Advance.objects.filter(worker_id = value['id']).\
         filter(advance_date__year=year).filter(advance_date__month= 
@@ -226,12 +226,15 @@ def popupadvance(request):
     This view takes all the values of advances to the popup!
     """
     worker_id = request.GET["worker_id"]
+    year = request.GET['year']
+    month = request.GET['month']
     worker_name = WorkerDetail.objects.values('first_name','last_name').get(id= worker_id)
     full_name = worker_name['first_name'] + " " +  worker_name['last_name']
     old_advances = Advance.objects.filter(worker_id = worker_id).\
     filter(advance_date__month=this_month).filter(advance_date__year=this_year)
     return render(request,'src/popup_addadvance.html', {'worker_id':\
-    worker_id, 'old_advances':old_advances, 'full_name': full_name})
+    worker_id, 'old_advances':old_advances, 'full_name': full_name,\
+    'year': year, 'month': month})
 	
 @login_required 
 def ajaxpopupadvance(request):
@@ -260,95 +263,101 @@ def particulars(request):
     month = int(request.GET['month'])
     year = int(request.GET['year'])
     #further_advance = 0.0
+    
         
     first_name = WorkerDetail.objects.values('first_name').\
     filter(id=worker_id)[0]['first_name']
     last_name = WorkerDetail.objects.values('last_name').\
     filter(id=worker_id)[0]['last_name']
-    basic_wage = WorkerDetail.objects.values('basic_wage').\
-    filter(id=worker_id)[0]['basic_wage']
-    attended_days = MonthlyAttendance.objects.values('attended_days').\
-    filter(worker_id=worker_id).filter(for_month__month=month).\
-    filter(for_month__year=year)[0]['attended_days']
-    #return HttpResponse(basic_wage)
-    days_in_month = monthrange(year, month)[1]		
-    monthly_basic_wage = round(((basic_wage / days_in_month) * attended_days),2)	
-        # return HttpResponse(monthly_basic_wage)
-    overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
-    filter(worker_id=worker_id).filter(for_month__month=month).\
-    filter(for_month__year=year)[0]['overtime_hours']
-        #return HttpResponse(overtime_hours)
-    overtime_wage = round((basic_wage / days_in_month) / 6 * overtime_hours, 2)
-    total = monthly_basic_wage + overtime_wage
-        # return HttpResponse(total)
     try:
-        last_month_advance = Balance.objects.values('balance_amount').\
-        filter(worker_id = worker_id).filter(for_month__month=month-1).\
-        filter(for_month__year=year)[0]['balance_amount']
+        basic_wage = WorkerDetail.objects.values('basic_wage').\
+        filter(id=worker_id)[0]['basic_wage']
+        attended_days = MonthlyAttendance.objects.values('attended_days').\
+        filter(worker_id=worker_id).filter(for_month__month=month).\
+        filter(for_month__year=year)[0]['attended_days']
+        #return HttpResponse(basic_wage)
+        days_in_month = monthrange(year, month)[1]		
+        monthly_basic_wage = round(((basic_wage / days_in_month) * attended_days),2)	
+            # return HttpResponse(monthly_basic_wage)
+        overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
+        filter(worker_id=worker_id).filter(for_month__month=month).\
+        filter(for_month__year=year)[0]['overtime_hours']
+            #return HttpResponse(overtime_hours)
+        overtime_wage = round((basic_wage / days_in_month) / 6 * overtime_hours, 2)
+        total = monthly_basic_wage + overtime_wage
+            # return HttpResponse(total)
+        try:
+            last_month_advance = Balance.objects.values('balance_amount').\
+            filter(worker_id = worker_id).filter(for_month__month=month-1).\
+            filter(for_month__year=year)[0]['balance_amount']
+        except:
+            last_month_advance = 0
+            # return HttpResponse(last_month_advance)
+        if last_month_advance == None:
+            last_month_advance = 0
+        try:
+            month_advance = Advance.objects.filter(worker_id = worker_id ).\
+            filter(advance_date__year=year).filter(advance_date__month=\
+            month).aggregate(Sum('advance_amount'))['advance_amount__sum']
+            # return HttpResponse(month_advance)
+        except:
+            month_advance = 0
+        if month_advance == None:
+            month_advance = 0
+        monthly_wage = total - month_advance 
+            # return HttpResponse(monthly_wage)
+        grand_total = monthly_wage - last_month_advance
+            # return HttpResponse(grand_total)
+        provident_fund = WorkerDetail.objects.values('provident_fund').\
+            filter(id=worker_id)[0]['provident_fund']
+        amount_to_be_paid = grand_total - provident_fund
+        #return HttpResponse(amount_to_be_paid)
+        paid_amount = PaidSalary.objects.values('paid_amount'). \
+            filter(worker_id=worker_id)[0]['paid_amount']
+            # return HttpResponse(paid_amount)
+        further_advance = amount_to_be_paid - paid_amount
+        worker = WorkerDetail.objects.get(pk=worker_id)
+        if Balance.objects.filter(worker_id=worker_id, for_month__month
+            =month, for_month__year=year).exists():
+            editable = Balance.objects.get(worker_id=worker_id,\
+            for_month__month=month, for_month__year=year)
+            editable.balance_amount = further_advance
+            editable.for_month = datetime.date.today()
+            editable.save()
+        else:
+            obj = Balance(worker_id=worker, balance_amount = further_advance)
+            obj.save()
+        return render(request, 'src/particulars.html', {'first_name': first_name,\
+        'last_name': last_name,'basic_wage': basic_wage, \
+        'attended_days': attended_days, 'days_in_month': days_in_month, \
+        'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours, \
+        'overtime_wage': overtime_wage, 'last_month_advance': last_month_advance, \
+        'month_advance': month_advance, 'monthly_wage': monthly_wage, \
+        'provident_fund': provident_fund, 'amount_to_be_paid':amount_to_be_paid , \
+        'paid_amount': paid_amount, 'grand_total': grand_total, 'worker_id':worker_id,\
+        'further_advance':further_advance})
     except:
-        last_month_advance = 0
-        # return HttpResponse(last_month_advance)
-    if last_month_advance == None:
-        last_month_advance = 0
-    try:
-        month_advance = Advance.objects.filter(worker_id = worker_id ).\
-        filter(advance_date__year=year).filter(advance_date__month=\
-        month).aggregate(Sum('advance_amount'))['advance_amount__sum']
-        # return HttpResponse(month_advance)
-    except:
-        month_advance = 0
-    if month_advance == None:
-        month_advance = 0
-    monthly_wage = total - month_advance 
-        # return HttpResponse(monthly_wage)
-    grand_total = monthly_wage - last_month_advance
-        # return HttpResponse(grand_total)
-    provident_fund = WorkerDetail.objects.values('provident_fund').\
-        filter(id=worker_id)[0]['provident_fund']
-    amount_to_be_paid = grand_total - provident_fund
-    #return HttpResponse(amount_to_be_paid)
-    paid_amount = PaidSalary.objects.values('paid_amount'). \
-        filter(worker_id=worker_id)[0]['paid_amount']
-        # return HttpResponse(paid_amount)
-    further_advance = amount_to_be_paid - paid_amount
-    worker = WorkerDetail.objects.get(pk=worker_id)
-    if Balance.objects.filter(worker_id=worker_id, for_month__month
-        =month, for_month__year=year).exists():
-        editable = Balance.objects.get(worker_id=worker_id,\
-        for_month__month=month, for_month__year=year)
-        editable.balance_amount = further_advance
-        editable.for_month = datetime.date.today()
-        editable.save()
-    else:
-        obj = Balance(worker_id=worker, balance_amount = further_advance)
-        obj.save()
-    return render(request, 'src/particulars.html', {'first_name': first_name,\
-    'last_name': last_name,'basic_wage': basic_wage, \
-    'attended_days': attended_days, 'days_in_month': days_in_month, \
-    'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours, \
-    'overtime_wage': overtime_wage, 'last_month_advance': last_month_advance, \
-    'month_advance': month_advance, 'monthly_wage': monthly_wage, \
-    'provident_fund': provident_fund, 'amount_to_be_paid':amount_to_be_paid , \
-    'paid_amount': paid_amount, 'grand_total': grand_total, 'worker_id':worker_id,\
-    'further_advance':further_advance})
-    # except:
-    #     # Is there is some prolem in the above, data insufficient, don't throw an error.
-    #     # Instead, show what is already there.
-    #     basic_wage = WorkerDetail.objects.values('basic_wage').\
-    #     filter(id=worker_id)[0]['basic_wage']
-    #     attended_days = MonthlyAttendance.objects.values('attended_days').\
-    #     filter(worker_id=worker_id).filter(for_month__month=month).\
-    #     filter(for_month__year=year)[0]['attended_days']
-    #     #return HttpResponse(basic_wage)
-    #     days_in_month = monthrange(year, month)[1]		
-    #     monthly_basic_wage = ((basic_wage / days_in_month) * attended_days)	
-    #     #return HttpResponse(monthly_basic_wage)
-    #     overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
-    #     filter(worker_id=worker_id).filter(for_month__month=month).\
-    #     filter(for_month__year=year)[0]['overtime_hours']
-    #     return render(request, 'src/particulars1.html', {'basic_wage': basic_wage, \
-    #     'attended_days': attended_days, 'days_in_month': days_in_month, \
-    #     'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours})
+         # Is there is some prolem in the above, data insufficient, don't throw an error.
+         # Instead, show what is already there.
+         basic_wage = WorkerDetail.objects.values('basic_wage').\
+         filter(id=worker_id)[0]['basic_wage']
+         attended_days = MonthlyAttendance.objects.values('attended_days').\
+         filter(worker_id=worker_id).filter(for_month__month=month).\
+         filter(for_month__year=year)[0]['attended_days']
+         #return HttpResponse(basic_wage)
+         days_in_month = monthrange(year, month)[1]		
+         monthly_basic_wage = ((basic_wage / days_in_month) * attended_days)	
+         #return HttpResponse(monthly_basic_wage)
+         overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
+         filter(worker_id=worker_id).filter(for_month__month=month).\
+         filter(for_month__year=year)[0]['overtime_hours']
+         provident_fund = WorkerDetail.objects.values('provident_fund').\
+         filter(id=worker_id)[0]['provident_fund']
+         return render(request, 'src/particulars1.html', {'first_name': first_name,\
+        'last_name': last_name, 'basic_wage': basic_wage, \
+         'attended_days': attended_days, 'days_in_month': days_in_month, \
+         'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours,\
+         'worker_id':worker_id})
 
 def return_advance(request):
     """
@@ -363,3 +372,19 @@ def return_advance(request):
     filter(advance_date__year=year).filter(advance_date__month=\
     month).aggregate(Sum('advance_amount'))['advance_amount__sum']
     return HttpResponse(updated_advance)
+
+def deleteworker(request):
+    """
+    When the user clicks on Delete button, this function is called to
+    change that worker's status to inactive and set the resigning date.
+    """
+    worker_id = request.GET['worker_id']
+    try:
+        obj = WorkerDetail.objects.get(id = worker_id)
+        obj.status = 0
+        obj.resigning_date = datetime.date.today()
+        obj.save()
+    except:
+        message = "Not deleted"
+
+    return HttpResponse(worker_id)

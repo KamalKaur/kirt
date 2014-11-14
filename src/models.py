@@ -13,13 +13,16 @@ class WorkerDetail(models.Model):
     joining_date = models.DateField(default=datetime.date.today)
     basic_wage = models.FloatField()
     provident_fund = models.FloatField()
+    status = models.BooleanField(default=True)
+    resigning_date = models.DateField(null=True, blank=True)
+
     def __unicode__(self):
         return self.first_name
 
 class MonthlyAttendance(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    attended_days = models.FloatField() # Value not more than 31?
-    overtime_hours = models.FloatField()
+    attended_days = models.FloatField(null=True, blank=True) # Value not more than 31?
+    overtime_hours = models.FloatField(null=True, blank=True)
     for_month = models.DateField(default=datetime.date.today)
 
 class Advance(models.Model):
@@ -29,7 +32,7 @@ class Advance(models.Model):
 
 class PaidSalary(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    paid_amount = models.FloatField()
+    paid_amount = models.FloatField(null=True, blank=True)
     payment_date = models.DateField(default=datetime.date.today)
 
 class WageDescription(models.Model): # Is this model needed? 
