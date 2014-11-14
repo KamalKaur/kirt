@@ -36,3 +36,8 @@ font-size: 1.5em;
 #dialog-form input{
 border: 1px solid;
 }
+
+/* For the heading of page */
+.center h1{
+color: #428BCA;
+}
