@@ -4,12 +4,19 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/addworker.css">
 {% endblock %}
 
 {% block content %}
 
-    
+
     <div class="center">
+    <div class="notifications">
+  <div class="toggle"></div>
+  <div class="messages">
+    <p class="message">Please enter a correct value!</p>
+   </div>
+</div>
     <form method="POST" action=''>
         {% csrf_token %}
         <legend> <h1>Add worker</h1> </legend>
@@ -20,4 +27,7 @@
    
    
 </div>
+{% endblock %}
+{% block extrajs %}
+    <script src="{{ STATIC_URL }}js/addworker.js"></script>
 {% endblock %}
