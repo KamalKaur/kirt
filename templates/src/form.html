@@ -42,7 +42,7 @@
 
     <div class='font'>
     <div class="table-responsive">
-    <table class="table table-hover table-condensed center-table"> {# http://stackoverflow.com/questions/11346112/can-i-lock-the-first-column-in-a-twitter-bootstrap-table #} 
+    <table id="freeze" class="table table-hover table-condensed center-table"> {# http://stackoverflow.com/questions/11346112/can-i-lock-the-first-column-in-a-twitter-bootstrap-table #} 
         <thead class="header">
           <div class="row">
             <tr> 
@@ -63,7 +63,7 @@
                 <select id="{{value.worker_id}}" class="hidden"> <option 
                 value="{{value.worker_id}}"> {{value.first_name}}</option> </select> 
                 <tr>
-                    <td>{{value.worker_id}}</td>
+                    <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="/particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
                         class="nounderline">{{value.first_name}} {{value.last_name}}</a>
