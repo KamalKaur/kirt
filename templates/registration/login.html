@@ -28,11 +28,10 @@ $(document).ready(function(){
     </script>
 {% endblock %}
 <body>
-<div class="circle " ></div>
+<div class="circle" ></div>
 <div class="transparent" >
     <div class="center-block-square">
     <a style="text-decoration:none" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
-    
     <form class="" method="post" action="">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}"> 
@@ -43,7 +42,7 @@ $(document).ready(function(){
         <!--<th>{{ form.password.label_tag }}</th>-->
         {{form.password}}
         <div><a href=""></a></div>      
-        <div style="controls">
+        <div class="login-button">
         <input type="submit" value="Login">
         </div>
     </form>
