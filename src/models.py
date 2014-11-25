@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
+from django.core.validators import MaxValueValidator, MinValueValidator   
 from django.db import models
 import datetime
 
@@ -11,8 +12,8 @@ class WorkerDetail(models.Model):
     last_name = models.CharField(max_length=100, validators=[alphabets])
     address = models.CharField(max_length=200)
     joining_date = models.DateField(default=datetime.date.today)
-    basic_wage = models.FloatField()
-    provident_fund = models.FloatField()
+    basic_wage = models.FloatField(validators = [MinValueValidator(0)])
+    provident_fund = models.FloatField(validators = [MinValueValidator(0)])
     status = models.BooleanField(default=True)
     resigning_date = models.DateField(null=True, blank=True)
 
@@ -21,7 +22,7 @@ class WorkerDetail(models.Model):
 
 class MonthlyAttendance(models.Model):
     worker_id = models.ForeignKey(WorkerDetail)
-    attended_days = models.FloatField(null=True, blank=True) # Value not more than 31?
+    attended_days = models.FloatField(null=True, blank=True, validators = [MinValueValidator(0)]) # Value not more than 31?
     overtime_hours = models.FloatField(null=True, blank=True)
     for_month = models.DateField(default=datetime.date.today)
 
