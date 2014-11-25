@@ -9,7 +9,7 @@ $(document).ready(function(){
         changed_id = this.id.split("_")[1]
         popupadvance = $('#popupadvance_' + changed_id).val();
         
-        request_url = "/ajaxpopupadvance/?popupadvance=" + popupadvance + "&worker_id=" + changed_id; 
+        request_url = "ajaxpopupadvance/?popupadvance=" + popupadvance + "&worker_id=" + changed_id; 
         if (popupadvance == ""){
             $('#popupadvance_' + changed_id).css("color","red");
         }

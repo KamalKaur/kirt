@@ -24,9 +24,9 @@ def index(request):
     for the first time.
     """
     if not WorkerDetail.objects.all() or not WorkerDetail.objects.filter(status=1):
-        return HttpResponseRedirect('/addworker/')
+        return HttpResponseRedirect('addworker/')
     else:
-        return HttpResponseRedirect('/ajaxdetails/')
+        return HttpResponseRedirect('ajaxdetails/')
 
 @login_required
 def addworker(request):
@@ -49,10 +49,10 @@ def addworker(request):
                 payment_date = workerdetail.joining_date)
                 paidsalary.save()
                 # Return to form page
-                return HttpResponseRedirect('/ajaxdetails/')
+                return HttpResponseRedirect('ajaxdetails/')
             except:
                 message = "Sorry, there were invalid values in the form! "
-                url = "/addworker/"
+                url = "addworker/"
                 return render(request, 'src/error.html', {'message':message,\
                     'url':url})
     else:
