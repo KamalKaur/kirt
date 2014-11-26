@@ -65,7 +65,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <a href="'{% url 'src.views.particulars' %}?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
+                        <a href="{% url 'src.views.particulars' %}?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
                         class="nounderline">{{value.first_name}} {{value.last_name}}</a>
                     </td> 
                     <td>
