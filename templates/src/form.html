@@ -65,7 +65,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <a href="/particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
+                        <a href="'{% url 'src.views.particulars' %}?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
                         class="nounderline">{{value.first_name}} {{value.last_name}}</a>
                     </td> 
                     <td>
@@ -87,7 +87,7 @@
                         placeholder="Advance" class="advance" value = "{{value.advance_amount}}"  readonly="true" disabled>
                     
                         {% if editable == 1 %} 
-<a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
+<a href="" class="nounderline" onclick="return popitup(''{% url 'src.views.popupadvance' %}?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
 {#<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> #}
 
 

@@ -10,6 +10,7 @@ from src.forms import *
 import datetime
 from django.db.models import Sum
 from calendar import monthrange
+from django.core.urlresolvers import reverse
 
 # These two variables are used >7 times in this file, so are declared 
 # here only and refers to the current month and year.
@@ -24,9 +25,9 @@ def index(request):
     for the first time.
     """
     if not WorkerDetail.objects.all() or not WorkerDetail.objects.filter(status=1):
-        return HttpResponseRedirect('/addworker/')
+        return HttpResponseRedirect(reverse("src.views.addworker"))
     else:
-        return HttpResponseRedirect('/ajaxdetails/')
+        return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
 
 @login_required
 def addworker(request):
@@ -49,10 +50,10 @@ def addworker(request):
                 payment_date = workerdetail.joining_date)
                 paidsalary.save()
                 # Return to form page
-                return HttpResponseRedirect('/ajaxdetails/')
+                return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
             except:
                 message = "Sorry, there were invalid values in the form! "
-                url = "/addworker/"
+                url = reverse("src.views.addworker")
                 return render(request, 'src/error.html', {'message':message,\
                     'url':url})
     else:
