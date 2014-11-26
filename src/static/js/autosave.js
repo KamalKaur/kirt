@@ -24,7 +24,7 @@ $(document).ready(function(){
     $('.days').on('input', function(){     
         changed_id = this.id.split("_")[1]
         days = $('#days_' + changed_id).val();
-        request_url = "ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
+        request_url = "/ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
 
         if ( days < 1 ){
             $('#days_' + changed_id).css("color","red");
@@ -56,7 +56,7 @@ $(document).ready(function(){
     $('.overtime').on('input', function(){
         changed_id = this.id.split("_")[1]
         overtime = $('#overtime_' + changed_id).val();
-        request_url = "ajaxrequest/?overtime=" + overtime + "&worker_id=" + changed_id;
+        request_url = "/ajaxrequest/?overtime=" + overtime + "&worker_id=" + changed_id;
 
         if ( overtime < 1 ){
             $('#overtime_' + changed_id).css("color","red");
@@ -82,7 +82,7 @@ $(document).ready(function(){
     $('.paid').on('input', function(){
         changed_id = this.id.split("_")[1]
         paid = $('#paid_' + changed_id).val();
-        request_url = "ajaxrequestpaid/?paid=" + paid + "&worker_id=" + changed_id;
+        request_url = "/ajaxrequestpaid/?paid=" + paid + "&worker_id=" + changed_id;
 
         if (paid == ""){
             $('#paid_' + changed_id).css("color","red");
@@ -106,7 +106,7 @@ $(document).ready(function(){
     // Is it used anymore? 
     $('.addadvance').click(function() {
         changed_id = this.id.split("_")[1]
-        request_url = "ajaxrequestadvance/?worker_id=" + changed_id;
+        request_url = "/ajaxrequestadvance/?worker_id=" + changed_id;
         alert(request_url);
         $.ajax({
             url: request_url,
@@ -119,7 +119,7 @@ $(document).ready(function(){
     // Click on add advance button and it greet you with a dialog box to add more values
     $('.dialog').click(function () {
         changed_id = this.id.split("_")[1]
-        request_url = "popupadvance/?worker_id=" + changed_id;
+        request_url = "/popupadvance/?worker_id=" + changed_id;
         alert(request_url);
         $.ajax({
             url: request_url,

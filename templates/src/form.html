@@ -31,7 +31,7 @@
 
 {% block content %}
 <div class="container">
-   {# <a href="addworker/"> <img src="/static/images/addworker.png"></a> #}
+   {# <a href="/addworker/"> <img src="/static/images/addworker.png"></a> #}
 <div class="notifications">
   <div class="toggle"></div>
   <div class="messages">
@@ -65,7 +65,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <a href="particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
+                        <a href="/particulars/?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
                         class="nounderline">{{value.first_name}} {{value.last_name}}</a>
                     </td> 
                     <td>
@@ -87,8 +87,8 @@
                         placeholder="Advance" class="advance" value = "{{value.advance_amount}}"  readonly="true" disabled>
                     
                         {% if editable == 1 %} 
-<a href="" class="nounderline" onclick="return popitup('popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
-{#<a class="contact" href="#" data-form="popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> #}
+<a href="" class="nounderline" onclick="return popitup('/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
+{#<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> #}
 
 
 {# <div class="hidden" id="errors">ama</div> #}
@@ -172,7 +172,7 @@ $('#dialog-form').bind('dialogclose', function() {
     //alert(worker_id);
     var year = yearmonth.split("&")[0];
     //alert(year);
-    request_url = "return_advance/?worker_id=" + worker_id + "&month=" + month + "&year=" + year;
+    request_url = "/return_advance/?worker_id=" + worker_id + "&month=" + month + "&year=" + year;
     $.ajax({
       url: request_url,
       success: function(data) { 
