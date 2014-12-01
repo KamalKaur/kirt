@@ -17,14 +17,14 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <div class="navbar navbar-custom navbar-default navbar-fixed-top">    
-                <a class=" navbar-brand nounderline" href="{% url 'src.views.index' %}"Kirt</a> 
+                <a class=" navbar-brand nounderline" href="{% url 'src.views.index' %}">Kirt</a> 
                     <div class="navbar-right"> 
                         {# Keeps the following div to right at small screen as well. Can use xs, sm styles etc here. #}
                         <div class="nav navbar-nav">
                             <a href="{% url 'src.views.addworker' %}" class="nounderline"> Add worker</a>
                             {#<a href="{% url 'admin:index' %}" class="nounderline">Admin panel</a>#}
                             {#<a href="{% url 'admin:password_change' %}" class="nounderline">Change Password</a>#}
-                            <a href="/accounts/logout/" class="nounderline">Logout</a>
+                            <a href="{% url 'django.contrib.auth.views.logout' %}" class="nounderline">Logout</a>
                         </div>
                     </div>
                 </div>
