@@ -9,11 +9,12 @@ $(document).ready(function(){
         changed_id = this.id.split("_")[1]
         popupadvance = $('#popupadvance_' + changed_id).val();
         
-        request_url = "/ajaxpopupadvance/?popupadvance=" + popupadvance + "&worker_id=" + changed_id; 
         if (popupadvance == ""){
             $('#popupadvance_' + changed_id).css("color","red");
         }
         else if (popupadvance.match(/^[0-9]+$/)){
+            reverse('src.views.ajaxpopupadvance', function(url) {
+            var request_url = url + "?popupadvance=" + popupadvance + "&worker_id=" + changed_id;
             $.ajax({
                 url: request_url,
                 success: function(data){
@@ -22,6 +23,7 @@ $(document).ready(function(){
                     }
                 }
             });
+        });
         }
         else {
             $('#popupadvance_' + changed_id).css("color","red");

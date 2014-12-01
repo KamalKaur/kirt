@@ -24,7 +24,6 @@ $(document).ready(function(){
     $('.days').on('input', function(){     
         changed_id = this.id.split("_")[1]
         days = $('#days_' + changed_id).val();
-        request_url = "/ajaxrequest/?days=" + days + "&worker_id=" + changed_id;
 
         if ( days < 1 ){
             $('#days_' + changed_id).css("color","red");
@@ -35,6 +34,8 @@ $(document).ready(function(){
             notification();
         }
         else {
+            reverse('src.views.ajaxrequest', function(url) {
+            var request_url = url + "?days=" + days + "&worker_id=" + changed_id;
             $.ajax({
                 url: request_url,
                 success: function(data){
@@ -49,6 +50,7 @@ $(document).ready(function(){
 //                  },1000);
                 }
             });
+        });
         }
     });
 
@@ -56,7 +58,6 @@ $(document).ready(function(){
     $('.overtime').on('input', function(){
         changed_id = this.id.split("_")[1]
         overtime = $('#overtime_' + changed_id).val();
-        request_url = "/ajaxrequest/?overtime=" + overtime + "&worker_id=" + changed_id;
 
         if ( overtime < 1 ){
             $('#overtime_' + changed_id).css("color","red");
@@ -67,6 +68,8 @@ $(document).ready(function(){
             notification();
         }
         else {
+            reverse('src.views.ajaxrequest', function(url) {
+            var request_url = url + "?overtime=" + overtime + "&worker_id=" + changed_id;
             $.ajax({
                 url: request_url,
                 success: function(data){
@@ -75,6 +78,7 @@ $(document).ready(function(){
 //                  document.write(data); 
                 }
             });
+        });
         }
     });
 
@@ -82,7 +86,6 @@ $(document).ready(function(){
     $('.paid').on('input', function(){
         changed_id = this.id.split("_")[1]
         paid = $('#paid_' + changed_id).val();
-        request_url = "/ajaxrequestpaid/?paid=" + paid + "&worker_id=" + changed_id;
 
         if (paid == ""){
             $('#paid_' + changed_id).css("color","red");
@@ -92,13 +95,16 @@ $(document).ready(function(){
             $('#paid_' + changed_id).css("color","red");
             notification();
         }
-        else {               
+        else {    
+        reverse('src.views.ajaxrequestpaid', function(url) {
+            var request_url = url + "?paid=" + paid + "&worker_id=" + changed_id;           
             $.ajax({
                 url: request_url,
                 success: function(data){
                     if (data){ $('#paid_' + changed_id).css("color","#1abc9c");}
                 }
             });
+        });
         }
     });
   
@@ -106,27 +112,31 @@ $(document).ready(function(){
     // Is it used anymore? 
     $('.addadvance').click(function() {
         changed_id = this.id.split("_")[1]
-        request_url = "/ajaxrequestadvance/?worker_id=" + changed_id;
         alert(request_url);
+        reverse('src.views.ajaxrequestadvance', function(url) {
+            var request_url = url + "?worker_id=" + changed_id;
         $.ajax({
             url: request_url,
             success: function(data){
             alert(data);
             }
         })
+    });
     })  
        
     // Click on add advance button and it greet you with a dialog box to add more values
     $('.dialog').click(function () {
         changed_id = this.id.split("_")[1]
-        request_url = "/popupadvance/?worker_id=" + changed_id;
         alert(request_url);
+        reverse('src.views.popupadvance', function(url) {
+            var request_url = url + "?worker_id=" + changed_id;
         $.ajax({
             url: request_url,
             success: function(data) {
             $(".dialog").load(request_url).dialog('open');
             }
         });
+    });
     })
 
     $(".contact").click(function(ev) { // for each edit contact url

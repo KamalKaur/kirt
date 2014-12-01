@@ -29,6 +29,13 @@ def index(request):
     else:
         return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
 
+'''
+This function reverse looks up the urls for the AJAX Requests
+'''
+def jsreverse(request):
+    string_to_reverse = request.GET['string'];
+    return HttpResponse(reverse(string_to_reverse))
+
 @login_required
 def addworker(request):
     """

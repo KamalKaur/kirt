@@ -40,7 +40,21 @@
     <script src="https://code.jquery.com/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     
-    {% block extrajs %}{% endblock %}
+    {% block extrajs %}
+    {% block extrahead %}
+    <script type="text/javascript">
+    var reverseurl = "{% url 'src.views.jsreverse' %}";
+
+        function reverse(urlstring, callback) {
+            if (typeof callback != "function") {
+                return false;
+            }
+            
+            $.get(reverseurl + "?string=" + urlstring, callback);
+        }
+    </script>
+    {% endblock %}
+    {% endblock %}
 </body>
 </html>
 

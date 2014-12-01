@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^particulars/','src.views.particulars'),
     url(r'^return_advance/','src.views.return_advance'),
     url(r'^deleteworker/','src.views.deleteworker'),
+    url(r'^jsreverse/', 'src.views.jsreverse'),
     
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

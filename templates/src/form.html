@@ -31,7 +31,7 @@
 
 {% block content %}
 <div class="container">
-   {# <a href="/addworker/"> <img src="/static/images/addworker.png"></a> #}
+   {# <a href={% url'src.views.addworker'%}> <img src="/static/images/addworker.png"></a> #}
 <div class="notifications">
   <div class="toggle"></div>
   <div class="messages">
@@ -87,7 +87,7 @@
                         placeholder="Advance" class="advance" value = "{{value.advance_amount}}"  readonly="true" disabled>
                     
                         {% if editable == 1 %} 
-<a href="" class="nounderline" onclick="return popitup(''{% url 'src.views.popupadvance' %}?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
+<a href="" class="nounderline" onclick="return popitup('{% url 'src.views.popupadvance' %}?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
 {#<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> #}
 
 
@@ -172,13 +172,15 @@ $('#dialog-form').bind('dialogclose', function() {
     //alert(worker_id);
     var year = yearmonth.split("&")[0];
     //alert(year);
-    request_url = "/return_advance/?worker_id=" + worker_id + "&month=" + month + "&year=" + year;
+    reverse('src.views.return_advance', function(url) {
+    var request_url = url + "?worker_id=" + worker_id + "&month=" + month + "&year=" + year;
     $.ajax({
       url: request_url,
       success: function(data) { 
       $('#advance_'+ worker_id).attr("value", data);   
       }
     });
+});
   });
   return false;
 }
@@ -187,6 +189,17 @@ $('#dialog-form').bind('dialogclose', function() {
 // if (window.focus) {newwindow.focus()}
 // return false;
 // }
+</script>
+<script type="text/javascript">
+    var reverseurl = "{% url 'src.views.jsreverse' %}";
+
+    function reverse(urlstring, callback) {
+        if (typeof callback != "function") {
+            return false;
+            }
+            
+        $.get(reverseurl + "?string=" + urlstring, callback);
+            }
 </script>
 <script>
 $(document).ready(function(){
