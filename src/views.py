@@ -84,6 +84,7 @@ def ajaxdetails(request):
     allworkers = WorkerDetail.objects.values('id').filter(status = 1)
     # This list will contain a lot of values...
     detail_list = []
+    editable = ""	
     # Initially, the idea of implementation started from search and the first
     # thing, here, is search, only then control proceeds forward.
 
@@ -93,15 +94,22 @@ def ajaxdetails(request):
              # If the search form posts some data, then get the year and 
              # month from posted data 
              year = search_form.cleaned_data['year']
+             # return HttpResponse(year)
              month = search_form.cleaned_data['month']
+             # return HttpResponse(month)
              # The year is converted to string to match the format, 
              # in case you were wondering.
-             if (str(year) > str(this_year)) or (str(month) > str(this_month)):
-                 #if (str(month) > str(this_month)):
+             if (str(year) > str(this_year)): 
+                 message = "Hey! There are no future values yet!"
+                 url = "/"
+                 return render(request, 'src/error.html', {'message':message,\
+                     'url':url})
+             elif (str(year) == str(this_year)):
+                 if (str(month) > str(this_month)):
                      message = "Hey! There are no future values yet!"
-                     url = "/"
+                     url = "/" 
                      return render(request, 'src/error.html', {'message':message,\
-                        'url':url})
+                         'url':url})
              else:
                  if (str(this_year) == str(year)) and (str(this_month) == str(month)):
                      editable = 1
