@@ -11,6 +11,8 @@ import datetime
 from django.db.models import Sum
 from calendar import monthrange
 from django.core.urlresolvers import reverse
+from src.config import _MAN_HOURS_A_DAY
+from src.config import _OVERTIME_WAGE_FACTOR
 
 # These two variables are used >7 times in this file, so are declared 
 # here only and refers to the current month and year.
@@ -299,7 +301,7 @@ def particulars(request):
         filter(worker_id=worker_id).filter(for_month__month=month).\
         filter(for_month__year=year)[0]['overtime_hours']
             #return HttpResponse(overtime_hours)
-        overtime_wage = round((basic_wage / days_in_month) / 6 * overtime_hours, 2)
+        overtime_wage = round((basic_wage / days_in_month) / (_MAN_HOURS_A_DAY/_OVERTIME_WAGE_FACTOR ) * overtime_hours, 2) # 6 = (9/1.5)
         total = monthly_basic_wage + overtime_wage
             # return HttpResponse(total)
         try:
