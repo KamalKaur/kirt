@@ -53,23 +53,21 @@ Steps for Installation of Kirt
     
 4) Edit Kirt/kirt/settings.py file. Things to be edited are:
 
-a) Database details: At Lines 69, 70, 80, fill your own details in following fields:
+    a) Database details: At Lines 69, 70, 80, fill your own details in following fields:
     
     NAME : kirt
     USER : <Your MySQL username>
     PASSWORD : <Your MySQl password>
 
-b) Set all the paths: 
+    b) Set all the paths: 
 
-    (i) Line 31
+    (i) Line 31: '/home/username/path-to.../Kirt/templates',
 
     Modify this path to point your Kirt's template directory (Kirt/templates)
-    '/home/username/path-to.../Kirt/templates',
 
-    (ii) Line 95
+    (ii) Line 95: '/home/username/path-to.../Kirt/static/'
 
     Modify this path to point to Kirt's static directory (Kirt/static) 
-    '/home/username/path-to.../Kirt/static/'
     
 4) Goto the project directory. 
     
