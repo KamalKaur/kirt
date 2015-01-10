@@ -10,7 +10,7 @@ REQUIREMENTS
     5.python-mysqldb
     6.django 1.7
 
-For i nstallation of Requiremets, run the following command in terminal
+For the installation of Requiremets, run the following commands in terminal:
 
 1) Apache2
     
@@ -43,27 +43,46 @@ Steps for Installation of Kirt
     
     $ git clone 'link to your forked repository'
 
-2) Create a database.
+2) Log into you mysql account using the command:
     
     $ mysql -u root -p
-    $ create database kirt
-    $ quit
-    
-3) Edit settings.py file. Things to be edited are:
 
-Line No 10 : DATABASES
+3) Create a new database for Kirt inside mysql shell:
+    mysql> create database kirt;
+    mysql> quit
+    
+4) Edit Kirt/kirt/settings.py file. Things to be edited are:
+
+a) Database details: At Lines 69, 70, 80, fill your own details in following fields:
     
     NAME : kirt
-    USER : Your MySQL username
-    PASSWORD : Your MySQl password
+    USER : <Your MySQL username>
+    PASSWORD : <Your MySQl password>
+
+b) Set all the paths: 
+
+    (i) Line 31
+
+    Modify this path to point your Kirt's template directory (Kirt/templates)
+    '/home/username/path-to.../Kirt/templates',
+
+    (ii) Line 95
+
+    Modify this path to point to Kirt's static directory (Kirt/static) 
+    '/home/username/path-to.../Kirt/static/'
     
 4) Goto the project directory. 
     
     $ cd kirt
 
-5) Run the following commands.
+5) To fix your settings so that these can't be tracked by git and you can pull all the updates without an issue, run the following command inside cloned directory:
+
+    $ git update-index --assume-unchanged kirt/settings.py
+
+
+5) Now, run the following commands inside the directory Kirt only:
 
     $ python manage.py migrate
     $ python manage.py runserver 127.0.0.1:8090
     
-6) Open 'localhost:8090' in your browser.
+6) Open 'http://localhost:8090' in your browser and you'll be greeted by the Kirt login page.
