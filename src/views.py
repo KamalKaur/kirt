@@ -22,19 +22,21 @@ this_year = datetime.date.today().year
 @login_required
 def index(request):
     """
-    This view is used just for now and is only meant to redirect the
-    user to first add a worker, before going anywhere when using Kirt 
-    for the first time.
+    This view is meant to redirect the user to first add a worker, 
+    before going anywhere when using Kirt for the first time. Else it 
+    redirects to the salarysheet.
     """
     if not WorkerDetail.objects.all() or not WorkerDetail.objects.filter(status=1):
         return HttpResponseRedirect(reverse("src.views.addworker"))
     else:
         return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
 
-'''
-This function reverse looks up the urls for the AJAX Requests
-'''
+
 def jsreverse(request):
+    """
+    This function reverse looks up the urls for the AJAX Requests and
+    enalbles he developer to use dynamic URLs in JavaScript.
+    """
     string_to_reverse = request.GET['string'];
     return HttpResponse(reverse(string_to_reverse))
 
@@ -42,7 +44,9 @@ def jsreverse(request):
 def addworker(request):
     """
     If a new worker is to be added, this view is parsed and a form is 
-    generated to add description about a new worker.
+    generated to add description about a new worker. On submitting the 
+    the same form, from same page, the model WorkerDetails gets updates
+    with respective records and starts appearing in salarysheet.
     """
     if request.method == 'POST':
         form = WorkerDetailForm(request.POST)
@@ -74,9 +78,13 @@ def ajaxdetails(request):
     """
     No, the name is not illogical!
     I've used AJAX the first time here, so is the name behind this view.
-    In actual this is the main view in app, which gives details of worker 
+    In actual this is the main view in app, which gives details of workers 
     particualarly about a combination of a month and year after filtering.
-    There are lot more things happening here, look for other comments also.
+    It Displays the salarysheet for any month even for history, the same
+    view is called and displays the required data.
+    
+    There are lot more things happening here, look for other comments given
+    inside the view as well.
     """
     # When worker is added, get session variable and get ready to display message "Success!"
     success = request.session.get('success')
@@ -177,7 +185,7 @@ def ajaxrequest(request):
     In actual this view is for the working of Days and OT fields, which 
     are updated, if already exist but are added, if doesn't exist for 
     current month and year. Both conditions work if partiular column is
-    edited, uses Try except. I was so happy to make this logic! :D
+    edited, uses Try except. I was so happy to make this simple logic! :D
     """
     worker_id = request.GET['worker_id']
     if MonthlyAttendance.objects.filter(worker_id_id=worker_id,\
@@ -215,8 +223,9 @@ def ajaxrequest(request):
 def ajaxrequestpaid(request):
     """
     As the name says... here comes the AJAX request for editing Paid
-    column and you know what happens to it... If exists, value is updated,
-    else, a new row is inserted.
+    column and you know what happens to it? It first checks if such a
+    calue exists or not. If a value exists, the same is updated,
+    else, a new row is inserted into the table Paid amount.
     """
     worker_id = request.GET['worker_id']
     paid = request.GET['paid']
@@ -242,6 +251,8 @@ def ajaxrequestpaid(request):
 def popupadvance(request):
     """
     This view takes all the values of advances to the popup!
+    A button for every worker is displayed on the salarysheet and this 
+    view is accessed when that button is clicked. 
     """
     worker_id = request.GET["worker_id"]
     year = request.GET['year']
@@ -257,7 +268,8 @@ def popupadvance(request):
 @login_required 
 def ajaxpopupadvance(request):
     """
-    This view is saving the new values for advances in popup, right?
+    This view is saving the new values for advances in the popup that
+    was opened after clicking the button to add advance. 
     """
     worker_id = request.GET["worker_id"]
     # Advance.worker_id must be a WorkerDetail instance :P
@@ -271,9 +283,14 @@ def ajaxpopupadvance(request):
 @login_required
 def particulars(request):
     """
+    This function is called when a user clicks the worker name.
+    All the values after fetching from database, are calculated
+    and displayed on the next page. Also the balance amount, if already exists,
+    is updated. Else its added in a new row in Balance table.
+
     Ah! These comments are very useful which were left there only, while
     testing. All the very very important calculations are handled here. 
-    You can uncomment any return response to break the processing and
+    THe developer can uncomment any return response to break the processing and
     see what value is there :)
     """
     # "worker_id =" or "worker-id_id"?
@@ -379,9 +396,10 @@ def particulars(request):
 
 def return_advance(request):
     """
-    Here comes another interesting thing :D When the popup is closed, the
+    Here comes another interesting thing which enhances the user 
+    experience to a greater extent. When the popup is closed, the
     control comes here and takes the new value to form field, which is 
-    caled refreshing through AJAX ;)
+    called refreshing through AJAX ;) 
     """
     worker_id = request.GET['worker_id']
     month = request.GET['month']
@@ -395,6 +413,7 @@ def deleteworker(request):
     """
     When the user clicks on Delete button, this function is called to
     change that worker's status to inactive and set the resigning date.
+    Which isthen reflected in the spreadsheet after a success message.
     """
     worker_id = request.GET['worker_id']
     try:

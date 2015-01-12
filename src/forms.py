@@ -8,7 +8,7 @@ from src.month_choices import MONTH_CHOICES
 
 class SearchSelect(forms.Form):
     """
-    The form is created not from any model but manualy and helps to searche
+    The form is created not from any model but manualy and helps to search
     for worker records in the past. The values in two fields are coming 
     from another file i.e month_choices.py and are displayed as drop downs
     because the fields defined are Choice fields :)
@@ -19,7 +19,9 @@ class SearchSelect(forms.Form):
 
 class WorkerDetailForm(ModelForm):
     """
-    This form is used to add any new worker, is a ModelForm
+    This form is used to add any new worker and is a ModelForm.
+    There are validations for input fields. All the fields are 
+    mendatory to be filled.
     """
     class Meta:
         model = WorkerDetail
@@ -44,8 +46,10 @@ class WorkerDetailForm(ModelForm):
 
 class AdvanceForm(ModelForm):
     """
-    This form is used no where now, But just kept it as a piece of History!
-    Looks beautiful as shows how I worked here :D
+    Currently this form is used no where. But when the home page will 
+    be changed to icons view, this form will be used to add advance 
+    from outside for any worker. Using it there will prevent a worker
+    from checking other's details by looking at the computer screen.
     """
     worker_id = forms.ModelChoiceField(WorkerDetail.objects.all())
     advance_amount = forms.IntegerField()
