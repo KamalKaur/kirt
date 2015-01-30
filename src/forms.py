@@ -6,6 +6,7 @@ from src.models import *
 import datetime
 from src.month_choices import MONTH_CHOICES
 
+
 class SearchSelect(forms.Form):
     """
     The form is created not from any model but manualy and helps to search
@@ -23,6 +24,9 @@ class WorkerDetailForm(ModelForm):
     There are validations for input fields. All the fields are 
     mendatory to be filled.
     """
+
+    required_css_class = 'required'
+    error_css_class = 'error'
     class Meta:
         model = WorkerDetail
         exclude = ('status','resigning_date',)

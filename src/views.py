@@ -50,25 +50,31 @@ def addworker(request):
     """
     if request.method == 'POST':
         form = WorkerDetailForm(request.POST)
-        if form.is_valid:
-            try:
-                workerdetail = form.save()
-                request.session['success'] = 'success'
-                wd = WorkerDetail.objects.get(id = workerdetail.id)
-                monthlyattendance = MonthlyAttendance(worker_id = wd,\
-                attended_days = 0, overtime_hours = None,\
-                for_month = workerdetail.joining_date)
-                monthlyattendance.save()
-                paidsalary = PaidSalary(worker_id = wd, paid_amount = None,\
-                payment_date = workerdetail.joining_date)
-                paidsalary.save()
-                # Return to form page
-                return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
-            except:
-                message = "Sorry, there were invalid values in the form! "
-                url = reverse("src.views.addworker")
-                return render(request, 'src/error.html', {'message':message,\
-                    'url':url})
+        if form.is_valid():
+            #try:
+            workerdetail = form.save()
+            request.session['success'] = 'success'
+            wd = WorkerDetail.objects.get(id = workerdetail.id)
+            monthlyattendance = MonthlyAttendance(worker_id = wd,\
+            attended_days = 0, overtime_hours = None,\
+            for_month = workerdetail.joining_date)
+            monthlyattendance.save()
+            paidsalary = PaidSalary(worker_id = wd, paid_amount = None,\
+            payment_date = workerdetail.joining_date)
+            paidsalary.save()
+            # Return to form page
+            return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
+        else:
+            message = "Please correct the errors below"
+            form = WorkerDetailForm(request.POST)
+            return render(request,'src/addworker.html',{'WorkerDetailForm':form,
+            'message':message })
+			
+            # except:
+              #  message = "Sorry, there were invalid values in the form! "
+               # url = reverse("src.views.addworker")
+                #return render(request, 'src/error.html', {'message':message,\
+                 #   'url':url})
     else:
         form = WorkerDetailForm()
     return render(request,'src/addworker.html',{'WorkerDetailForm':form})
@@ -376,16 +382,22 @@ def particulars(request):
          # Instead, show what is already there.
          basic_wage = WorkerDetail.objects.values('basic_wage').\
          filter(id=worker_id)[0]['basic_wage']
-         attended_days = MonthlyAttendance.objects.values('attended_days').\
-         filter(worker_id=worker_id).filter(for_month__month=month).\
-         filter(for_month__year=year)[0]['attended_days']
+         try:
+             attended_days = MonthlyAttendance.objects.values('attended_days').\
+             filter(worker_id=worker_id).filter(for_month__month=month).\
+             filter(for_month__year=year)[0]['attended_days']
+         except:
+             attended_days = 0
          #return HttpResponse(basic_wage)
          days_in_month = monthrange(year, month)[1]		
-         monthly_basic_wage = ((basic_wage / days_in_month) * attended_days)	
+         monthly_basic_wage = round(((basic_wage / days_in_month) * attended_days),2)
          #return HttpResponse(monthly_basic_wage)
-         overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
-         filter(worker_id=worker_id).filter(for_month__month=month).\
-         filter(for_month__year=year)[0]['overtime_hours']
+         try: 
+             overtime_hours = MonthlyAttendance.objects.values('overtime_hours').\
+             filter(worker_id=worker_id).filter(for_month__month=month).\
+             filter(for_month__year=year)[0]['overtime_hours']
+         except:
+             overtime_hours = 0
          provident_fund = WorkerDetail.objects.values('provident_fund').\
          filter(id=worker_id)[0]['provident_fund']
          return render(request, 'src/particulars1.html', {'first_name': first_name,\
