@@ -43,8 +43,8 @@ class WorkerDetailForm(ModelForm):
             'last_name': TextInput(attrs={'placeholder': 'Last name'}),
             'address': TextInput(attrs={'placeholder': 'Address'}),
             'joining_date': TextInput(attrs={'placeholder': 'yyyy-mm-dd'}),
-            'basic_wage': NumberInput(attrs={'placeholder': 'Basic wage'}),
-            'provident_fund': NumberInput(attrs={'placeholder': 'Provident fund'}),
+            'basic_wage': NumberInput(attrs={'placeholder': 'Basic wage', 'min':'0'}),
+            'provident_fund': NumberInput(attrs={'placeholder': 'Provident fund', 'min':'0'}),
         }
         error_messages = {'first_name': {'max_length': ("Give proper length"),},}
 
