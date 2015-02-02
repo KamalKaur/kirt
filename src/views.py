@@ -283,6 +283,15 @@ def ajaxdetails(request):
                  if (str(this_year) == str(year)) and (str(this_month) == str(month)):
                      editable = 1
                  else:
+                     temp_month = int(month) + 1
+                     temp_year = int(year)
+                     if temp_month > 12:
+                        temp_month = temp_month - 12
+                        temp_year = temp_year + 1
+                     temp_date = datetime.date(temp_year, temp_month, 1)
+                     allworkers = WorkerDetail.objects.values('id').filter(
+                        joining_date__lt=temp_date,
+                        resigning_date__gte=temp_date)
                      editable = 0
     # Else take values for today's year and month and pass the values of
     # month and year to the for loop for feeding that list ;)
@@ -298,19 +307,19 @@ def ajaxdetails(request):
         # Just collect everything needed!
 
         details = WorkerDetail.objects.values('first_name', 'last_name',
-        'address').filter(status = 1).filter(id = value['id'])
+        'address').filter(id = value['id'])
 	
         attendance = MonthlyAttendance.objects.values('attended_days').\
         filter(worker_id = value['id']).filter(for_month__year=
-        year).filter(for_month__month=month).filter(worker_id__status = 1)
+        year).filter(for_month__month=month)
 
         overtime = MonthlyAttendance.objects.values('overtime_hours').\
         filter(worker_id = value['id']).filter(for_month__year=
-        year).filter(for_month__month=month).filter(worker_id__status = 1)
+        year).filter(for_month__month=month)
 
         paid_salary = PaidSalary.objects.values('paid_amount').\
         filter(worker_id = value['id']).filter(payment_date__year=
-        year).filter(payment_date__month=month).filter(worker_id__status = 1)
+        year).filter(payment_date__month=month)
         
         advance = Advance.objects.filter(worker_id = value['id']).\
         filter(advance_date__year=year).filter(advance_date__month= 
