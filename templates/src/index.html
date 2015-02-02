@@ -1,45 +1,61 @@
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Kirt</title>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} Particulars {% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/index.css">
+    
+{% endblock %}
+{% block content %}
+      <div class="container">
+      <div class=section>
+	<div class="row">
+		    <div class="col-sm-6 col-md-6">
+			<a href="{% url 'src.views.daily_attendance' %}" >
+			    <div class="tile">
+				 
+				    <div class=line_seprator></div>
+				    <span class=tile__text>Daily Attendance</span>
+		   	    </div>
+			</a>
+		    </div>
+	<div class="clearfix visible-xs-block"></div>
+		    <div class="col-sm-6 col-md-6">
+			<a href="{% url 'src.views.ajaxdetails' %}" >
+			    <div class="tile">
+				 
+				    <div class=line_seprator></div>
+				    <span class=tile__text>Salary Sheet </span>
+		   	    </div>
+			</a>
+		    </div>
+	<div class="clearfix visible-xs-block"></div>
+	</div>
+	<div class="row">
+		    <div class="col-sm-6 col-md-6">
+			<a href="#" >
+			    <div class="tile">
+				 
+				    <div class=line_seprator></div>
+				    <span class=tile__text>Add Advance</span>
+		   	    </div>
+			</a>
+		    </div>
+	<div class="clearfix visible-xs-block"></div>
+		    <div class="col-sm-6 col-md-6">
+			<a href=# >
+			    <div class="tile">
+				 
+				    <div class=line_seprator></div>
+				    <span class=tile__text>Promotions</span>
+		   	    </div>
+			</a>
+		    </div>
+	<div class="clearfix visible-xs-block"></div>
+      </div>    
+      </div>  
+    <script src="{% static 'js/bootstrap.min.js' %}"></script> 
 
-<style>
-.absoluteCenter{ 
-width:300px; 
-height:300px; 
-position: fixed; 
-top: 50%; 
-left: 50%; 
-margin-top: -150px; 
-margin-left: -150px; 
-background-color: #eee;
-} 
-
-.first{  
-width:300px;
-height:75px; 
-text-align: center;
-line-height: 50px;
-} 
-
-a{
-color: #585858;
-font-size:25px;
-}
-</style>
-
-  </head>
-  
-  <body> 
-    <div class="absoluteCenter"> 
-      <form class ="form" method="post">
-        <div class="first"><a href="addworker"> Add worker</a> </div>
-        <div class="first"><a href="adddetails">Add details</a> </div>
-        
-        <div class="first"><a  href="addadvance">Advance ++</a> </div>
-        <div class="first"><a  href="ajaxdetails">Advanced</a> </div>	
-      </form>
-    </div>
-  </body>
-</html>
-
+{% endblock %}

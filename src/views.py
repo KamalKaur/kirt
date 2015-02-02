@@ -26,11 +26,11 @@ def index(request):
     before going anywhere when using Kirt for the first time. Else it 
     redirects to the salarysheet.
     """
-    if not WorkerDetail.objects.all() or not WorkerDetail.objects.filter(status=1):
-        return HttpResponseRedirect(reverse("src.views.addworker"))
-    else:
-        return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
-
+    #if not WorkerDetail.objects.all() or not WorkerDetail.objects.filter(status=1):
+    #    return HttpResponseRedirect(reverse("src.views.addworker"))
+    #else:
+    #    return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
+    return render(request,'src/index.html',{})
 
 def jsreverse(request):
     """
