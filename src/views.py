@@ -480,13 +480,23 @@ def particulars(request):
         overtime_wage = round((basic_wage / days_in_month) / (_MAN_HOURS_A_DAY/_OVERTIME_WAGE_FACTOR ) * overtime_hours, 2) # 6 = (9/1.5)
         total = monthly_basic_wage + overtime_wage
             # return HttpResponse(total)
-        try:
-            last_month_advance = Balance.objects.values('balance_amount').\
-            filter(worker_id = worker_id).filter(for_month__month=month-1).\
-            filter(for_month__year=year)[0]['balance_amount']
-        except:
-            last_month_advance = 0
-            # return HttpResponse(last_month_advance)
+        if month == 1:
+            try:
+                last_month_advance = Balance.objects.values('balance_amount').\
+                filter(worker_id = worker_id).filter(for_month__month=12).\
+                filter(for_month__year=year-1)[0]['balance_amount']
+                # return HttpResponse(last_month_advance)
+            except:
+                last_month_advance = 0
+                # return HttpResponse(last_month_advance)
+        else:
+            try:
+                last_month_advance = Balance.objects.values('balance_amount').\
+                filter(worker_id = worker_id).filter(for_month__month=month-1).\
+                filter(for_month__year=year)[0]['balance_amount']
+            except:
+                last_month_advance = 0
+                # return HttpResponse(last_month_advance)
         if last_month_advance == None:
             last_month_advance = 0
         try:
@@ -509,6 +519,8 @@ def particulars(request):
         paid_amount = PaidSalary.objects.values('paid_amount'). \
             filter(worker_id=worker_id)[0]['paid_amount']
             # return HttpResponse(paid_amount)
+        if paid_amount == None:
+            paid_amount = 0
         further_advance = amount_to_be_paid - paid_amount
         worker = WorkerDetail.objects.get(pk=worker_id)
         if Balance.objects.filter(worker_id=worker_id, for_month__month
