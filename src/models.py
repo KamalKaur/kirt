@@ -40,6 +40,15 @@ class MonthlyAttendance(models.Model):
     overtime_hours = models.FloatField(null=True, blank=True)
     for_month = models.DateField(default=datetime.date.today)
 
+class DailyAttendance(models.Model):
+    """
+    This tabel is used to store worker attendance on daily basis
+    """
+    worker_id = models.ForeignKey(WorkerDetail)
+    attendance = models.FloatField(null=True, blank=True)
+    overtime = models.FloatField(null=True, blank=True)
+    for_day = models.DateField(default=datetime.date.today)
+    
 class Advance(models.Model):
     """
     The advance values, which are to be entered for any worker or for any month

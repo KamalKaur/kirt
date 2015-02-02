@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} Daily attendance {% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/particulars.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/responsive-table.css">
+{% endblock %}
+
+{% block content %}
+<div class="container"> 
+  <div class="inner" style="width:80%; display:block; margin-left: auto; margin-right: auto;">
+    <div class="font"> 
+      <div class="row">
+        <div class="col-md-4"> <h3 style ="color:#428BCA"> Attendance: {{date}} <h3></div>
+      </div> <hr> 
+
+      <div class="row"> 
+        <div class=" text-center col-md-6 col-md-offset-6"></div>
+        {% for value in detail_list %} 
+        
+          <form action="" method="">
+          <div class="text-left"> 
+            <div class="col-sm-6 col-md-4">{{value.id}} {{value.first_name}} {{value.last_name}}</div>
+            
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <input type="checkbox" id="attendance_{{value.worker_id}}" class="attendance" aria-label="..." {% if value.daily_attendance == 1 %} checked {% endif %}>
+            </div>
+
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <input type="number" id="overtime_{{value.worker_id}}" class="overtime" placeholder="Overtime" value="{{value.daily_overtime}}">
+            </div>
+            <div class="clearfix visible-sm-block"></div>
+            
+            {# Just to add horizontal line for separation on medium and extra small screens #}
+            <span class="visible-xs-block visible-sm-block"> <hr> </span> 
+          </div>
+         </form>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+<script>
+var date = new Date();
+
+var day = date.getDate();
+var month = date.getMonth() + 1;
+var year = date.getFullYear();
+
+if (month < 10) month = "0" + month;
+if (day < 10) day = "0" + day;
+
+var today = year + "-" + month + "-" + day;
+
+
+document.getElementById('theDate').value = today;
+</script>
+<script type="text/javascript">
+    var reverseurl = "{% url 'src.views.jsreverse' %}";
+
+    function reverse(urlstring, callback) {
+        if (typeof callback != "function") {
+            return false;
+            }
+            
+        $.get(reverseurl + "?string=" + urlstring, callback);
+            }
+</script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/daily_attendance.js">
+</script>
+
+
+{% endblock %}
+
+

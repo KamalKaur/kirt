@@ -62,7 +62,6 @@ def addworker(request):
             paidsalary = PaidSalary(worker_id = wd, paid_amount = None,\
             payment_date = workerdetail.joining_date)
             paidsalary.save()
-            # Return to form page
             return HttpResponseRedirect(reverse("src.views.ajaxdetails"))
         else:
             message = "Please correct the errors below"
@@ -78,6 +77,160 @@ def addworker(request):
     else:
         form = WorkerDetailForm()
     return render(request,'src/addworker.html',{'WorkerDetailForm':form})
+
+@login_required
+def daily_attendance(request):
+    """
+    This view displays the list of the employees who are currently working
+    to add their attendance for today or for the date which it has not yet 
+    been added.
+    """
+    detail_list = []
+    allworkers = WorkerDetail.objects.values('id').filter(status = 1)
+
+    for worker in allworkers:
+        if  DailyAttendance.objects.filter(worker_id = worker['id']).\
+        filter(for_day = datetime.date.today()).exists():
+            pass
+        else:
+            worker_object = WorkerDetail.objects.get(pk=worker['id'])
+            new_object = DailyAttendance(worker_id = worker_object,\
+            overtime = 0, attendance = 0, for_day = datetime.date.today())
+            new_object.save()
+            pass
+
+        if MonthlyAttendance.objects.filter(worker_id = worker['id']).\
+        filter(for_month__month = this_month).filter(for_month__year
+        = this_year).exists():
+            pass
+        else:
+            worker_object = WorkerDetail.objects.get(pk=worker['id'])
+            new_object = MonthlyAttendance(worker_id = worker_object,\
+            attended_days = 0, overtime_hours = 0, for_month = datetime.date.today())
+            new_object.save()
+        pass
+
+    for value in allworkers:
+        worker_dict = {}
+
+        details = WorkerDetail.objects.values('first_name', 'last_name',
+        'address').filter(status = 1).filter(id = value['id'])
+
+        daily_attendance = DailyAttendance.objects.values('attendance').\
+        filter(worker_id = value['id']).filter(for_day = datetime.\
+        date.today()).filter(worker_id__status = 1)
+
+        daily_overtime = DailyAttendance.objects.values('overtime').\
+        filter(worker_id = value['id']).filter(for_day = datetime.\
+        date.today()).filter(worker_id__status = 1)
+
+        worker_dict['worker_id'] = value['id']
+
+        for item in details:
+            worker_dict['first_name'] = item['first_name']
+            worker_dict['last_name'] = item['last_name']
+            worker_dict['address'] = item['address']
+        for item in daily_attendance:
+            worker_dict['daily_attendance'] = item['attendance']
+        for item in daily_overtime:
+            worker_dict['daily_overtime'] = item['overtime']
+        detail_list.append(worker_dict)
+    date = datetime.date.today()
+        
+    return render(request,'src/daily_attendance.html',{'allworkers':\
+        allworkers, 'detail_list':detail_list, 'date': date})
+
+@login_required
+def ajax_daily_attendance(request):
+    """
+    This view checks the incoming request and saves overtime or 
+    attendance accordingly
+    """
+    worker_id = request.GET['worker_id']
+    try:
+        overtime = request.GET['overtime']
+        overtime = float(overtime)
+        edit_daily_overtime = DailyAttendance.objects.get(worker_id_id=worker_id,\
+        for_day = datetime.date.today())
+        edit_daily_overtime.overtime = overtime
+        edit_daily_overtime.save()
+
+        edit_monthly_overtime = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
+        for_month__month=this_month, for_month__year=this_year)
+        edit_monthly_overtime.overtime_hours = edit_monthly_overtime.\
+        overtime_hours+overtime 
+        edit_monthly_overtime.save()
+        return HttpResponse(overtime)
+
+    except:
+        attendance = request.GET['attendance']
+        attendance = float(attendance)
+        edit_daily_attendance = DailyAttendance.objects.get(worker_id_id=worker_id,\
+        for_day = datetime.date.today())
+        edit_daily_attendance.attendance = attendance
+        edit_daily_attendance.save()
+
+        edit_monthly_attendance = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
+        for_month__month=this_month, for_month__year=this_year)
+        edit_monthly_attendance.attended_days =  edit_monthly_attendance.\
+        attended_days+attendance 
+        edit_monthly_attendance.save()
+        return HttpResponse(edit_monthly_attendance.attended_days)
+        
+
+""" Yet not required :P AS the conditions in above two views are changed :)
+
+    if DailyAttendance.objects.filter(worker_id=worker_id,\
+        for_day = datetime.date.today()).exists():
+        editable_obj = DailyAttendance.objects.get(worker_id_id=worker_id,\
+        for_day = datetime.date.today())
+        try:
+            overtime = request.GET['overtime']
+            editable_obj.overtime = overtime
+            editable_obj.save()
+            #editable_obj.for_day = datetime.date.today()
+            editable_hours = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
+                for_month__month=this_month, for_month__year=this_year)
+            editable_hours.overtime_hours = overtime
+            editable_hours.save() # Update in MonthlyAttendance to be displayed in salarysheet.
+            return HttpResponse(overtime)
+        except:
+            attendance = request.GET['attendance']
+            attendance = float(attendance)
+            #return HttpResponse(attendance)
+            editable_obj.attendance = attendance
+            editable_obj.save()
+            new_attendance = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
+                for_month__month=this_month, for_month__year=this_year)
+            new_attendance.attended_days = new_attendance.attended_days + attendance/8
+            new_attendance.save()
+            #editable_obj.for_day = datetime.date.today()
+            return HttpResponse(attendance)
+
+
+    else:
+        worker = WorkerDetail.objects.get(pk=worker_id)
+        try:
+            attendance = request.GET['attendance']
+            attendance = float(attendance)
+            new_obj = DailyAttendance(worker_id = worker, attendance
+            = attendance, overtime = 0, for_day = datetime.date.today()) # that day
+            new_obj.save()
+            new_attendance = MonthlyAttendance(worker_id = worker, attended_days 
+            = attendance, overtime_hours = 0, for_month = datetime.date.today())
+            new_attendance.save()	
+            return HttpResponse("Days saved. Refresh the page!")
+        except:
+            overtime = request.GET['overtime'] 
+            new_obj = DailyAttendance(worker_id = worker, attendance 
+            = 0, overtime = overtime, for_day = datetime.date.today())
+            new_hours = MonthlyAttendance(worker_id = worker, attended_days 
+            = 0, overtime_hours = overtime, for_month = datetime.date.today())
+            new_obj.save()
+            new_hours.save() # Update in MonthlyAttendance to be displayed in salarysheet.
+            return HttpResponse("Overtime saved. Refresh the page!")
+    #return HttpResponse(worker_id)
+"""
 
 @login_required
 def ajaxdetails(request):

@@ -1,4 +1,4 @@
-// Take data from the form fields to views, when they are changed
+// Take data from the form fields of salarysheet to views, when they are changed
 // Changed_id is introduced for separating the ids for different rows.
 
 $(document).ready(function(){
