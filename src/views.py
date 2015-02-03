@@ -284,13 +284,13 @@ def ajaxdetails(request):
              # in case you were wondering.
              if (str(year) > str(this_year)): 
                  message = "Hey! There are no future values yet!"
-                 url = "/"
+                 url = "src.views.ajaxdetails"
                  return render(request, 'src/error.html', {'message':message,\
                      'url':url})
              elif (str(year) == str(this_year)):
                  if (str(month) > str(this_month)):
                      message = "Hey! There are no future values yet!"
-                     url = "/" 
+                     url = "src.views.ajaxdetails" 
                      return render(request, 'src/error.html', {'message':message,\
                          'url':url})
              else:

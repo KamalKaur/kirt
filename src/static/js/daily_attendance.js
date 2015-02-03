@@ -16,24 +16,24 @@ $(document).ready(function(){
         url: request_url,
         success: function(data){
         if (data){ 
-          alert(data);
+          $('#attendance_' + changed_id).css("color","#1abc9c");
         } 
         }
       });
     });
   }
   else if($(this).prop("checked") == false){
-    alert("Checkbox is unchecked.");
+    
 attendance = $('#attendance_' + changed_id).val();
     attendance="-1";
-    alert(attendance);
+    //alert(attendance);
     reverse('src.views.ajax_daily_attendance', function(url) {
       var request_url = url + "?attendance=" + attendance + "&worker_id=" + changed_id;
       $.ajax({
         url: request_url,
         success: function(data){
         if (data){ 
-          alert(data);
+          alert("Attendance unmarked");
         } 
         }
       });
@@ -61,7 +61,7 @@ attendance = $('#attendance_' + changed_id).val();
         url: request_url,
         success: function(data){
         if (data){ 
-          alert(data);
+          $('#overtime_' + changed_id).css("color","#1abc9c");
         } 
         }
       });
