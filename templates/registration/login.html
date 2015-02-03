@@ -31,7 +31,7 @@ $(document).ready(function(){
 <div class="circle" ></div>
 <div class="transparent" >
     <div class="center-block-square">
-    <a style="text-decoration:none" href='/'> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
+    <a style="text-decoration:none" href="{% url 'src.views.index' %}"> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
     <form class="" method="post" action="">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}"> 
