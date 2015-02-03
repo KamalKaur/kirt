@@ -231,6 +231,21 @@ def ajax_daily_attendance(request):
             return HttpResponse("Overtime saved. Refresh the page!")
     #return HttpResponse(worker_id)
 """
+@login_required 
+def addadvance(request):
+    if request.method == 'POST':
+        form = AdvanceForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            message = "Please correct the errors below"
+            form = AdvanceForm(request.POST)
+            return render(request,'src/addadvance.html',{'AdvanceForm':form,
+            'message':message })
+        return HttpResponseRedirect(reverse("src.views.index"))
+    else:
+        form = AdvanceForm()
+        return render(request,'src/addadvance.html',{'AdvanceForm':form})
 
 @login_required
 def ajaxdetails(request):

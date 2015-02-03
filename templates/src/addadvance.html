@@ -1,22 +1,41 @@
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Add advance</title>
-  
-  </head>
-  <style>
-.left{
-width: 80%;
-background-color: #eee;
-color: rgb(58,58,58);
-font-family: Impact, Charcoal, sans-serifs
-}
-</style>
-	<body class="left">
-		<form method="POST" action=''>
-			{% csrf_token %}
-			{{AdvanceForm.as_p}}
-			<input type = "submit" value="submit">
-		</form>
-	</body>
-</html>
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %} Add advance {% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/addworker.css">
+{% endblock %}
+
+{% block content %}
+
+    
+    <div class="center">
+    <div class="notifications">
+  <div class="toggle"></div>
+  <div class="messages">
+    <p class="message">Please enter a correct value!</p>
+   </div>
+</div>
+    <form method="POST" action=''>
+    <!--{% if message %}
+    <div class="alert alert-danger">
+        {{message}}
+    </div>
+    {% endif %}-->
+        {% csrf_token %}
+        <legend> <h1>Add advance</h1> </legend>
+            {{AdvanceForm.as_p}} 
+            <input class="btn btn-info btn-large" type = "submit" value="Submit" style="font-size:1.3em">
+        
+    </form>
+   
+   
+</div>
+{% endblock %}
+{% block extrajs %}
+    <script src="{{ STATIC_URL }}js/addworker.js"></script>
+{% endblock %}
+
+
+

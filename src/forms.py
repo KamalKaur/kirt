@@ -55,13 +55,22 @@ class AdvanceForm(ModelForm):
     from outside for any worker. Using it there will prevent a worker
     from checking other's details by looking at the computer screen.
     """
-    worker_id = forms.ModelChoiceField(WorkerDetail.objects.all())
-    advance_amount = forms.IntegerField()
-    # advance_date = forms.DateField(label='',initial=datetime.date.today)
+    #worker_id = forms.ModelChoiceField(WorkerDetail.objects.all())
+    #advance_amount = forms.IntegerField()
+    #advance_date = forms.DateField(label='',initial=datetime.date.today)
     # Date field with default date in form can be added like this ^
     
     class Meta:
         model = Advance
+        exclude = ('advance_date',)
+        labels = {
+            'worker_id': ('Worker name'),
+            'advance_amount': (''),
+        }
+        widgets = {
+            'advance_amount': NumberInput(attrs={'placeholder': 'Advance amount', 'min':'0'}),
+        }
+        error_messages = {'first_name': {'max_length': ("Give proper length"),},}
         # exclude = ('advance_date',) 
         # Excluding the date field but it automatically saves today's date :)
         # fields = ('worker_id', 'advance_amount')
