@@ -28,7 +28,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 TEMPLATE_DIRS = (
-    '/home/hermione/Desktop/kirt/templates',
+    '/home/username/path-to.../Kirt/templates',
 )
 # Application definition
 
@@ -39,7 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'src',	
+    'registration',
+    'src',
+	
 )
 
 # If to open admin page by default for @login required
@@ -66,9 +68,9 @@ WSGI_APPLICATION = 'kirt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kirt1',
-        'USER': 'root',
-        'PASSWORD': 'devishwar',
+        'NAME': '<Database name>',
+        'USER': '<MySql user name>',
+        'PASSWORD': '<MySql username Password>',
         'HOST': '',
         'PORT': '',
 
@@ -92,13 +94,13 @@ MEDIA_ROOT = ''
 
 MEDIA_URL = ''
 
-STATIC_ROOT = '/home/hermione/Desktop/kirt/static/'
+STATIC_ROOT = '/home/username/path-to.../Kirt/static/'
 
 STATIC_URL = '/static/'
 
 # May be not used for production environment
 #STATICFILES_DIRS = (
-#    '/home/username/path-to.../Kirt/static',
+#    '/home/username/path-to.../Kfirt/static',
 #)
 
 STATICFILES_FINDERS = (
@@ -108,3 +110,4 @@ STATICFILES_FINDERS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
+
