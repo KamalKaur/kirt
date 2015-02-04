@@ -108,7 +108,7 @@ def daily_attendance(request):
             attended_days = 0, overtime_hours = 0, for_month = datetime.date.today())
             new_object.save()
         pass
-
+    """
     for value in allworkers:
         worker_dict = {}
 
@@ -134,10 +134,16 @@ def daily_attendance(request):
         for item in daily_overtime:
             worker_dict['daily_overtime'] = item['overtime']
         detail_list.append(worker_dict)
+    """
+
+    workerDetail_attendance = DailyAttendance.objects.filter(for_day = datetime.\
+    date.today()).order_by('worker_id_id').select_related('worker_id').\
+    filter(worker_id__status = 1).all()
+
     date = datetime.date.today()
         
-    return render(request,'src/daily_attendance.html',{'allworkers':\
-        allworkers, 'detail_list':detail_list, 'date': date})
+    return render(request,'src/daily_attendance.html',{'workerDetail_attendance':\
+        workerDetail_attendance, 'date': date})
 
 @login_required
 def ajax_daily_attendance(request):
@@ -257,6 +263,7 @@ def addadvance(request):
         form = AdvanceForm()
         return render(request,'src/addadvance.html',{'AdvanceForm':form})
 
+@login_required
 def ajaxdetails(request):
     """
     No, the name is not illogical!
