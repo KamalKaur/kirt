@@ -257,7 +257,6 @@ def addadvance(request):
         form = AdvanceForm()
         return render(request,'src/addadvance.html',{'AdvanceForm':form})
 
-@login_required
 def ajaxdetails(request):
     """
     No, the name is not illogical!
@@ -278,40 +277,45 @@ def ajaxdetails(request):
     allworkers = WorkerDetail.objects.values('id').filter(status = 1)
     # This list will contain a lot of values...
     detail_list = []
-    editable = ""	
+    editable = ""
     # Initially, the idea of implementation started from search and the first
     # thing, here, is search, only then control proceeds forward.
 
     if request.method == 'POST':
          search_form = SearchSelect(request.POST)
          if search_form.is_valid():
-             # If the search form posts some data, then get the year and 
-             # month from posted data 
-             year = search_form.cleaned_data['year']
-             # return HttpResponse(year)
-             month = search_form.cleaned_data['month']
-             # return HttpResponse(month)
-             # The year is converted to string to match the format, 
-             # in case you were wondering.
-             if (str(year) > str(this_year)): 
-                 message = "Hey! There are no future values yet!"
-                 url = "src.views.ajaxdetails"
-                 return render(request, 'src/error.html', {'message':message,\
-                     'url':url})
-             elif (str(year) == str(this_year)):
-                 if (str(month) > str(this_month)):
-                     message = "Hey! There are no future values yet!"
-                     url = "src.views.ajaxdetails" 
-                     return render(request, 'src/error.html', {'message':message,\
-                         'url':url})
-             else:
-                 if (str(this_year) == str(year)) and (str(this_month) == str(month)):
-                     editable = 1
-                 else:
-                     editable = 0
+            # If the search form posts some data, then get the year and
+            # month from posted data
+            year = search_form.cleaned_data['year']
+            # return HttpResponse(year)
+            month = search_form.cleaned_data['month']
+            # return HttpResponse(month)
+            # The year is converted to string to match the format, 
+            # in case you were wondering.
+            if (str(year) > str(this_year)): 
+                message = "Hey! There are no future values yet!"
+                url = "src.views.ajaxdetails"
+                return render(request, 'src/error.html', {'message':message,\
+                    'url':url})
+            elif (str(year) <= str(this_year)):
+                if (str(month) > str(this_month) and str(year) == str(this_year)):
+                    message = "Hey! There are no future values yet!"
+                    url = "src.views.ajaxdetails" 
+                    return render(request, 'src/error.html', {'message':message,\
+                        'url':url})
+                else:
+                    temp_month = int(month) + 1
+                    temp_year = int(year)
+                    if temp_month > 12:
+                        temp_month = temp_month - 12
+                        temp_year = temp_year + 1
+                    temp_date = datetime.date(temp_year, temp_month, 1)
+                    allworkers = WorkerDetail.objects.values('id').\
+                        filter(joining_date__lt=temp_date,resigning_date__gte=temp_date)
+                editable = 0
     # Else take values for today's year and month and pass the values of
     # month and year to the for loop for feeding that list ;)
-           	
+            
     else:
         year = this_year
         month = this_month
@@ -323,19 +327,19 @@ def ajaxdetails(request):
         # Just collect everything needed!
 
         details = WorkerDetail.objects.values('first_name', 'last_name',
-        'address').filter(status = 1).filter(id = value['id'])
-	
+        'address').filter(id = value['id'])
+
         attendance = MonthlyAttendance.objects.values('attended_days').\
         filter(worker_id = value['id']).filter(for_month__year=
-        year).filter(for_month__month=month).filter(worker_id__status = 1)
+        year).filter(for_month__month=month)
 
         overtime = MonthlyAttendance.objects.values('overtime_hours').\
         filter(worker_id = value['id']).filter(for_month__year=
-        year).filter(for_month__month=month).filter(worker_id__status = 1)
+        year).filter(for_month__month=month)
 
         paid_salary = PaidSalary.objects.values('paid_amount').\
         filter(worker_id = value['id']).filter(payment_date__year=
-        year).filter(payment_date__month=month).filter(worker_id__status = 1)
+        year).filter(payment_date__month=month)
         
         advance = Advance.objects.filter(worker_id = value['id']).\
         filter(advance_date__year=year).filter(advance_date__month= 
@@ -359,6 +363,8 @@ def ajaxdetails(request):
     return render(request, 'src/form.html', {'detail_list':detail_list,\
     'search':search_form, 'editable':editable, 'year':year, 'month':month,
     'success':success, 'message':message})
+
+
 
 # Ajax calls the following views
 
