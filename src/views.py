@@ -151,6 +151,17 @@ def ajax_daily_attendance(request):
         overtime = float(overtime)
         edit_daily_overtime = DailyAttendance.objects.get(worker_id_id=worker_id,\
         for_day = datetime.date.today())
+        # When overtime is updated in daily attendance, also remove 
+        # the previously added value from monthlyattendance even before 
+        # updating in daily attendance table.
+        value_to_be_subtracted_from_monthlyattendance = edit_daily_overtime.overtime
+        edit_obj = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
+        for_month__month=this_month, for_month__year=this_year)
+        edit_obj.overtime_hours = edit_obj.overtime_hours - value_to_be_subtracted_from_monthlyattendance
+        edit_obj.save()
+        #return HttpResponse(value_to_be_subtracted_from_monthlyattendance)
+        # After subtracting the previously saved value from monthly 
+        # attendance, now override it.
         edit_daily_overtime.overtime = overtime
         edit_daily_overtime.save()
 
