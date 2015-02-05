@@ -7,8 +7,7 @@ $(document).ready(function(){
   if($(this).prop("checked") == true){
      //alert(changed_id);
     //alert("Checkbox is checked.");
-    attendance = $('#attendance_' + changed_id).val();
-    attendance="1";
+    attendance = $('#attendance_' + changed_id).val() || 1;
     //alert(attendance);
     reverse('src.views.ajax_daily_attendance', function(url) {
       var request_url = url + "?attendance=" + attendance + "&worker_id=" + changed_id;
@@ -16,6 +15,7 @@ $(document).ready(function(){
         url: request_url,
         success: function(data){
         if (data){ 
+          //never ever change the css from inside of JS change the class instead
           $('#attendance_' + changed_id).css("color","#1abc9c");
         } 
         }
