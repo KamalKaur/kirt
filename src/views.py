@@ -326,7 +326,7 @@ def ajaxdetails(request):
     else:
         year = this_year
         month = this_month
-        search_form = SearchSelect()
+        search_form = SearchSelect(initial={'year': this_year, 'month':this_month})
         editable = 1
 
     for value in allworkers:

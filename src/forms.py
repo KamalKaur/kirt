@@ -5,6 +5,13 @@ from django.forms import ModelForm
 from src.models import *
 import datetime
 from src.month_choices import MONTH_CHOICES
+# IMpor USer model to get the joining date of user and extract year 
+# from there to be displayed in search form
+from django.contrib.auth.models import User
+
+this_year = datetime.date.today().year
+user_obj = User.objects.get(is_superuser = 1)
+joining_year = user_obj.date_joined.year
 
 
 class SearchSelect(forms.Form):
@@ -14,8 +21,10 @@ class SearchSelect(forms.Form):
     from another file i.e month_choices.py and are displayed as drop downs
     because the fields defined are Choice fields :)
     """
-    year = forms.ChoiceField(label='', choices= [(datetime.date.today().year, datetime.\
-    date.today().year)] + [(year, year) for year in range(2014, 2020)])
+    year = forms.ChoiceField(label='', choices= [(year, year) for year 
+        in range(joining_year, this_year+1 )])
+    # this year + 1 is because For eg.range(2015, 2015) will 
+    # return [] and range (2015, 2016) = 2015
     month = forms.ChoiceField(MONTH_CHOICES, label='')
 
 class WorkerDetailForm(ModelForm):
