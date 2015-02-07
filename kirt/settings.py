@@ -28,7 +28,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 TEMPLATE_DIRS = (
-    '/home/sukhdeep/Videos/synckirt/kirt/templates',
+    '/home/username/path-to.../Kirt/templates',
 )
 # Application definition
 
@@ -39,12 +39,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration',
     'src',
 	
 )
 
 # If to open admin page by default for @login required
-# LOGIN_URL = '/admin/login/'
+LOGIN_URL = 'accounts/login/'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,9 +68,9 @@ WSGI_APPLICATION = 'kirt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kirt1',
-        'USER': 'root',
-        'PASSWORD': '12345',
+        'NAME': '<Database name>',
+        'USER': '<MySql user name>',
+        'PASSWORD': '<MySql username Password>',
         'HOST': '',
         'PORT': '',
 
@@ -93,7 +94,7 @@ MEDIA_ROOT = ''
 
 MEDIA_URL = ''
 
-STATIC_ROOT = '/home/sukhdeep/Videos/synckirt/kirt/static/'
+STATIC_ROOT = '/home/username/path-to.../Kirt/static/'
 
 STATIC_URL = '/static/'
 
@@ -109,4 +110,3 @@ STATICFILES_FINDERS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
-
