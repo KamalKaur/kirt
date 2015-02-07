@@ -31,6 +31,17 @@ def index(request):
     else:
         return render(request,'src/index.html',{})
 
+@login_required
+def my_logout(request):
+    """
+    The logout function imports logout from the views of django.auth,
+    redirects to the index view and then the login page is renderd
+    again.
+    """
+    from django.contrib.auth.views import logout
+    logout(request)
+    return HttpResponseRedirect(reverse("src.views.index"))
+
 def jsreverse(request):
     """
     This function reverse looks up the urls for the AJAX Requests and
