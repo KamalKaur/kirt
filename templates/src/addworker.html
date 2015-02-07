@@ -5,24 +5,38 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/addworker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
+
+	<script type=text/javascript>
+           $(document).ready(function(){
+	    
+            $('#id_joining_date').datepicker({
+		changeMonth: true,//this option for allowing user to select month
+		changeYear: true, //this option for allowing user to select from year range
+		dateFormat:"yy-mm-dd"
+	    });
+
+	    $('#id_date').datepicker( "option", "showAnim", "clip" );
+            });
+	</script>
+
 {% endblock %}
 
 {% block content %}
 
     
     <div class="center">
-    <div class="notifications">
+  {% if message %}
+  <div class="alert alert-danger">
   <div class="toggle"></div>
-  <div class="messages">
-    <p class="message">Please enter a correct value!</p>
-   </div>
-</div>
-    <form method="POST" action=''>
-    <!--{% if message %}
-    <div class="alert alert-danger">
-        {{message}}
+    <div class="messages">
+      <p class="message"><i class="glyphicon glyphicon-exclamation-sign" style="color:#a94442;"></i> Please enter valid inputs</p>
     </div>
-    {% endif %}-->
+  </div>
+  {% endif %}
+    <form method="POST" action=''>
         {% csrf_token %}
         <legend> <h1>Add worker</h1> </legend>
             {{WorkerDetailForm.as_p}} 

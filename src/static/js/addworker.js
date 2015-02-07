@@ -27,6 +27,22 @@ $(document).ready(function(){
         }
     });
 
+    $('#id_middle_name').on('input', function(){
+        first_name = $("#id_middle_name").val();      
+        if (first_name == ""){
+            $('#id_middle_name').css("color","red");
+            notification(); 
+        }
+        else if (first_name.match(/^[a-zA-Z ]*$/)){
+            $('#id_middle_name').css("color","#1abc9c");
+        }          
+        else{
+            $('#id_middle_name').css("color","red");
+            notification();
+        }
+    });
+
+
     $('#id_last_name').on('input', function(){
         last_name = $("#id_last_name").val();      
         if (last_name == ""){

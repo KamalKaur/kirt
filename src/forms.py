@@ -41,6 +41,7 @@ class WorkerDetailForm(ModelForm):
         exclude = ('status','resigning_date',)
         fields = '__all__'
         labels = {'first_name': (''),
+            'middle_name': (''),
             'last_name': (''),
             'address': (''),
             'joining_date': (''),
@@ -48,7 +49,8 @@ class WorkerDetailForm(ModelForm):
             'provident_fund': (''),
             }
         widgets = {
-            'first_name': TextInput(attrs={'placeholder': 'First name'}),
+            'first_name': TextInput(attrs={'placeholder': 'First name', 'autofocus':'true'}),
+            'middle_name': TextInput(attrs={'placeholder': 'Middle name'}),
             'last_name': TextInput(attrs={'placeholder': 'Last name'}),
             'address': TextInput(attrs={'placeholder': 'Address'}),
             'joining_date': TextInput(attrs={'placeholder': 'yyyy-mm-dd'}),

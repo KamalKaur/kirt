@@ -19,11 +19,12 @@ class WorkerDetail(models.Model):
     currently working. 
     """
     first_name = models.CharField(max_length=100, validators=[alphabets])
+    middle_name = models.CharField(max_length=100, validators=[alphabets], null=True, blank=True)
     last_name = models.CharField(max_length=100, validators=[alphabets])
     address = models.CharField(max_length=200)
     joining_date = models.DateField(default=datetime.date.today)
     basic_wage = models.FloatField(validators = [MinValueValidator(0)])
-    provident_fund = models.FloatField(validators = [MinValueValidator(0)])
+    provident_fund = models.FloatField(validators = [MinValueValidator(0)], null=True, blank=True)
     status = models.BooleanField(default=True)
     resigning_date = models.DateField(null=True, blank=True)
 
