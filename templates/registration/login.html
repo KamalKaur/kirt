@@ -27,24 +27,64 @@ $(document).ready(function(){
     </script>
 {% endblock %}
 <body>
+
+
+  {% if form.errors %}
+    <script>
+    $(document).ready(function(){
+      $('#id_username').addClass('errorClass');
+      $('#id_password').addClass('errorClass');
+      $('#id_username').on('input', function(){  
+        $('#id_username').removeClass('errorClass');
+        $('#hide').hide();
+      })
+      $('#id_password').on('focus', function(){  
+        $('#id_password').removeClass('errorClass');
+        $('#hide1').hide();
+      })
+    })
+    </script>
+  {% endif %}
+
 <div class="circle" ></div>
 <div class="transparent" >
     <div class="center-block-square">
-    <a style="text-decoration:none" href="{% url 'src.views.index' %}"> <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
-    <form class="" method="post" action="">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}"> 
-       
-        <!--<th>{{ form.username.label_tag }}</th>-->
-        {{form.username}}
-       
-        <!--<th>{{ form.password.label_tag }}</th>-->
-        {{form.password}}
-        <div><a href=""></a></div>      
-        <div class="login-button">
-        <input type="submit" value="Login">
-        </div>
-    </form>
+    <a style="text-decoration:none" href="{% url 'src.views.index' %}"> 
+    <span class="pb-dark">K</span><span class="pb-light">irt</span></a>
+
+    <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+
+      <div class="form-row">
+      {{ form.username }}
+      </div>
+
+      {% if form.errors %}
+      <i id="hide" class="glyphicon glyphicon-exclamation-sign" style="position: absolute;
+      top: 162px; right:23%; color: #a94442;"></i>
+      {% endif %}	
+  
+      <div class="form-row">
+      {{ form.password }}
+      <input type="hidden" name="next" value="{{ next }}" />
+      </div>
+
+      {% if form.errors %}
+      <i id="hide1" class="glyphicon glyphicon-exclamation-sign" style="position: absolute;
+      top: 191px; right:23%; color: #a94442;"></i>
+      {% endif %}
+
+      {% url 'admin_password_reset' as password_reset_url %}
+
+      {% if password_reset_url %}
+      <div class="password-reset-link">
+      <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+      </div>
+      {% endif %}
+
+      <div class="submit-row">
+      <input type="submit" value="{% trans 'Log in' %}" />
+      </div>
+  </form>
 
 </div>
 </div>
