@@ -82,6 +82,9 @@ def addworker(request):
             paidsalary = PaidSalary(worker_id = wd, paid_amount = None,\
             payment_date = workerdetail.joining_date)
             paidsalary.save()
+            first_basic_wage = Promotions(worker_id = wd, promoted_wage =\
+            workerdetail.basic_wage, on_date = workerdetail.joining_date)
+            first_basic_wage.save()
             return HttpResponseRedirect(reverse("src.views.index"))
         else:
             message = "Please correct the errors below"
@@ -283,6 +286,56 @@ def addadvance(request):
     else:
         form = AdvanceForm()
         return render(request,'src/addadvance.html',{'AdvanceForm':form})
+
+@login_required
+def promotions(request):
+    """
+    This view is called to add and update te promotions in worker
+    salaries.
+    """
+    date = datetime.date.today()
+    worker_details = WorkerDetail.objects.filter(status=1)
+    return render(request,'src/promotions.html',{'worker_details': \
+    worker_details, 'date':date})
+
+@login_required
+def ajaxpromotions(request):
+    """
+    Handles the ajax request from Promotions page
+    """
+    worker_id = request.GET['worker_id']
+    promotion = request.GET['promotion']
+    worker = WorkerDetail.objects.get(pk=worker_id)
+    if Promotions.objects.filter(worker_id_id=worker_id,\
+        on_date__month=this_month, on_date__year=this_year).exists():
+        editable_obj = Promotions.objects.get(worker_id_id=worker_id,\
+        on_date__month=this_month, on_date__year=this_year)
+        editable_obj.promoted_wage = promotion
+        editable_obj.save()
+        edit_in_workerdetails = WorkerDetail.objects.get(id = worker_id)
+        edit_in_workerdetails.basic_wage = promotion
+        edit_in_workerdetails.save()
+        return HttpResponse("Updated")
+    else:
+        new_promotion_object = Promotions(worker_id = worker, promoted_wage \
+        = promotion, on_date = datetime.date.today())
+        new_promotion_object.save()
+        edit_in_workerdetails = WorkerDetail.objects.get(id = worker_id)
+        edit_in_workerdetails.basic_wage = promotion
+        edit_in_workerdetails.save()
+        return HttpResponse("New object added")
+
+@login_required
+def popup_promotions(request):
+    worker_id = request.GET['worker_id']
+    worker_name = WorkerDetail.objects.values('first_name', 'middle_name',\
+    'last_name').get(id= worker_id)
+    full_name = worker_name['first_name'] + " " + worker_name['middle_name'] \
+    + " " + worker_name['last_name']
+    previous_promotions = Promotions.objects.filter(worker_id = worker_id)
+    return render(request,'src/previous_promotions.html',{'full_name':\
+        full_name, 'previous_promotions':previous_promotions})
+
 
 @login_required
 def ajaxdetails(request):

@@ -31,6 +31,16 @@ class WorkerDetail(models.Model):
     def __unicode__(self):
         return self.first_name
 
+class Promotions(models.Model):
+    """
+    Here, we store the promotions of worker salaries which are done from 
+    time to time. The date field helps to keep the track of date, time
+    and year of the same action.
+    """
+    worker_id = models.ForeignKey(WorkerDetail)
+    promoted_wage = models.FloatField(validators = [MinValueValidator(0)])
+    on_date = models.DateField(default=datetime.date.today)
+
 class MonthlyAttendance(models.Model):
     """
     This model keeps the attendance of all the workers and is accessed 
