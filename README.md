@@ -50,7 +50,7 @@ Steps for Installation of Kirt
 3) Create a new database for Kirt inside mysql shell:
     mysql> create database kirt;
     mysql> quit
-    
+
 4) Edit Kirt/kirt/settings.py file. Things to be edited are:
 
     a) Database details: At Lines 69, 70, 80, fill your own details in following fields:
@@ -73,14 +73,19 @@ Steps for Installation of Kirt
     
     $ cd kirt
 
-5) To fix your settings so that these can't be tracked by git and you can pull all the updates without an issue, run the following command inside cloned directory:
+5) Now create a superuser for your project:
+    $ python manage.py createsuperuser
+   
+   Now add Username, email(optional) and password.
+
+6) To fix your settings so that these can't be tracked by git and you can pull all the updates without an issue, run the following command inside cloned directory:
 
     $ git update-index --assume-unchanged kirt/settings.py
 
 
-5) Now, run the following commands inside the directory Kirt only:
+7) Now, run the following commands inside the directory Kirt only:
 
     $ python manage.py migrate
     $ python manage.py runserver 127.0.0.1:8090
     
-6) Open 'http://localhost:8090' in your browser and you'll be greeted by the Kirt login page.
+8) Open 'http://localhost:8090' in your browser and you'll be greeted by the Kirt login page.
