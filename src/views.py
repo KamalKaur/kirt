@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.db.models import Q
 from src.models import *
 from src.forms import *
 #import forms
@@ -363,6 +364,12 @@ def ajaxdetails(request):
     # Initially, the idea of implementation started from search and the first
     # thing, here, is search, only then control proceeds forward.
 
+    # A minimal function to get the last day of month using the date.
+    def last_day_of_month(any_day):
+        next_month = any_day.replace(day=28) + datetime.timedelta(days=4)  # this will never fail
+        return next_month - datetime.timedelta(days=next_month.day)
+
+
     if request.method == 'POST':
          search_form = SearchSelect(request.POST)
          if search_form.is_valid():
@@ -389,14 +396,21 @@ def ajaxdetails(request):
                     editable = 1
 
                 else:
-                    temp_month = int(month) + 1
-                    temp_year = int(year)
-                    if temp_month > 12:
-                        temp_month = temp_month - 12
-                        temp_year = temp_year + 1
-                    temp_date = datetime.date(temp_year, temp_month, 1)
-                    allworkers = WorkerDetail.objects.values('id').\
-                        filter(joining_date__lt=temp_date,resigning_date__gte=temp_date)
+                    start_date = datetime.date(int(year),int(month),1)
+                    end_date = last_day_of_month(start_date)
+                    date_filter = Q(resigning_date__range = [str(start_date),str(end_date)])
+                    date_filter |= Q(resigning_date__isnull = True)
+                    allworkers = WorkerDetail.objects.values('id').filter(date_filter)\
+                    .filter(joining_date__lte = str(end_date))
+#                   temp_month = int(month) + 1;
+#                   temp_year = int(year)
+#                    
+#                   if temp_month > 12:
+#                       temp_month = temp_month - 12
+#                       temp_year = temp_year + 1
+#                   temp_date = datetime.date(temp_year, temp_month, 1)
+#                   allworkers = WorkerDetail.objects.values('id').\
+#                   filter(joining_date__lt=temp_date,resigning_date__gte=temp_date)
                 editable = 0
     # Else take values for today's year and month and pass the values of
     # month and year to the for loop for feeding that list ;)
