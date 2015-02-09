@@ -24,7 +24,7 @@ class WorkerDetail(models.Model):
     address = models.CharField(max_length=200)
     joining_date = models.DateField(default=datetime.date.today)
     basic_wage = models.FloatField(validators = [MinValueValidator(0)])
-    provident_fund = models.FloatField(validators = [MinValueValidator(0)], null=True, blank=True)
+    provident_fund = models.FloatField(validators = [MinValueValidator(0)], null=True, blank=True, default=0)
     status = models.BooleanField(default=True)
     resigning_date = models.DateField(null=True, blank=True)
 

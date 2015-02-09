@@ -13,6 +13,16 @@ from calendar import monthrange
 from django.core.urlresolvers import reverse
 from src.config import _MAN_HOURS_A_DAY
 from src.config import _OVERTIME_WAGE_FACTOR
+from src.config import _COMPANY_NAME
+from src.config import _COMPANY_ADDRESS_PART_1
+from src.config import _COMPANY_ADDRESS_PART_2
+#for payslip
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from io import BytesIO
+
+
 
 # These two variables are used >7 times in this file, so are declared 
 # here only and refers to the current month and year.
@@ -512,13 +522,16 @@ def particulars(request):
     filter(id=worker_id)[0]['first_name']
     last_name = WorkerDetail.objects.values('last_name').\
     filter(id=worker_id)[0]['last_name']
+    address = WorkerDetail.objects.values('address').\
+    filter(id=worker_id)[0]['address']
+
     try:
         basic_wage = WorkerDetail.objects.values('basic_wage').\
         filter(id=worker_id)[0]['basic_wage']
         attended_days = MonthlyAttendance.objects.values('attended_days').\
         filter(worker_id=worker_id).filter(for_month__month=month).\
         filter(for_month__year=year)[0]['attended_days']
-        #return HttpResponse(basic_wage)
+        #return HttpResponse(basic_wage)_OVERTIME_WAGE_FACTOR
         days_in_month = monthrange(year, month)[1]		
         monthly_basic_wage = round(((basic_wage / days_in_month) * attended_days),2)	
             # return HttpResponse(monthly_basic_wage)
@@ -582,6 +595,18 @@ def particulars(request):
         else:
             obj = Balance(worker_id=worker, balance_amount = further_advance)
             obj.save()
+
+        request.session['name'] = first_name + ' ' + last_name
+        request.session['address'] = address
+        request.session['attended_days'] = attended_days
+        request.session['overtime_hours'] = overtime_hours
+        request.session['monthly_basic_wage'] = monthly_basic_wage
+        request.session['overtime_wage'] = overtime_wage
+        request.session['provident_fund'] = provident_fund
+        request.session['last_month_advance'] = last_month_advance
+        request.session['month_advance'] = month_advance
+        request.session['amount_to_be_paid'] = amount_to_be_paid
+
         return render(request, 'src/particulars.html', {'first_name': first_name,\
         'last_name': last_name,'basic_wage': basic_wage, \
         'attended_days': attended_days, 'days_in_month': days_in_month, \
@@ -651,3 +676,93 @@ def deleteworker(request):
         message = "Not deleted"
 
     return HttpResponse(worker_id)
+
+def payslip(request):
+    """
+    When the user clicks on Delete button, this function is called to
+    change that worker's status to inactive and set the resigning date.
+    Which isthen reflected in the spreadsheet after a success message.
+    """
+    worker_id = request.GET['worker_id']
+    try:
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename=Payslip-'+request.session['name']+'.pdf'
+
+        buff = BytesIO()
+        doc = SimpleDocTemplate(buff)
+        # container for the 'Flowable' objects
+        elements = []
+        month = datetime.date.today().strftime("%B")
+        year = str(this_year)
+ 
+        data= [['PAYSLIP (' + month + ', ' + year + ')'],
+               [_COMPANY_NAME],
+               [_COMPANY_ADDRESS_PART_1],
+               [_COMPANY_ADDRESS_PART_2],
+               ['Employee Details'],
+               ['Name', request.session['name']],
+               ['Address', request.session['address']],
+               ['Salary Details'],
+               ['Description','Days/Hours','Amount'],
+               ['Earnings'],
+               ['Basic wage', str(request.session['attended_days']) +' days',request.session['monthly_basic_wage']],
+               ['Overtime wage', str(request.session['overtime_hours']) +' hours',request.session['overtime_wage']],
+               ['Deductions'],
+               ['Provident Fund', request.session['provident_fund']],
+               ['Other'],
+               ['Last Month Advance', request.session['last_month_advance']],
+               ['Current Month Advance', request.session['month_advance']],
+               ['TOTAL',request.session['amount_to_be_paid']]]
+
+        t=Table(data, colWidths=2.40*inch,  rowHeights=0.35*inch)
+        t.setStyle(TableStyle([('ALIGN',(-2,-13),(-1,-1),'RIGHT'),
+                               ('ALIGN',(-3,-11),(-1,-11),'CENTER'),
+                               ('TEXTCOLOR',(0,0),(0,-1),colors.black),
+                               ('FONT',(-3,-18),(-1,-1),'Helvetica',12),
+                               ('FONT',(-3,-4),(-1,-4),'Helvetica-Bold',10),
+                               ('FONT',(-3,-6),(-1,-6),'Helvetica-Bold',10),
+                               ('FONT',(-3,-9),(-1,-9),'Helvetica-Bold',10),
+                               ('FONT',(-3,-11),(-1,-10),'Helvetica-Bold',10),
+                               ('FONT',(-3,-14),(-1,-14),'Helvetica-Bold',10),
+                               ('FONT',(-3,-1),(-1,-1),'Helvetica-Bold',13),
+                               ('LINEBELOW',(-3,-18),(-1,-18),1,colors.black),
+                               ('LINEBELOW',(-3,-1),(-1,-1),1,colors.black),
+                               ('LINEABOVE',(-3,-1),(-1,-1),1,colors.black),
+                               ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
+                               ('TEXTCOLOR',(0,-1),(-1,-1),colors.black),
+                               ('BACKGROUND', (-3,-14), (-1,-14), colors.gray),
+                               ('BACKGROUND', (-3,-11), (-1,-11), colors.gray),
+                               ('BACKGROUND', (-3,-9), (-1,-9), colors.gray),
+                               ('BACKGROUND', (-3,-6), (-1,-6), colors.gray),
+                               ('BACKGROUND', (-3,-4), (-1,-4), colors.gray),
+                               ('SPAN',(-2,-13),(-1,-13)),
+                               ('SPAN',(-2,-12),(-1,-12)),
+                               ('SPAN',(-2,-5),(-1,-5)),
+                               ('SPAN',(-2,-4),(-1,-4)),
+                               ('SPAN',(-2,-3),(-1,-3)),
+                               ('SPAN',(-2,-2),(-1,-2)),
+                               ('SPAN',(-2,-1),(-1,-1)),
+                               ('SPAN',(-3,-11),(-1,-11)),
+                               ('SPAN',(-3,-18),(-1,-18)),
+                               ('SPAN',(-3,-17),(-1,-17)),
+                               ('SPAN',(-3,-16),(-1,-16)),
+                               ('SPAN',(-3,-15),(-1,-15)),
+                               ('ALIGN',(-3,-17),(-1,-15),'RIGHT'),
+                               ('ALIGN',(-2,-10),(-2,-7),'RIGHT'),
+                               ('ALIGN',(-3,-18),(-1,-18),'CENTER'),
+                               ('INNERGRID', (-3,-13), (-1,-12), 0.25, colors.black),
+                               ('INNERGRID', (-3,-10), (-1,-10), 0.25, colors.black),
+                               ('INNERGRID', (-3,-8), (-1,-7), 0.25, colors.black),
+                               ('INNERGRID', (-3,-5), (-1,-5), 0.25, colors.black),
+                               ('INNERGRID', (-3,-3), (-1,-2), 0.25, colors.black),
+                               ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                               ]))
+
+        elements.append(t)
+        # write the document to disk
+        doc.build(elements)
+        response.write(buff.getvalue())
+        buff.close()
+        return response
+    except:
+        return render(request,'src/index.html',{})

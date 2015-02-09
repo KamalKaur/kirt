@@ -40,6 +40,7 @@
         </div>
     <!-- Button HTML (to Trigger Modal) -->
     <div class="pull-right">
+    <a id="payslip" {% if attended_days != 0 %} href="{% url 'src.views.payslip' %}?worker_id={{worker_id}}" {% endif %} class="btn btn-lg btn-primary {% if attended_days == 0 %} disabled{% endif %}" {% if attended_days == 0 %} data-toggle="tooltip" title="Worker should have attended atleast 1 day." {% endif %} >Payslip</a>
     <a href="#myModal" class="btn btn-lg btn-danger" data-toggle="modal">Delete</a>
     </div>
     </div>

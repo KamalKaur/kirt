@@ -91,3 +91,11 @@ padding:6px;}
 .center h1{
 color: #428BCA;
 }
+
+#payslip{
+  margin-right:0px;
+}
+
+.btn.disabled {
+    pointer-events: auto;
+}

@@ -9,3 +9,6 @@
 
 _MAN_HOURS_A_DAY = 9
 _OVERTIME_WAGE_FACTOR = 1.5
+_COMPANY_NAME = 'ABC Enterprises'
+_COMPANY_ADDRESS_PART_1 = '#1131, St. No. - 10'
+_COMPANY_ADDRESS_PART_2 = 'abc Road, Ludhiana'
