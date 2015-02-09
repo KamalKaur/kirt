@@ -328,15 +328,17 @@ def ajaxpromotions(request):
         return HttpResponse("New object added")
 
 @login_required
-def popup_promotions(request):
+def previous_promotions(request):
     worker_id = request.GET['worker_id']
     worker_name = WorkerDetail.objects.values('first_name', 'middle_name',\
     'last_name').get(id= worker_id)
     full_name = worker_name['first_name'] + " " + worker_name['middle_name'] \
     + " " + worker_name['last_name']
+    date = WorkerDetail.objects.values('joining_date').get(id= worker_id)
+    joining_date = date['joining_date']
     previous_promotions = Promotions.objects.filter(worker_id = worker_id)
     return render(request,'src/previous_promotions.html',{'full_name':\
-        full_name, 'previous_promotions':previous_promotions})
+        full_name, 'previous_promotions':previous_promotions, 'joining_date':joining_date})
 
 
 @login_required

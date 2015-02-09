@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/particulars.css">
 
 {% endblock %}
-
+<style>
+.ui-dialog-titlebar-close {
+display: none;
+}
+</style>
 {% block content %}
 <div class="container"> 
 <div class="inner" style="width:80%; display:block; margin-left: auto; margin-right: auto;">
@@ -31,7 +35,8 @@
         <div class="clearfix visible-sm-block"></div>
 
         <div class="col-sm-6 col-md-4 col-lg-2">
-           <a data-toggle="modal" id="old_{{value.id}}" class="btn btn-info btn-xs ">Previous</a>
+           <a data-toggle="modal" id="old_{{value.id}}" class="btn btn-info btn-xs" 
+           onclick="return popitup('{% url 'src.views.previous_promotions' %}?worker_id={{value.id}}')" >Previous</a>
         </div>   
         <div class="clearfix visible-sm-block"></div>
 
@@ -49,8 +54,40 @@
 {% block extrajs %}
    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/promotions.js"></script>
+<script language="javascript" type="text/javascript">
+var opt = {
+resizable: false, 
+autoOpen: false,
+closeOnEscape: true,
+width: 500, 
+height: 300,
+modal: true,
+   buttons: [{ 
+      text: "Ok", 
+      click: function() { 
+         $( this ).dialog( "close" ); 
+      }
+   }]
+}
 
+function popitup(url) {
+$.ajax({
+  url: url,
+  success: function(data) {
+$("#dialog-form").dialog(opt).html(data).dialog('open');
+$(".ui-dialog-titlebar").hide()  
+$('body').on('click','.ui-widget-overlay',function(){ $('#dialog-form').dialog('close'); });
+$("#dialog-form").keyup(function(e) {
+if( e.keyCode === 13 ) {
+  $("#dialog-form").dialog('close');
+}
+})
+    }
+  });   
+  return false;
+}
 
+</script>
 
 <script type="text/javascript">
     var reverseurl = "{% url 'src.views.jsreverse' %}";
