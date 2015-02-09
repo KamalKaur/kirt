@@ -384,6 +384,9 @@ def ajaxdetails(request):
                     url = "src.views.ajaxdetails" 
                     return render(request, 'src/error.html', {'message':message,\
                         'url':url})
+                elif (str(month) == str(this_month) and str(year) == str(this_year)):
+                    editable = 1
+
                 else:
                     temp_month = int(month) + 1
                     temp_year = int(year)
