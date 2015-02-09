@@ -46,15 +46,15 @@ attendance = $('#attendance_' + changed_id).val();
   changed_id = this.id.split("_")[1]
   overtime = $('#overtime_' + changed_id).val();
   //alert(overtime);  
- /*if ( overtime < 0 ){
+ if ( overtime < 0 ){
     $('#overtime_' + changed_id).css("color","red");
     //notification();
     } 
-  else if ( overtime > 20 ){ 
+  else if ( overtime > 10 ){ 
     $('#overtime_' + changed_id).css("color","red");
     //notification();
     }
-  else{ */
+  else{ 
     reverse('src.views.ajax_daily_attendance', function(url) {
       var request_url = url + "?overtime=" + overtime + "&worker_id=" + changed_id;
       $.ajax({
@@ -66,6 +66,7 @@ attendance = $('#attendance_' + changed_id).val();
         }
       });
     });
+    }
   });
 
 })
