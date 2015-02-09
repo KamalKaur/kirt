@@ -91,7 +91,7 @@ $(document).ready(function(){
             $('#paid_' + changed_id).css("color","red");
             notification();
         }
-        else if (paid < 0){
+        else if (paid < 1){
             $('#paid_' + changed_id).css("color","red");
             notification();
         }
