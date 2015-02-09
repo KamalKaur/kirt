@@ -178,8 +178,8 @@ def ajax_daily_attendance(request):
     worker_id = request.GET['worker_id']
     try:
         overtime = request.GET['overtime']
+        overtime = float(overtime)
         if overtime >= 0 and overtime <= 11:
-            overtime = float(overtime)
             edit_daily_overtime = DailyAttendance.objects.get(worker_id_id=worker_id,\
             for_day = datetime.date.today())
             # When overtime is updated in daily attendance, also remove 
