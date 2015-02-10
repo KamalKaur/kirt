@@ -152,6 +152,7 @@ $.ajax({
   url: url,
   success: function(data) {
 $("#dialog-form").dialog(opt).html(data).dialog('open');
+$('body').on('click','.ui-widget-overlay',function(){ $('#dialog-form').dialog('close'); });
 $("#dialog-form").keyup(function(e) {
 if( e.keyCode === 13 ) {
   $("#dialog-form").dialog('close');

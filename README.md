@@ -36,6 +36,10 @@ For the installation of Requiremets, run the following commands in terminal:
     
     sudo pip install https://www.djangoproject.com/download/1.7.b4/tarball/
 
+7) ReportLab
+
+    sudo aptitude install python-reportlab
+
 
 Steps for Installation of Kirt
 

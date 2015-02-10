@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf import settings
+from kirt.settings import LOGIN_URL
 
 """
 All the URLs that can be possibly called by user are working here. 
@@ -28,10 +29,6 @@ urlpatterns = patterns('',
     url(r'^payslip/', 'src.views.payslip'),
     url(r'^return_advance/','src.views.return_advance'),
     url(r'^deleteworker/','src.views.deleteworker'),
-    url(r'^jsreverse/', 'src.views.jsreverse'),
-    
-) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-# Are these things needed after + ?
-
+    url(r'^jsreverse/', 'src.views.jsreverse'),   
+) 
 
