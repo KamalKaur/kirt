@@ -599,8 +599,20 @@ def particulars(request):
     filter(id=worker_id)[0]['address']
 
     try:
-        basic_wage = WorkerDetail.objects.values('basic_wage').\
-        filter(id=worker_id)[0]['basic_wage']
+        if Promotions.objects.values('promoted_wage').\
+            filter(worker_id=worker_id).filter(on_date__month = month)\
+            .exists() == False:
+
+            wage_obj = Promotions.objects.values('promoted_wage').\
+            filter(worker_id=worker_id).filter(on_date__month = month-1)\
+            [0]['promoted_wage']
+            
+            new_wage_obj = Promotions(worker_id_id=worker_id, promoted_wage = wage_obj)
+
+            new_wage_obj.save()
+
+        basic_wage = Promotions.objects.values('promoted_wage').\
+        filter(worker_id=worker_id).filter(on_date__month = month)[0]['promoted_wage']
         attended_days = MonthlyAttendance.objects.values('attended_days').\
         filter(worker_id=worker_id).filter(for_month__month=month).\
         filter(for_month__year=year)[0]['attended_days']
