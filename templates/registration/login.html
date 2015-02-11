@@ -6,8 +6,11 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/flatty.css">
     <script src="{{ STATIC_URL }}js/pace.js"></script> 
     <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/humane.min.js"></script>
+
     <script type="text/javascript">
 $(document).ready(function(){ 
   document.getElementById('id_username').focus()
@@ -34,6 +37,7 @@ $(document).ready(function(){
     $(document).ready(function(){
       $('#id_username').addClass('errorClass');
       $('#id_password').addClass('errorClass');
+      humane.log('Please fill valid Username/Password', {timeout: 5000} );
       $('#id_username').on('input', function(){  
         $('#id_username').removeClass('errorClass');
         $('#hide').hide();
