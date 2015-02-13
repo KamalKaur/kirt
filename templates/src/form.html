@@ -2,6 +2,8 @@
 {% block title %} Kirt {% endblock %}
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/chardinjs/startchardin.js"></script>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/form.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
 {% endblock %}
@@ -66,7 +68,7 @@
                     <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="{% url 'src.views.particulars' %}?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
-                        class="nounderline">{{value.first_name}} {{value.last_name}}</a>
+                        class="nounderline" data-intro="Click here to view and pay salary">{{value.first_name}} {{value.last_name}}</a>
                     </td> 
                     <td>
                         <input type="number" id="days_{{value.worker_id}}" 
@@ -209,6 +211,6 @@ $(".table :input").attr('disabled', true);
 
 else
 $(".table :input").attr('disabled', false);
-})
-</script>
+}) </script>
+<script src="{{ STATIC_URL }}js/chardinjs/chardinjs.min.js"></script>
 {% endblock %}

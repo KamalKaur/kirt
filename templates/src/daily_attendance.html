@@ -4,10 +4,13 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/particulars.css">
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
+    <script src="{{ STATIC_URL }}js/chardinjs/startchardin.js"></script>
 {% endblock %}
 
 {% block content %}
-<div class="container"> 
+<div class="container" data-intro="If present, click the checkbox and enter the number of hours spent" data-position="bottom"> 
   <div class="inner" style="width:80%; display:block; margin-left: auto; margin-right: auto;">
     <div class="font"> 
       <div class="row">
@@ -60,7 +63,7 @@
 </script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/daily_attendance.js">
 </script>
-
+<script src="{{ STATIC_URL }}js/chardinjs/chardinjs.min.js"></script>
 
 {% endblock %}
 

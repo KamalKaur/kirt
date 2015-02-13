@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/index.css">
-    
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/chardinjs/startchardin.js"></script>
 {% endblock %}
 {% block content %}
       <div class="container">
@@ -17,7 +18,7 @@
 			    <div class="tile">
 				 
 				    <div class=line_seprator></div>
-				    <span class=tile__text>Daily Attendance</span>
+				    <span class=tile__text data-intro="Click here to mark attendance daily" data-position="left">Daily Attendance</span>
 		   	    </div>
 			</a>
 		    </div>
@@ -27,7 +28,7 @@
 			    <div class="tile">
 				 
 				    <div class=line_seprator></div>
-				    <span class=tile__text>Salary Sheet </span>
+				    <span class=tile__text data-intro="The salary records can be viewed and updated from here" data-position="right">Salary Sheet </span>
 		   	    </div>
 			</a>
 		    </div>
@@ -39,7 +40,7 @@
 			    <div class="tile">
 				 
 				    <div class=line_seprator></div>
-				    <span class=tile__text>Add Advance</span>
+				    <span class=tile__text data-intro="Advances paid to workers is stored here" data-position="left">Add Advance</span>
 		   	    </div>
 			</a>
 		    </div>
@@ -49,7 +50,7 @@
 			    <div class="tile">
 				 
 				    <div class=line_seprator></div>
-				    <span class=tile__text>Promotions</span>
+				    <span class=tile__text data-intro="If daily wage is changed aka worker is promoted, that data goes here" data-position="right">Promotions</span>
 		   	    </div>
 			</a>
 		    </div>
@@ -57,4 +58,7 @@
       </div>    
       </div>  
     
+      {% endblock %}
+{% block extrajs %}
+    <script src="{{ STATIC_URL }}js/chardinjs/chardinjs.min.js"></script>
 {% endblock %}

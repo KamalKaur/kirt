@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
     <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
-
+    <script src="{{ STATIC_URL }}js/chardinjs/startchardin.js"></script>
 	<script type=text/javascript>
            $(document).ready(function(){
 	    
@@ -18,7 +18,8 @@
 		dateFormat:"yy-mm-dd"
 	    });
 
-	    $('#id_date').datepicker( "option", "showAnim", "clip" );
+            $('#id_date').datepicker( "option", "showAnim", "clip" );
+
             });
 	</script>
 
@@ -26,8 +27,8 @@
 
 {% block content %}
 
-    
-    <div class="center">
+
+    <div class="center" data-intro="Add new  worker" data-position="right">
   {% if message %}
   <div class="alert alert-danger">
   <div class="toggle"></div>
@@ -36,7 +37,7 @@
     </div>
   </div>
   {% endif %}
-    <form method="POST" action=''>
+    <form method="POST" action=''  >
         {% csrf_token %}
         <legend> <h1>Add worker</h1> </legend>
             {{WorkerDetailForm.as_p}} 
@@ -49,4 +50,5 @@
 {% endblock %}
 {% block extrajs %}
     <script src="{{ STATIC_URL }}js/addworker.js"></script>
+    <script src="{{ STATIC_URL }}js/chardinjs/chardinjs.min.js"></script>
 {% endblock %}
