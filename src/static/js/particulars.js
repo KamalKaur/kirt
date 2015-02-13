@@ -41,6 +41,8 @@ if(data){
 })
 }
 
+
+
 function paysalary(url){
   paid = $('.paid').val()
   alert(paid);
@@ -50,7 +52,10 @@ $.ajax({
   url: request_url,
   success: function(data) {
 if(data){
-  alert(data);
+  $('#paid').prop('disabled', true);
+  $('#balance').html('Balance');
+  $('#balance_value').html(data);
+  $('#pay_salary').hide();
   }
   else{
   alert("Not paid");

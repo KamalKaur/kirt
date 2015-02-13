@@ -88,12 +88,18 @@ class WageDescription(models.Model):
     will also be updated here and it will increase the response time
     which is not required.
     """
+#   worker_id = models.ForeignKey(WorkerDetail)
+#   daily_wage = models.FloatField()
+#   monthly_wage = models.FloatField()
+#   monthly_payable = models.FloatField()
+#   net_payable = models.FloatField()
+
     worker_id = models.ForeignKey(WorkerDetail)
-    daily_wage = models.FloatField()
+    monthly_basic_wage = models.FloatField()
     overtime_wage = models.FloatField()
     monthly_wage = models.FloatField()
-    monthly_payable = models.FloatField()
-    net_payable = models.FloatField()
+    amount_to_be_paid = models.FloatField()
+    paid_amount = models.FloatField()
     for_month = models.DateField()
 
 class Balance(models.Model):

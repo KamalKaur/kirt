@@ -99,3 +99,9 @@ color: #428BCA;
 .btn.disabled {
     pointer-events: auto;
 }
+
+.paid{
+  width:25%; 
+  text-align:right; 
+  padding:0;
+}

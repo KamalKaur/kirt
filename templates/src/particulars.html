@@ -19,7 +19,6 @@
     <div class="center"> 
       <h1>{{first_name}} {{last_name}} </h1> 
     </div>
-
                              <!-- If an icon can be placed instead of payslip button? -->
                              {#<div class = "text-right"> <span class="glyphicon glyphicon-print "></span> </div>#}
     <div class="table-responsive">
@@ -35,31 +34,48 @@
           <td>Days in month</td>  <td class="text-right">{{days_in_month|floatformat:2}}</td></tr>
           <tr><td>Monthly wage</td>  <td class="text-right">{{monthly_wage|floatformat:2}}</td>
           <td>Provident fund</td>  <td class="text-right">{{provident_fund|floatformat:2}}</td></tr>
-          <tr><td>Amount to be paid</td>  <td class="text-right">{{amount_to_be_paid|floatformat:2}}</td>
-          <td>Balance</td>  <td class="text-right">{{further_advance|floatformat:2}}</tr>
+          <!--<tr><td>Amount to be paid</td>  <td class="text-right">{{amount_to_be_paid|floatformat:2}}</td>
+          <td>Balance</td>  <td class="text-right">{{further_advance|floatformat:2}}</td></tr>-->
         </tbody>
       </table>
-
       <table class="table"> 
         <tbody>
-          <tr><td>Pay salary</td>  
+          <tr><td>Amount to be paid</td>  <td class="text-right">{{amount_to_be_paid|floatformat:2}}</td>
+          <!--<td>Balance</td>  <td class="text-right">{{further_advance|floatformat:2}}--></td></tr>
+          {% if salary_paid == False %}
+          <tr style="background-color:#E6E6FA;" ><td><b>Pay salary</b></td>
           <td class="text-right"> 
-            <input type="number" min="0"  id="paid_{{value.worker_id}}" 
-            placeholder="Paid Amount" class="paid" value="{{paid_amount|floatformat:2}}"> 
-            <a href="#confirm" data-toggle="modal"> <span class="glyphicon glyphicon-lock"></span> </a> 	
-          </td> 
+            <input type="number" min="0" id="paid" placeholder="Paid Amount" class="paid" value="{{paid_amount|floatformat:2}}"  {% if previous_salary_paid == False %} data-toggle=tooltip title="Previous month salary is PENDING."  disabled{% endif %}> 
+          </td></tr>
+          <tr><td id = "balance" ></td>
+          <td class="text-right" id = "balance_value" ></td> </tr>
+          {% else %}
+          <tr style="background-color:#E6E6FA"><td><b>Paid salary</b></td>
+          <td class="text-right"><b>{{paid_amount|floatformat:2}}</b></td>
           </tr>
-        <tbody>
+          <tr style="background-color:#E6E6FA" ><td><b>Balance</b></td>
+          <td class="text-right" id="balance_value" ><b>{{further_advance}}</b></td></tr>
+          {% endif %}
+        </tbody>
       </table>
     </div>
+    <!-- Button HTML (to Trigger Modal) -->
+    <div class="pull-right">
+{% if salary_paid == False %}<a id="pay_salary" {% if attended_days != 0 %} href="#confirm" {% endif %} style="margin-right:0%;"  class="btn btn-lg btn-primary {% if attended_days == 0 %} disabled{% endif %}" data-toggle="modal" {% if attended_days == 0 %} title="Worker should have attended atleast 1 day." {% endif %} >Pay Salary</a>
+{% endif %}
+    <a id="payslip" {% if attended_days != 0 %} href="{% url 'src.views.payslip' %}?worker_id={{worker_id}}" {% endif %} class="btn btn-lg btn-primary {% if attended_days == 0 %} disabled{% endif %}" {% if attended_days == 0 %} data-toggle="tooltip" title="Worker should have attended atleast 1 day." {% endif %}  {% if month != this_month %} style="margin-right:170px;" {% endif %} {% if salary_paid == True %}style="margin-top:3%;" {% endif %}>Payslip</a>
+  {% if month == this_month %}<a href="#myModal" class="btn btn-lg btn-danger" data-toggle="modal" {% if salary_paid == True %}style="margin-top:3%;" {% endif %}>Delete</a>{% endif %}
+    </div>
+    </div>
+</div>
 
-
+    <!-- Modal HTML for deleting a worker -->
 <div id="confirm" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
-                    <h4 class="modal-title">Pay??</h4>
+                    <h4 class="modal-title">Pay Salary</h4>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to pay?</p>
@@ -74,15 +90,6 @@
         </div>
 </div>
 
-    <!-- Button HTML (to Trigger Modal) -->
-    <div class="pull-right">
-    <a id="payslip" {% if attended_days != 0 %} href="{% url 'src.views.payslip' %}?worker_id={{worker_id}}" {% endif %} class="btn btn-lg btn-primary {% if attended_days == 0 %} disabled{% endif %}" {% if attended_days == 0 %} data-toggle="tooltip" title="Worker should have attended atleast 1 day." {% endif %} >Payslip</a>
-    <a href="#myModal" class="btn btn-lg btn-danger" data-toggle="modal">Delete</a>
-    </div>
-    </div>
-</div>
-
-    <!-- Modal HTML for deleting a worker -->
     <div id="myModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
