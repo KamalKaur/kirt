@@ -4,7 +4,6 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/particulars.css">
-    
 {% endblock %}
 {% block content %}
 
@@ -15,29 +14,66 @@
     <p class="message">Worker deleted!</p>
    </div>
 </div>
-    <div class="font">
-        <div class="center"> <h1> {{first_name}} {{last_name}}</h1> </div>
-        <div class="table-responsive">
-            <table class="table"> 
-               <tbody> 
-                   <tr><td>Basic wage</td>  <td>{{basic_wage}}</td>
-                       <td>Days in month</td>  <td>{{days_in_month}}</td></tr>
-                   <tr><td>Attended days</td>  <td>{{attended_days}}</td>
-                       <td>Monthly basic wage</td>  <td>{{monthly_basic_wage}}</td></tr>
-                   <tr><td>Overtime hours</td>  <td>{{overtime_hours}}</td> 
-                       <td>Overtime wage</td>  <td>{{overtime_wage}}</td></tr>
-                   <tr><td>Last month advance</td>  <td>{{last_month_advance}}</td>
-                       <td>This month advance</td>  <td>{{month_advance}}</td></tr>
-                   <tr><td>Monthly wage</td>  <td>{{monthly_wage}}</td>
-                       <td>Provident fund</td>  <td>{{provident_fund}}</td></tr>
-                   <tr><td>Amount to be paid</td>  <td>{{amount_to_be_paid}}</td>
-                       <td>Paid amount</td>  <td>{{paid_amount}}</td></tr>
-                   <tr><td>Balance</td>  <td>{{further_advance}}</td>
-                       <td></td><td></td></tr>
-               </tbody>
-            </table>
 
+  <div class="font">
+    <div class="center"> 
+      <h1>{{first_name}} {{last_name}} </h1> 
+    </div>
+
+                             <!-- If an icon can be placed instead of payslip button? -->
+                             {#<div class = "text-right"> <span class="glyphicon glyphicon-print "></span> </div>#}
+    <div class="table-responsive">
+      <table class="table"> 
+        <tbody> 
+          <tr><td>Basic wage</td>  <td class="text-right ">{{basic_wage|floatformat:2}}</td>
+          <td>This month advance</td>  <td class="text-right">{{month_advance|floatformat:2}}</td></tr>
+          <tr><td>Attended days</td>  <td class="text-right">{{attended_days|floatformat:2}}</td>
+          <td>Monthly basic wage</td>  <td class="text-right">{{monthly_basic_wage|floatformat:2}}</td></tr>
+          <tr><td>Overtime hours</td>  <td class="text-right">{{overtime_hours|floatformat:2}}</td> 
+          <td>Overtime wage</td>  <td class="text-right">{{overtime_wage|floatformat:2}}</td></tr>
+          <tr><td>Last month advance</td>  <td class="text-right">{{last_month_advance|floatformat:2}}</td>
+          <td>Days in month</td>  <td class="text-right">{{days_in_month|floatformat:2}}</td></tr>
+          <tr><td>Monthly wage</td>  <td class="text-right">{{monthly_wage|floatformat:2}}</td>
+          <td>Provident fund</td>  <td class="text-right">{{provident_fund|floatformat:2}}</td></tr>
+          <tr><td>Amount to be paid</td>  <td class="text-right">{{amount_to_be_paid|floatformat:2}}</td>
+          <td>Balance</td>  <td class="text-right">{{further_advance|floatformat:2}}</tr>
+        </tbody>
+      </table>
+
+      <table class="table"> 
+        <tbody>
+          <tr><td>Pay salary</td>  
+          <td class="text-right"> 
+            <input type="number" min="0"  id="paid_{{value.worker_id}}" 
+            placeholder="Paid Amount" class="paid" value="{{paid_amount|floatformat:2}}"> 
+            <a href="#confirm" data-toggle="modal"> <span class="glyphicon glyphicon-lock"></span> </a> 	
+          </td> 
+          </tr>
+        <tbody>
+      </table>
+    </div>
+
+
+<div id="confirm" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                    <h4 class="modal-title">Pay??</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to pay?</p>
+                    <p class="text-warning"><small>You'll not be allowed edit</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="paid" type="button" class="btn btn-danger" onclick="
+                    return paysalary('{% url 'src.views.ajaxrequestpaid' %}?worker_id={{worker_id}}&year={{year}}&month={{month}}')" data-dismiss="modal">Done</button>
+                </div>
+            </div>
         </div>
+</div>
+
     <!-- Button HTML (to Trigger Modal) -->
     <div class="pull-right">
     <a id="payslip" {% if attended_days != 0 %} href="{% url 'src.views.payslip' %}?worker_id={{worker_id}}" {% endif %} class="btn btn-lg btn-primary {% if attended_days == 0 %} disabled{% endif %}" {% if attended_days == 0 %} data-toggle="tooltip" title="Worker should have attended atleast 1 day." {% endif %} >Payslip</a>
@@ -46,8 +82,7 @@
     </div>
 </div>
 
-
-    <!-- Modal HTML -->
+    <!-- Modal HTML for deleting a worker -->
     <div id="myModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">

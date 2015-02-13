@@ -80,14 +80,14 @@
                       
   
                         <input type="number" id="paid_{{value.worker_id}}" 
-                        placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}"> 
+                        placeholder="Paid Amount" class="paid" value="{{value.paid_salary}}" readonly="true" disabled  > 
                     </td>
                     <td>
                         <input type="number" id="advance_{{value.worker_id}}" 
                         placeholder="Advance" class="advance" value = "{{value.advance_amount}}"  readonly="true" disabled>
                     
                         {% if editable == 1 %} 
-<a href="" class="nounderline" onclick="return popitup('{% url 'src.views.popupadvance' %}?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" >+</a>
+<a href="" class="nounderline" onclick="return popitup('{% url 'src.views.popupadvance' %}?worker_id={{value.worker_id}}&year={{year}}&month={{month}}')" > <span class="glyphicon glyphicon-th-list"></span> </a>
 {#<a class="contact" href="#" data-form="/popupadvance/?worker_id={{value.worker_id}}&year={{year}}&month={{month}}" title="Edit"> edit</a> #}
 
 

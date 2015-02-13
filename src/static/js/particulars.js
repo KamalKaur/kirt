@@ -2,6 +2,16 @@
 // The function that shows the success notification 
 // and then hides after 2 seconds and redirects the 
 // user to main page
+
+// + 
+
+// Do a most important thing: Submit the amount paid and save balance +
+// all particulars for making the user capable of searching in future. 
+// Here the history is made! (y)
+
+
+
+
 function notification(){
     $(".notifications .messages .message").css("color","green");
     $(".notifications").children(".messages").fadeIn(300);
@@ -23,7 +33,6 @@ $.ajax({
   success: function(data) {
 if(data){
   notification();
-  
   }
   else{
   alert("Not deleted");
@@ -32,18 +41,38 @@ if(data){
 })
 }
 
+function paysalary(url){
+  paid = $('.paid').val()
+  alert(paid);
+  var request_url = url + "&paid=" + paid;
+  alert(request_url);
+$.ajax({
+  url: request_url,
+  success: function(data) {
+if(data){
+  alert(data);
+  }
+  else{
+  alert("Not paid");
+  }
+  }
+})
+}
+
 
 $(document).ready(function(){
-    $(function() {
-        $(".notifications .messages").hide();
-    })
+  $(function() {
+    $(".notifications .messages").hide();
+  })
+
+  $(document).keyup(function(e) {
+    if( e.keyCode === 13 ) {
+    //e.preventDefault();
+      alert("What?");
+    //$( this ).trigger( 'submit' );
+    }
+  });
 
 
-    $(document).keyup(function(e) {
-        if( e.keyCode === 13 ) {
-         //   e.preventDefault();
-            alert("oho");
-            //$( this ).trigger( 'submit' );
-        }
-    });
+
 })

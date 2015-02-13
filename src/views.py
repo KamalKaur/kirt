@@ -700,7 +700,8 @@ def particulars(request):
         'month_advance': month_advance, 'monthly_wage': monthly_wage, \
         'provident_fund': provident_fund, 'amount_to_be_paid':amount_to_be_paid , \
         'paid_amount': paid_amount, 'grand_total': grand_total, 'worker_id':worker_id,\
-        'further_advance':further_advance})
+        'further_advance':further_advance, 'worker_id':worker_id, 'month': month, 'year': year
+})
     except:
          # Is there is some prolem in the above, data insufficient, don't throw an error.
          # Instead, show what is already there.
@@ -764,9 +765,9 @@ def deleteworker(request):
 
 def payslip(request):
     """
-    When the user clicks on Delete button, this function is called to
-    change that worker's status to inactive and set the resigning date.
-    Which isthen reflected in the spreadsheet after a success message.
+    When the user clicks on Payslip button, this function is called to
+    provide options to save or view the Pay slip as PDF using a python 
+    library: ReportLab
     """
     worker_id = request.GET['worker_id']
     try:

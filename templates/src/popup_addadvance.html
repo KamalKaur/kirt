@@ -2,17 +2,19 @@
 {% block title %}  {% endblock %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
  {% block content %}
-<div class="center">
+<div class="text-left">
 <div id="dialog-form" title="Add advance">
-   
-      
       {{full_name}} 
       <br /> <br />
-      {% for a in old_advances %}
-        {{a.advance_amount}} 
-        {# {{a.advance_date}}#}<br />
+     <table class="table"> 
+       <tbody> 
+          {% for a in old_advances %}
+          <tr><td>{{a.advance_date}}</td>  <td class="text-right">{{a.advance_amount|floatformat:2}} </td> </tr>
       {% endfor %}
-      <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > 
+       </tbody>
+       </table>
+      <!-- Not allowing to enter advace from here. -->
+      {# <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > #}
     
  </div>
 </div>
