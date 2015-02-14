@@ -45,9 +45,9 @@ if(data){
 
 function paysalary(url){
   paid = $('.paid').val()
-  alert(paid);
+  //alert(paid);
   var request_url = url + "&paid=" + paid;
-  alert(request_url);
+  //alert(request_url);
 $.ajax({
   url: request_url,
   success: function(data) {

@@ -15,7 +15,7 @@ $(document).ready(function(){
         $.ajax({
           url: request_url,
           success: function(data){
-          if (data){ alert("Data saved!");$('#promotion_' + changed_id).css("color","#1abc9c");}
+          if (data){ $('#promotion_' + changed_id).css("color","#1abc9c");}
           }
         });
       });
