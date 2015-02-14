@@ -752,7 +752,9 @@ def particulars(request):
         request.session['last_month_advance'] = last_month_advance
         request.session['month_advance'] = month_advance
         request.session['amount_to_be_paid'] = amount_to_be_paid
+        request.session['paid_amount'] = paid_amount
 
+        previous_salary_paid = True
         if PaidSalary.objects.values('paid_amount').filter(worker_id=worker_id).\
             filter(payment_date__month = month).\
             filter(payment_date__year = year)[0]['paid_amount'] == None:
@@ -764,10 +766,12 @@ def particulars(request):
                 temp_year = temp_year - 1
             else:
                 temp_month = temp_month - 1
-            if PaidSalary.objects.values('paid_amount').filter(worker_id=worker_id).\
-                filter(payment_date__month = temp_month).\
-                filter(payment_date__year = temp_year)[0]['paid_amount'] == None:
-                previous_salary_paid = False
+            obj = WorkerDetail.objects.values('joining_date').filter(id = worker_id)[0]['joining_date']
+            if obj < datetime.date(year,month,1):
+                if PaidSalary.objects.values('paid_amount').filter(worker_id=worker_id).\
+                    filter(payment_date__month = temp_month).\
+                    filter(payment_date__year = temp_year)[0]['paid_amount'] == None:
+                    previous_salary_paid = False
         else:
             salary_paid = True
 
@@ -877,51 +881,53 @@ def payslip(request):
                ['Other'],
                ['Last Month Advance', request.session['last_month_advance']],
                ['Current Month Advance', request.session['month_advance']],
-               ['TOTAL',request.session['amount_to_be_paid']]]
+               ['TOTAL',request.session['amount_to_be_paid']],
+               ['Paid',request.session['paid_amount']]]
 
         t=Table(data, colWidths=2.40*inch,  rowHeights=0.35*inch)
-        t.setStyle(TableStyle([('ALIGN',(-2,-13),(-1,-1),'RIGHT'),
-                               ('ALIGN',(-3,-11),(-1,-11),'CENTER'),
+        t.setStyle(TableStyle([('ALIGN',(-2,-14),(-1,-1),'RIGHT'),
+                               ('ALIGN',(-3,-12),(-1,-12),'CENTER'),
                                ('TEXTCOLOR',(0,0),(0,-1),colors.black),
                                ('FONT',(-3,-18),(-1,-1),'Helvetica',12),
-                               ('FONT',(-3,-4),(-1,-4),'Helvetica-Bold',10),
-                               ('FONT',(-3,-6),(-1,-6),'Helvetica-Bold',10),
-                               ('FONT',(-3,-9),(-1,-9),'Helvetica-Bold',10),
-                               ('FONT',(-3,-11),(-1,-10),'Helvetica-Bold',10),
-                               ('FONT',(-3,-14),(-1,-14),'Helvetica-Bold',10),
+                               ('FONT',(-3,-5),(-1,-5),'Helvetica-Bold',10),
+                               ('FONT',(-3,-7),(-1,-7),'Helvetica-Bold',10),
+                               ('FONT',(-3,-10),(-1,-10),'Helvetica-Bold',10),
+                               ('FONT',(-3,-12),(-1,-11),'Helvetica-Bold',10),
+                               ('FONT',(-3,-15),(-1,-15),'Helvetica-Bold',10),
                                ('FONT',(-3,-1),(-1,-1),'Helvetica-Bold',13),
-                               ('LINEBELOW',(-3,-18),(-1,-18),1,colors.black),
+                               ('LINEBELOW',(-3,-19),(-1,-19),1,colors.black),
                                ('LINEBELOW',(-3,-1),(-1,-1),1,colors.black),
                                ('LINEABOVE',(-3,-1),(-1,-1),1,colors.black),
                                ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
                                ('TEXTCOLOR',(0,-1),(-1,-1),colors.black),
-                               ('BACKGROUND', (-3,-14), (-1,-14), colors.gray),
-                               ('BACKGROUND', (-3,-11), (-1,-11), colors.gray),
-                               ('BACKGROUND', (-3,-9), (-1,-9), colors.gray),
-                               ('BACKGROUND', (-3,-6), (-1,-6), colors.gray),
-                               ('BACKGROUND', (-3,-4), (-1,-4), colors.gray),
+                               ('BACKGROUND', (-3,-15), (-1,-15), colors.gray),
+                               ('BACKGROUND', (-3,-12), (-1,-12), colors.gray),
+                               ('BACKGROUND', (-3,-10), (-1,-10), colors.gray),
+                               ('BACKGROUND', (-3,-7), (-1,-7), colors.gray),
+                               ('BACKGROUND', (-3,-5), (-1,-5), colors.gray),
                                ('SPAN',(-2,-13),(-1,-13)),
-                               ('SPAN',(-2,-12),(-1,-12)),
-                               ('SPAN',(-2,-5),(-1,-5)),
+                               ('SPAN',(-3,-12),(-1,-12)),
+                               ('SPAN',(-2,-14),(-1,-14)),
+                               ('SPAN',(-2,-6),(-1,-6)),
                                ('SPAN',(-2,-4),(-1,-4)),
                                ('SPAN',(-2,-3),(-1,-3)),
                                ('SPAN',(-2,-2),(-1,-2)),
                                ('SPAN',(-2,-1),(-1,-1)),
-                               ('SPAN',(-3,-11),(-1,-11)),
+                               ('SPAN',(-3,-19),(-1,-19)),
                                ('SPAN',(-3,-18),(-1,-18)),
                                ('SPAN',(-3,-17),(-1,-17)),
                                ('SPAN',(-3,-16),(-1,-16)),
                                ('SPAN',(-3,-15),(-1,-15)),
-                               ('ALIGN',(-3,-17),(-1,-15),'RIGHT'),
-                               ('ALIGN',(-2,-10),(-2,-7),'RIGHT'),
-                               ('ALIGN',(-3,-18),(-1,-18),'CENTER'),
-                               ('INNERGRID', (-3,-13), (-1,-12), 0.25, colors.black),
-                               ('INNERGRID', (-3,-10), (-1,-10), 0.25, colors.black),
-                               ('INNERGRID', (-3,-8), (-1,-7), 0.25, colors.black),
-                               ('INNERGRID', (-3,-5), (-1,-5), 0.25, colors.black),
-                               ('INNERGRID', (-3,-3), (-1,-2), 0.25, colors.black),
+                               ('ALIGN',(-3,-18),(-1,-16),'RIGHT'),
+                               ('ALIGN',(-3,-19),(-1,-19),'CENTER'),
+                               ('INNERGRID', (-3,-14), (-1,-13), 0.25, colors.black),
+                               ('INNERGRID', (-3,-11), (-1,-11), 0.25, colors.black),
+                               ('INNERGRID', (-3,-9), (-1,-8), 0.25, colors.black),
+                               ('INNERGRID', (-3,-6), (-1,-6), 0.25, colors.black),
+                               ('INNERGRID', (-3,-4), (-1,-2), 0.25, colors.black),
                                ('BOX', (0,0), (-1,-1), 0.25, colors.black),
                                ]))
+
 
         elements.append(t)
         # write the document to disk

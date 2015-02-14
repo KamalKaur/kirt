@@ -52,10 +52,7 @@ $.ajax({
   url: request_url,
   success: function(data) {
 if(data){
-  $('#paid').prop('disabled', true);
-  $('#balance').html('Balance');
-  $('#balance_value').html(data);
-  $('#pay_salary').hide();
+  location.reload();
   }
   else{
   alert("Not paid");
