@@ -176,4 +176,19 @@ background-color:white;
   display: none;
 }
 
+.glyphicon-chevron-left{
+text-decoration: none !important; 
+position: relative;
+color: #777;
+left: 15%;
+}
 
+.glyphicon-chevron-left:hover{
+color: #777;
+}
+
+@media all and (max-width: 390px) {
+    .glyphicon-chevron-left {
+        right: 4%; 
+    }
+}

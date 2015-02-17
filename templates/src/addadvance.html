@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/addworker.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/addadvance.css">
 {% endblock %}
 
 {% block content %}
@@ -24,7 +25,7 @@
     </div>
     {% endif %}-->
         {% csrf_token %}
-        <legend> <h1>Add advance</h1> </legend>
+        <legend> <h1><a href="{% url 'src.views.index' %}" class="glyphicon glyphicon-chevron-left small"> </a>Add advance</h1> </legend>
             {{AdvanceForm.as_p}} 
             <input class="btn btn-info btn-large" type = "submit" value="Submit" style="font-size:1.3em">
         

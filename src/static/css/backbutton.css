@@ -1,0 +1,11 @@
+.glyphicon-chevron-left{
+right: 10%; 
+text-decoration: none !important; 
+position: relative;
+}
+
+@media all and (max-width: 390px) {
+    .glyphicon-chevron-left {
+        right: 4%;
+    }
+}

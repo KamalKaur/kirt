@@ -4,6 +4,8 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/particulars.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/backbutton.css">
+
 {% endblock %}
 
 {% block content %}
@@ -11,7 +13,7 @@
   <div class="inner" style="width:80%; display:block; margin-left: auto; margin-right: auto;">
     <div class="font"> 
       <div class="row">
-        <div class="col-md-6"> <h3 style ="color:#428BCA"> Attendance: {{date}} </h3> Mark attendance and enter today's overtime hours</div>
+        <div class="col-md-6"> <h3 style ="color:#428BCA"> <a href="{% url 'src.views.index' %}" class="glyphicon glyphicon-chevron-left small"> </a>Attendance: {{date}} </h3> </div>
       </div> <hr> 
 
       <div class="row"> 
@@ -24,12 +26,12 @@
             <div class="col-sm-6 col-md-4">{{ forloop.counter }} {{value.worker_id.first_name}} {{value.worker_id.last_name}}</div>
             
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input type="checkbox" id="attendance_{{value.worker_id_id}}" class="attendance" aria-label="..." {% if value.attendance == 1 %} checked {% endif %}>
+              <input type="checkbox" id="attendance_{{value.worker_id_id}}" data-toggle=tooltip title="Present/Absent" class="attendance" aria-label="..." {% if value.attendance == 1 %} checked {% endif %}>
             </div>
 
             <div class="clearfix visible-sm-block"></div>
             <div class="col-sm-6 col-md-4 col-lg-3">
-              <input type="number" min="0" max="10" id="overtime_{{value.worker_id_id}}" class="overtime" placeholder="Overtime" value="{{value.overtime}}">
+              <input type="number" min="0" max="10" data-toggle=tooltip title="Overtime hours for the day" id="overtime_{{value.worker_id_id}}" class="overtime" placeholder="Overtime" value="{{value.overtime}}">
             </div>
             <div class="clearfix visible-sm-block"></div>
             
