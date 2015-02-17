@@ -31,7 +31,11 @@ display: none;
         
         <form action="" method="">
           <div class="text-left"> 
-            <div class="col-sm-6 col-md-4 col-lg-5">{{value.id}} {{value.first_name}} {{value.last_name}}
+            <div class="col-sm-6 col-md-4 col-lg-5">{{value.id}}{% if value.middle_name == "" %}
+                                           {{value.first_name}} {{value.last_name}}
+                                           {% else %}
+                                           {{value.first_name}} {{value.middle_name}} {{value.last_name}}
+                                           {% endif %}
             </div>
             <div class="clearfix visible-sm-block">
             </div>

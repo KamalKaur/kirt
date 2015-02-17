@@ -280,7 +280,7 @@ def addadvance(request):
         if form.is_valid():
             form.save()
         else:
-            message = "Please correct the errors below"
+            message = "Please correct the errors below!"
             form = AdvanceForm(request.POST)
             return render(request,'src/addadvance.html',{'AdvanceForm':form,
             'message':message })
@@ -332,8 +332,11 @@ def previous_promotions(request):
     worker_id = request.GET['worker_id']
     worker_name = WorkerDetail.objects.values('first_name', 'middle_name',\
     'last_name').get(id= worker_id)
-    full_name = worker_name['first_name'] + " " + worker_name['middle_name'] \
-    + " " + worker_name['last_name']
+    if worker_name['middle_name'] == "":
+        full_name = worker_name['first_name'] + " " + worker_name['last_name']
+    else:
+        full_name = worker_name['first_name'] + " " + worker_name['middle_name'] \
+    + " " + worker_name['last_name'] 
     date = WorkerDetail.objects.values('joining_date').get(id= worker_id)
     joining_date = date['joining_date']
     previous_promotions = Promotions.objects.filter(worker_id = worker_id)
@@ -370,7 +373,6 @@ def ajaxdetails(request):
     def last_day_of_month(any_day):
         next_month = any_day.replace(day=28) + datetime.timedelta(days=4)  # this will never fail
         return next_month - datetime.timedelta(days=next_month.day)
-
 
     if request.method == 'POST':
          search_form = SearchSelect(request.POST)
@@ -427,7 +429,7 @@ def ajaxdetails(request):
         worker_dict = {}
         # Just collect everything needed!
 
-        details = WorkerDetail.objects.values('first_name', 'last_name',
+        details = WorkerDetail.objects.values('first_name', 'middle_name', 'last_name',
         'address').filter(id = value['id'])
 
         attendance = MonthlyAttendance.objects.values('attended_days').\
@@ -449,6 +451,7 @@ def ajaxdetails(request):
         worker_dict['worker_id'] = value['id']
         for item in details:
             worker_dict['first_name'] = item['first_name']
+            worker_dict['middle_name'] = item['middle_name']
             worker_dict['last_name'] = item['last_name']
             worker_dict['address'] = item['address']
         for item in attendance:
@@ -633,6 +636,14 @@ def particulars(request):
     filter(id=worker_id)[0]['first_name']
     last_name = WorkerDetail.objects.values('last_name').\
     filter(id=worker_id)[0]['last_name']
+    if WorkerDetail.objects.values('middle_name').\
+        filter(id=worker_id)[0]['middle_name'] == "":
+        full_name = first_name + ' ' + last_name
+    else:
+        middle_name = WorkerDetail.objects.values('middle_name').\
+        filter(id=worker_id)[0]['middle_name']
+        full_name = first_name + ' ' + middle_name + ' ' + last_name
+
     address = WorkerDetail.objects.values('address').\
     filter(id=worker_id)[0]['address']
 
@@ -775,9 +786,9 @@ def particulars(request):
         else:
             salary_paid = True
 
-        return render(request, 'src/particulars.html', {'first_name': first_name,\
-        'last_name': last_name,'basic_wage': basic_wage, 'salary_paid':salary_paid,\
-        'attended_days': attended_days, 'days_in_month': days_in_month,  'previous_salary_paid': previous_salary_paid,\
+        return render(request, 'src/particulars.html', {'full_name': full_name,\
+        'basic_wage': basic_wage, 'salary_paid':salary_paid,\
+        'attended_days': attended_days, 'days_in_month': days_in_month, 'previous_salary_paid': previous_salary_paid,\
         'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours, \
         'overtime_wage': overtime_wage, 'last_month_advance': last_month_advance, \
         'month_advance': month_advance, 'monthly_wage': monthly_wage, \
@@ -808,8 +819,8 @@ def particulars(request):
              overtime_hours = 0
          provident_fund = WorkerDetail.objects.values('provident_fund').\
          filter(id=worker_id)[0]['provident_fund']
-         return render(request, 'src/particulars1.html', {'first_name': first_name,\
-        'last_name': last_name, 'basic_wage': basic_wage, \
+         return render(request, 'src/particulars1.html', {'full_name': full_name,\
+         'basic_wage': basic_wage, \
          'attended_days': attended_days, 'days_in_month': days_in_month, \
          'monthly_basic_wage':  monthly_basic_wage, 'overtime_hours': overtime_hours,\
          'worker_id':worker_id})

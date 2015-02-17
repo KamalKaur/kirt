@@ -4,8 +4,18 @@
 {% block extrastyle %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/navbar.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/flatty.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/addworker.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/addadvance.css">
+
+    <script src="{{ STATIC_URL }}js/humane.min.js"></script>
+  {% if message %}
+    <script>
+      humane.log('{{message}}', {timeout: 5000} );
+    </script>
+  {% endif %}
+
+
 {% endblock %}
 
 {% block content %}
@@ -37,6 +47,3 @@
 {% block extrajs %}
     <script src="{{ STATIC_URL }}js/addworker.js"></script>
 {% endblock %}
-
-
-

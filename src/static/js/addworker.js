@@ -92,6 +92,7 @@ $(document).ready(function(){
             $('#id_provident_fund').css("color","#1abc9c");
         }
     })
+
 })
 
 

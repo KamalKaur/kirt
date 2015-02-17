@@ -66,7 +66,9 @@
                     <td>{{ forloop.counter }}</td>
                     <td>
                         <a href="{% url 'src.views.particulars' %}?worker_id={{value.worker_id}}&month={{month}}&year={{year}}"
-                        class="nounderline">{{value.first_name}} {{value.last_name}}</a>
+                        class="nounderline">{% if value.middle_name == "" %}{{value.first_name}} {{value.last_name}}
+                        {% else %}{{value.first_name}} {{value.middle_name}} {{value.last_name}}
+                        {% endif %}</a>
                     </td> 
                     <td>
                         <input type="number" id="days_{{value.worker_id}}" 

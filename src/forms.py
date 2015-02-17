@@ -71,9 +71,12 @@ class AdvanceForm(ModelForm):
     #advance_date = forms.DateField(label='',initial=datetime.date.today)
     # Date field with default date in form can be added like this ^
     
+    required_css_class = 'required'
+    error_css_class = 'error'
     class Meta:
         model = Advance
         exclude = ('advance_date',)
+        fields = '__all__'
         labels = {
             'worker_id': ('Worker name'),
             'advance_amount': (''),
@@ -82,6 +85,7 @@ class AdvanceForm(ModelForm):
             'advance_amount': NumberInput(attrs={'placeholder': 'Advance amount', 'min':'0'}),
         }
         error_messages = {'first_name': {'max_length': ("Give proper length"),},}
+
         # exclude = ('advance_date',) 
         # Excluding the date field but it automatically saves today's date :)
         # fields = ('worker_id', 'advance_amount')
