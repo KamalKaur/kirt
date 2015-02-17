@@ -8,79 +8,89 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/particulars.css">
 
 {% endblock %}
+
 <style>
 .ui-dialog-titlebar-close {
 display: none;
 }
 </style>
+
 {% block content %}
 <div class="container"> 
-<div class="inner" style="width:80%; display:block; margin-left: auto; margin-right: auto;">
-<div class="font"> 
-  <div class="row">
-  <div class="col-md-6"> <h3 style ="color:#428BCA"> Promotions: {{date}} </h3> Change the input field to update a record</div>
-  </div> 
-
-<hr> 
-
-  <div class="row"> </div> 
-  {% for value in worker_details %}
-    <form action="" method="">
-      <div class="text-left"> 
-        <div class="col-sm-6 col-md-4 col-lg-5">{{value.id}} {{value.first_name}} {{value.last_name}}</div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <input type="number" id="promotion_{{value.id}}" class="promotion" value = {{value.basic_wage}}>
+  <div class="inner" style="width:80%; display:block; margin-left: auto; margin-right: auto;">
+    <div class="font"> 
+      <div class="row">
+        <div class="col-md-6"> <h3 style ="color:#428BCA"> Promotions: {{date}} </h3> Change the input field to update a record.
         </div>
-        <div class="clearfix visible-sm-block"></div>
+      </div> 
+      <hr> 
+      <div class="row">  
+      </div>
+      {% for value in worker_details %}
+        
+        <form action="" method="">
+          <div class="text-left"> 
+            <div class="col-sm-6 col-md-4 col-lg-5">{{value.id}} {{value.first_name}} {{value.last_name}}
+            </div>
+            <div class="clearfix visible-sm-block">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <input type="number" id="promotion_{{value.id}}" class="promotion" value = {{value.basic_wage}}>
+            </div>
+            <div class="clearfix visible-sm-block">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">             
+            <a href="#" id="old_{{value.id}}" class="btn btn-info btn-xs" data-toggle="modal" 
+              onclick="return popitup('{% url 'src.views.previous_promotions' %}?worker_id={{value.id}}')">Previous</a>  
+            </div>   
+            <div class="clearfix visible-sm-block">
+            </div>
 
-        <div class="col-sm-6 col-md-4 col-lg-2">
-           <a data-toggle="modal" id="old_{{value.id}}" class="btn btn-info btn-xs" 
-           onclick="return popitup('{% url 'src.views.previous_promotions' %}?worker_id={{value.id}}')" >Previous</a>
-        </div>   
-        <div class="clearfix visible-sm-block"></div>
+            {# Just to add horizontal line for separation on medium and extra small screens #}
+            <span class="visible-xs-block visible-sm-block">
+            <hr> 
+            </span>
+          </div>           
+        </form>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
-        {# Just to add horizontal line for separation on medium and extra small screens #}
-        <span class="visible-xs-block visible-sm-block"> <hr> </span>
-      </div>           
-    </form>
+
 <div id="dialog-form"></div>
- {% endfor %}
- </div>
-</div>
-</div>
-</div>
+     
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" id="previous">  
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn close"  data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
 {% block extrajs %}
    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/promotions.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
 <script language="javascript" type="text/javascript">
-var opt = {
-resizable: false, 
-autoOpen: false,
-closeOnEscape: true,
-width: 500, 
-height: 300,
-modal: true,
-   buttons: [{ 
-      text: "Ok", 
-      click: function() { 
-         $( this ).dialog( "close" ); 
-      }
-   }]
-}
+
 
 function popitup(url) {
 $.ajax({
   url: url,
   success: function(data) {
-$("#dialog-form").dialog(opt).html(data).dialog('open');
-$(".ui-dialog-titlebar").hide()  
-$('body').on('click','.ui-widget-overlay',function(){ $('#dialog-form').dialog('close'); });
+$("#previous").html(data);
+$('#myModal').modal('show');
 $("#dialog-form").keyup(function(e) {
-if( e.keyCode === 13 ) {
-  $("#dialog-form").dialog('close');
-}
+
 })
     }
   });   

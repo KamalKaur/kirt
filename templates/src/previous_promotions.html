@@ -1,24 +1,37 @@
 {% load staticfiles %}
 {% block title %}  {% endblock %}
+{% block extrastyle %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css">
+
+<style>
+h4, h6 {
+display: inline;
+}
+</style>
+
+{% endblock %}
  {% block content %}
 
-<div id="dialog-form" title="Previous promotions" style="overflow-x:hidden;">
-<div class="container" >
-   <div class="font">
-     <div class="row">
-       <div class="col-md-4"> <h4 style ="color:#428BCA"> {{full_name}} <br>Joined: {{joining_date}}  </h4> </div>
-       </div> <hr> 
-       <div class="row"> </div>
-         {% for a in previous_promotions %}
-         <div class="text-left"> 
-           <div class="col-xs-2 ">{{a.promoted_wage}} </div>
-           <div class="col-xs-2 ">{{a.on_date}} </div>
-      
-         <br />
+
+<div class="text-left">
+<div id="dialog-form" title="Add advance">
+      <h4 style ="color:#428BCA"> {{full_name}}  </h4> <h6>Joined: {{joining_date}} </h6>
+      <br /> <br />
+     <table class="table"> 
+       <tbody> 
+          {% for a in previous_promotions %}
+          <tr><td>{{a.on_date}}</td>  <td class="text-right">{{a.promoted_wage}} </td> </tr>
       {% endfor %}
-     
+       </tbody>
+       </table>
+      <!-- Not allowing to enter advace from here. -->
+      {# <input type="integer" id="popupadvance_{{worker_id}}" placeholder="Advance ++" class="popupadvance" > #}
+    
+ </div>
 </div>
+
+
+   
 {% endblock %}
 {% block extrajs %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/popup_addadvance.js"></script> 

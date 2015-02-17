@@ -27,8 +27,8 @@ from io import BytesIO
 
 # These two variables are used >7 times in this file, so are declared 
 # here only and refers to the current month and year.
-this_month = datetime.date.today().month
-this_year = datetime.date.today().year
+this_month = int(datetime.date.today().month)
+this_year = int(datetime.date.today().year)
 
 @login_required
 def index(request):
