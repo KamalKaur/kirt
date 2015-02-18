@@ -109,3 +109,35 @@ color: #428BCA;
 .btn-lg{
   padding:5px 10px;
 }
+
+h1 .small {
+font-size:50%;
+}
+
+i { 
+  right:20%;
+}
+
+@media all and (max-width:1200px)
+{
+i {
+right:15%;
+}
+
+}
+
+@media all and (max-width:1000px)
+{
+i {
+right:10%;
+}
+
+}
+
+@media all and (max-width:500px)
+{
+i {
+right:5%;
+}
+
+}

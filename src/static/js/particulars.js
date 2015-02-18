@@ -67,6 +67,10 @@ $(document).ready(function(){
     $(".notifications .messages").hide();
   })
 
+  $("#id_back_icon").bind('click', function(event) {
+     $("#id_back_form").submit();
+   })
+
   $(document).keyup(function(e) {
     if( e.keyCode === 13 ) {
     //e.preventDefault();
@@ -74,6 +78,9 @@ $(document).ready(function(){
     //$( this ).trigger( 'submit' );
     }
   });
+
+
+
 
 
 

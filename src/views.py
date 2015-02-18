@@ -375,8 +375,8 @@ def ajaxdetails(request):
         return next_month - datetime.timedelta(days=next_month.day)
 
     if request.method == 'POST':
-         search_form = SearchSelect(request.POST)
-         if search_form.is_valid():
+        search_form = SearchSelect(request.POST)
+        if search_form.is_valid():
             # If the search form posts some data, then get the year and
             # month from posted data
             year = search_form.cleaned_data['year']
@@ -418,6 +418,16 @@ def ajaxdetails(request):
                 editable = 0
     # Else take values for today's year and month and pass the values of
     # month and year to the for loop for feeding that list ;)
+        elif request.POST.get('back') == 1:
+            year = request.POST.get('year', this_year)
+            month = request.POST.get('month', this_month)
+            start_date = datetime.date(int(year),int(month),1)
+            end_date = last_day_of_month(start_date)
+            date_filter = Q(resigning_date__range = [str(start_date),str(end_date)])
+            date_filter |= Q(resigning_date__isnull = True)
+            allworkers = WorkerDetail.objects.values('id').filter(date_filter)\
+                .filter(joining_date__lte = str(end_date))
+            search_form = SearchSelect(initial={'year': year, 'month':month})
             
     else:
         year = this_year

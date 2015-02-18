@@ -17,7 +17,10 @@
 
   <div class="font">
     <div class="center"> 
-      <h1>{{full_name}}</h1> 
+      <h1><form method="POST" id="id_back_form" action="{% url 'src.views.ajaxdetails' %}" >
+  {% csrf_token %}
+<a href="#" id="id_back_icon" ><span title="Back"><i class="glyphicon glyphicon-chevron-left small" ></i></span></a>
+<input type="hidden" name="month" value="{{month}}"><input type="hidden" name="year" value="{{year}}"><input type="hidden" name="back" value="1">{{full_name}}</form></h1> 
     </div>
                              <!-- If an icon can be placed instead of payslip button? -->
                              {#<div class = "text-right"> <span class="glyphicon glyphicon-print "></span> </div>#}
@@ -60,9 +63,9 @@
       </table>
     </div>
     <!-- Button HTML (to Trigger Modal) -->
-    <div class="pull-right">
+    <div class="pull-right"  {% if month != this_month %} style="margin-right:15%;" {% endif%} >
 
-{% if salary_paid == False %}<span data-placement="right" data-toggle="tooltip" title="Pay salary"><a id="pay_salary" {% if attended_days != 0 %} href="#confirm" {% endif %} style="margin-right:0%; font-size:1.3em; padding:1px 11px;" class="btn btn-lg btn-primary {% if attended_days == 0 or previous_salary_paid == False %} disabled{% endif %}" data-toggle="modal" {% if attended_days == 0 %} title="Worker should have attended atleast 1 day." {% endif %} >&#8377</a></span>
+{% if salary_paid == False %}<span data-placement="right" data-toggle="tooltip" title="Pay salary"><a id="pay_salary" {% if attended_days != 0 %} href="#confirm" {% endif %} style="margin-right:0%; font-size:1.3em; padding:1px 11px;"  class="btn btn-lg btn-primary {% if attended_days == 0 or previous_salary_paid == False %} disabled{% endif %}" data-toggle="modal" {% if attended_days == 0 %} title="Worker should have attended atleast 1 day." {% endif %} >&#8377</a></span>
 {% endif %}
 
 {% if salary_paid == True %}<span data-placement="right" data-toggle="tooltip" title="Download payslip"><a id="payslip" {% if attended_days != 0 and salary_paid == True %} href="{% url 'src.views.payslip' %}?worker_id={{worker_id}}" {% endif %} class="btn btn-lg btn-primary {% if attended_days == 0 or previous_salary_paid == False or salary_paid == False %} disabled {% endif %}" {% if salary_paid == False %} data-toggle="tooltip" title="First pay salary and then take payslip." {% endif %} {% if attended_days == 0 %} data-toggle="tooltip" title="Worker should have attended atleast 1 day." {% endif %}  {% if month != this_month %} style="margin-right:170px;" {% endif %} {% if salary_paid == True %}style="margin-top:3%;" {% endif %}><span class="glyphicon glyphicon-print"></span></a></span>{% endif %}
