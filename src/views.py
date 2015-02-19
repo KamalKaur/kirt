@@ -161,9 +161,12 @@ def daily_attendance(request):
         detail_list.append(worker_dict)
     """
 
+    unpaid_workers = PaidSalary.objects.values('id').filter(paid_amount__isnull=True).\
+    filter(payment_date__month = this_month)
+
     workerDetail_attendance = DailyAttendance.objects.filter(for_day = datetime.\
-    date.today()).order_by('worker_id_id').select_related('worker_id').\
-    filter(worker_id__status = 1).all()
+    date.today()).filter(worker_id_id__in = unpaid_workers).order_by('worker_id_id').\
+    select_related('worker_id').filter(worker_id__status = 1).all()
 
     date = datetime.date.today()
         
@@ -173,7 +176,7 @@ def daily_attendance(request):
 @login_required
 def ajax_daily_attendance(request):
     """
-    This view checks the incoming request and saves overtime or 
+    This view checks the incoming request and saves overtime or
     attendance accordingly
     """
     worker_id = request.GET['worker_id']
@@ -278,13 +281,24 @@ def addadvance(request):
     if request.method == 'POST':
         form = AdvanceForm(request.POST)
         if form.is_valid():
+            if PaidSalary.objects.filter(worker_id_id = request.POST.get('worker_id'),\
+                payment_date__month=this_month, payment_date__year=this_year, \
+                paid_amount__isnull = False).exists():
+                message = "Worker is already paid for this month"
+                form = AdvanceForm()
+                return render(request,'src/addadvance.html',{'AdvanceForm':form,
+                'message':message })
             form.save()
+            message = "Advance amount saved succesfully!"
+            success = True
+            form = AdvanceForm()            
+            return render(request,'src/addadvance.html',{'AdvanceForm':form, 
+            'message':message, 'success':success })
         else:
             message = "Please correct the errors below!"
             form = AdvanceForm(request.POST)
             return render(request,'src/addadvance.html',{'AdvanceForm':form,
             'message':message })
-        return HttpResponseRedirect(reverse("src.views.index"))
     else:
         form = AdvanceForm()
         return render(request,'src/addadvance.html',{'AdvanceForm':form})

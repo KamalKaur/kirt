@@ -11,7 +11,10 @@
     <script src="{{ STATIC_URL }}js/humane.min.js"></script>
   {% if message %}
     <script>
-      humane.log('{{message}}', {timeout: 5000} );
+      {% if success %}
+        humane.addnCls = 'humane-success'
+      {% endif %}
+        humane.log('{{message}}', {timeout: 50000});
     </script>
   {% endif %}
 
@@ -23,10 +26,6 @@
     
     <div class="center">
     <div class="notifications">
-  <div class="toggle"></div>
-  <div class="messages">
-    <p class="message">Please enter a correct value!</p>
-   </div>
 </div>
     <form method="POST" action=''>
     <!--{% if message %}
@@ -40,9 +39,8 @@
             <input class="btn btn-info btn-large" type = "submit" value="Submit" style="font-size:1.3em">
         
     </form>
-   
-   
 </div>
+
 {% endblock %}
 {% block extrajs %}
     <script src="{{ STATIC_URL }}js/addworker.js"></script>
