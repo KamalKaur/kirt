@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.db.models import Q
 from src.models import *
 from src.forms import *
+from django.db.models import Min
 #import forms
 import datetime
 from django.db.models import Sum
@@ -110,27 +111,52 @@ def daily_attendance(request):
     been added.
     """
     detail_list = []
-    allworkers = WorkerDetail.objects.values('id').filter(status = 1)
+    temp_today = datetime.date.today()
+
+    attendance_date = request.GET.get('attendance_date')
+    if attendance_date is not None:
+        temp_today = datetime.datetime.strptime(attendance_date,'%d-%m-%Y')
+
+    temp_this_month = int(temp_today.month)
+    temp_this_year = int(temp_today.year)
+
+    if this_month == temp_this_month:
+        active_worker_ids = WorkerDetail.objects.values('id').filter(status = 1)
+        for ids in active_worker_ids:
+            if not PaidSalary.objects.filter(worker_id_id = ids['id'],\
+                payment_date__month=temp_this_month, payment_date__year=temp_this_year).exists():
+                new_obj = PaidSalary(worker_id_id = ids['id'], paid_amount = None,\
+                          payment_date = temp_today)
+                new_obj.save()
+
+    unpaid_workers = PaidSalary.objects.values('worker_id_id').filter(paid_amount__isnull=True).\
+    filter(payment_date__month = temp_this_month)
+
+    allworkers = WorkerDetail.objects.values('id').filter(id__in = \
+    unpaid_workers).filter(status = 1).filter(joining_date__lte = \
+    temp_today)
+
+#    allworkers = WorkerDetail.objects.values('id').filter(status = 1)
 
     for worker in allworkers:
         if  DailyAttendance.objects.filter(worker_id = worker['id']).\
-        filter(for_day = datetime.date.today()).exists():
+        filter(for_day = temp_today).exists():
             pass
         else:
             worker_object = WorkerDetail.objects.get(pk=worker['id'])
             new_object = DailyAttendance(worker_id = worker_object,\
-            overtime = 0, attendance = 0, for_day = datetime.date.today())
+            overtime = 0, attendance = 0, for_day = temp_today)
             new_object.save()
             pass
 
         if MonthlyAttendance.objects.filter(worker_id = worker['id']).\
-        filter(for_month__month = this_month).filter(for_month__year
-        = this_year).exists():
+        filter(for_month__month = temp_this_month).filter(for_month__year
+        = temp_this_year).exists():
             pass
         else:
             worker_object = WorkerDetail.objects.get(pk=worker['id'])
             new_object = MonthlyAttendance(worker_id = worker_object,\
-            attended_days = 0, overtime_hours = 0, for_month = datetime.date.today())
+            attended_days = 0, overtime_hours = 0, for_month = temp_today)
             new_object.save()
         pass
     """
@@ -161,17 +187,32 @@ def daily_attendance(request):
         detail_list.append(worker_dict)
     """
 
-    unpaid_workers = PaidSalary.objects.values('id').filter(paid_amount__isnull=True).\
-    filter(payment_date__month = this_month)
+    attendance_marked_dates = DailyAttendance.objects.values_list('for_day').distinct()
+    date_list = []
+    for a in attendance_marked_dates:
+      if a[0] != datetime.date.today():
+          date_list.append(a[0].strftime('%d-%-m-%Y'))
 
-    workerDetail_attendance = DailyAttendance.objects.filter(for_day = datetime.\
-    date.today()).filter(worker_id_id__in = unpaid_workers).order_by('worker_id_id').\
-    select_related('worker_id').filter(worker_id__status = 1).all()
+    mindate = WorkerDetail.objects.values_list('joining_date').aggregate(Min('joining_date'))
+    min_joining_month = int(mindate['joining_date__min'].month)
+    min_joining_date = mindate['joining_date__min'].strftime('%d-%-m-%Y')
 
-    date = datetime.date.today()
+    unpaid_workers = PaidSalary.objects.values('worker_id_id').filter(paid_amount__isnull=True).\
+    filter(payment_date__month = temp_this_month)
+
+    workerDetail_attendance = DailyAttendance.objects.filter(for_day = temp_today\
+    ).filter(worker_id_id__in = unpaid_workers).order_by('worker_id_id').\
+    select_related('worker_id').filter(worker_id__status = 1).\
+    filter(worker_id__joining_date__lte = temp_today).all()
+
+    date = temp_today
+    date = date.strftime('%d-%-m-%Y')
         
     return render(request,'src/daily_attendance.html',{'workerDetail_attendance':\
-        workerDetail_attendance, 'date': date})
+        workerDetail_attendance, 'date': date, 'date_list':date_list, \
+        'temp_today':temp_today,'temp_this_month':temp_this_month, \
+        'temp_this_year':temp_this_year, 'min_joining_date':min_joining_date,
+        'min_joining_month':min_joining_month })
 
 @login_required
 def ajax_daily_attendance(request):
@@ -179,19 +220,28 @@ def ajax_daily_attendance(request):
     This view checks the incoming request and saves overtime or
     attendance accordingly
     """
+    temp_today = datetime.date.today()
+
+    attendance_date = request.GET.get('attendance_date')
+    if attendance_date is not None:
+        temp_today = datetime.datetime.strptime(attendance_date,'%d-%m-%Y')
+
+    temp_this_month = int(temp_today.month)
+    temp_this_year = int(temp_today.year)
+
     worker_id = request.GET['worker_id']
     try:
         overtime = request.GET['overtime']
         overtime = float(overtime)
         if overtime >= 0 and overtime <= 11:
             edit_daily_overtime = DailyAttendance.objects.get(worker_id_id=worker_id,\
-            for_day = datetime.date.today())
+            for_day = temp_today)
             # When overtime is updated in daily attendance, also remove 
             # the previously added value from monthlyattendance even before 
             # updating in daily attendance table.
             value_to_be_subtracted_from_monthlyattendance = edit_daily_overtime.overtime
             edit_obj = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
-            for_month__month=this_month, for_month__year=this_year)
+            for_month__month=temp_this_month, for_month__year=temp_this_year)
             edit_obj.overtime_hours = edit_obj.overtime_hours - value_to_be_subtracted_from_monthlyattendance
             edit_obj.save()
             #return HttpResponse(value_to_be_subtracted_from_monthlyattendance)
@@ -201,7 +251,7 @@ def ajax_daily_attendance(request):
             edit_daily_overtime.save()
     
             edit_monthly_overtime = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
-            for_month__month=this_month, for_month__year=this_year)
+            for_month__month=temp_this_month, for_month__year=temp_this_year)
             edit_monthly_overtime.overtime_hours = edit_monthly_overtime.\
             overtime_hours+overtime 
             edit_monthly_overtime.save()
@@ -211,12 +261,12 @@ def ajax_daily_attendance(request):
         attendance = request.GET['attendance']
         attendance = float(attendance)
         edit_daily_attendance = DailyAttendance.objects.get(worker_id_id=worker_id,\
-        for_day = datetime.date.today())
+        for_day = temp_today)
         edit_daily_attendance.attendance = attendance
         edit_daily_attendance.save()
 
         edit_monthly_attendance = MonthlyAttendance.objects.get(worker_id_id=worker_id,\
-        for_month__month=this_month, for_month__year=this_year)
+        for_month__month=temp_this_month, for_month__year=temp_this_year)
         edit_monthly_attendance.attended_days =  edit_monthly_attendance.\
         attended_days+attendance 
         edit_monthly_attendance.save()

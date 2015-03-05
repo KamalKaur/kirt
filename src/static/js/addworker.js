@@ -12,6 +12,9 @@ function notification(){
 }
 
 $(document).ready(function(){
+
+    $('.error > input').eq(0).focus();
+
     $('#id_first_name').on('input', function(){
         first_name = $("#id_first_name").val();      
         if (first_name == ""){

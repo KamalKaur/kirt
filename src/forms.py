@@ -49,7 +49,7 @@ class WorkerDetailForm(ModelForm):
             'provident_fund': (''),
             }
         widgets = {
-            'first_name': TextInput(attrs={'placeholder': 'First name', 'autofocus':'true'}),
+            'first_name': TextInput(attrs={'placeholder': 'First name','autofocus':'true'}),
             'middle_name': TextInput(attrs={'placeholder': 'Middle name'}),
             'last_name': TextInput(attrs={'placeholder': 'Last name'}),
             'address': TextInput(attrs={'placeholder': 'Address'}),
