@@ -28,7 +28,7 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 TEMPLATE_DIRS = (
-    '/home/username/path-to.../Kirt/templates',
+    '/home/mandeep/kirt/templates',
 )
 # Application definition
 
@@ -67,9 +67,9 @@ WSGI_APPLICATION = 'kirt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '<Database name>',
-        'USER': '<MySql user name>',
-        'PASSWORD': '<MySql username Password>',
+        'NAME': 'kirt',
+        'USER': 'root',
+        'PASSWORD': '1234',
         'HOST': '',
         'PORT': '',
 
@@ -93,7 +93,7 @@ MEDIA_ROOT = ''
 
 MEDIA_URL = ''
 
-STATIC_ROOT = '/home/username/path-to.../Kirt/static/'
+STATIC_ROOT = '/home/mandeep/Kirt/static/'
 
 STATIC_URL = '/static/'
 
